@@ -5,3 +5,4 @@ Repository del progetto del gruppo "REST in pepperoni".
 * Meschini Marcello
 * Ivan Berra
 * Dmitry Golyshev
+* Massimo De Facci
