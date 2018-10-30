@@ -6,3 +6,4 @@ Repository del progetto del gruppo "REST in pepperoni".
 * Ivan Berra
 * Dmitry Golyshev
 * Massimo De Facci
+* Mattia Carolo
