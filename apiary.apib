@@ -3,28 +3,10 @@ info:
   title: RESTPep Project
   description: Progetto del gruppo "REST in Pepperoni"
   version: "8234aab51481d37a30757d925b7f4221a659427e"
-host: polls.apiblueprint.org
+
 schemes:
   - https
-paths:
-  /questions:
-    x-summary: Questions Collection
-    x-description: ''
-    get:
-      summary: List all questions
-      responses:
-        200:
-          description: 'List'
-          examples:
-            application/json:
-              - question: "Favourite programming language?"
-                published_at: "2015-08-05T08:40:51.620Z"
-                choices:
-                  - choice: "Swift"
-                    votes: 2048
-                  - choice: "Python"
-                    votes: 1024
-                  - choice: "Objective-C"
-                    votes: 512
-                  - choice: "Ruby"
-                    votes: 256
+consumes:
+  - application/json
+produces:
+  - application/json
