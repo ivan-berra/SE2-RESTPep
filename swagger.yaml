@@ -1,12 +1,53 @@
 swagger: '2.0'
 info:
   title: RESTPep Project
-  description: Progetto del gruppo "REST in Pepperoni"
+  description: Progetto del gruppo "REST in Pepperoni per il corso di Ingegneria del software"
   version: "8234aab51481d37a30757d925b7f4221a659427e"
-
+  termsOfService: "Fate i bravi bambini"
+host: "https://github.com/ivan-berra/SE2-RESTPep"
 schemes:
   - https
-consumes:
-  - application/json
-produces:
-  - application/json
+
+paths:
+  /idclass:
+    post:
+      tags:
+        - "idclass"
+      summary: "Add a new class"
+      description: "Create a new class for your exam it's free "
+      operationID: "addClass"
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in:
+          name:
+          description:
+          required: true
+          schema:
+      responses:
+        405:
+          description: "sumthing wrong"
+
+  /idclass/findById:
+    get:
+      tags:
+        - "idclass"
+      summary: "Finds class by id"
+      description: ""
+      operationID: "findClassByID"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+
+      responses:
+        200:
+          description: "succesful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: ""
+        400:
+          description: "Invalid ID value"
