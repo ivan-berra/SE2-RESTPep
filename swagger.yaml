@@ -1,53 +1,504 @@
 swagger: '2.0'
+
 info:
-  title: RESTPep Project
-  description: Progetto del gruppo "REST in Pepperoni per il corso di Ingegneria del software"
-  version: "8234aab51481d37a30757d925b7f4221a659427e"
-  termsOfService: "Fate i bravi bambini"
-host: "https://github.com/ivan-berra/SE2-RESTPep"
+  title: SE2 RESTPep API
+  description: APIs per la gestione di esami composti da tasks.
+  version: 0.0.1
+
+host: api.example.com
+basePath: /api/v0.0.1
 schemes:
   - https
 
+consumes:
+  - application/json
+produces:
+  - application/json
+  
 paths:
-  /idclass:
+  /users:
     post:
-      tags:
-        - "idclass"
-      summary: "Add a new class"
-      description: "Create a new class for your exam it's free "
-      operationID: "addClass"
-      consumes:
-        - application/json
-      produces:
-        - application/json
+      summary: Crea un utente
       parameters:
-        - in:
-          name:
-          description:
+        - in: body
+          name: user
+          description: per creare una risorsa utente ho bisogno di matricola ed email
           required: true
           schema:
+            type: object
+            required:
+              - matricola
+              - email
+            properties:
+              matricola:
+                type: integer
+              email:
+                type: string
       responses:
-        405:
-          description: "sumthing wrong"
-
-  /idclass/findById:
+        201:
+          description: Created. Utente creato e restituito
+          schema: 
+            $ref: '#/definitions/User'
     get:
-      tags:
-        - "idclass"
-      summary: "Finds class by id"
-      description: ""
-      operationID: "findClassByID"
-      produces:
-        - "application/xml"
-        - "application/json"
-      parameters:
-
+      summary: Ritorna lista di tutti gli utenti
       responses:
         200:
-          description: "succesful operation"
+          description: OK. Lista users restituita
           schema:
-            type: "array"
-            items:
-              $ref: ""
+            $ref: '#/definitions/UsersArray'
+        500:
+          description: Internal Server Error. Errore del server
+
+  /users/{userId}:
+    get:
+      summary: Ritorna un utente in base all'ID
+      #description: Specificato l'ID numerico dell'utente viene ritornato l'oggetto associato all'utente contenente ID, matricola ed e-mail.
+      parameters:
+        - in: path
+          name: userId #nome del parametro (anche se poi il nome non sarà visualizzato es: /users/3812)
+          required: true
+          type: integer
+          minimum: 1
+          description: Id numerico dell'utente da ritornare
+      responses:
+        200:
+          description: OK. Ritornato un oggetto User
+          schema:
+            $ref: '#/definitions/User'
         400:
-          description: "Invalid ID value"
+          description: Bad Request. ID utente specificato invalido
+        404:
+          description: Not Found. Utente con ID specificato non trovato
+    put:
+      summary: Modifica o crea un utente in base all'ID
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          type: integer
+          minimum: 1
+          description: ID numerico dell'utente da modificare
+        - in: body
+          name: edituser
+          description: per modificare una risorsa utente ho bisogno o della nuova matricola o della nuova mail
+          required: true
+          schema:
+            type: object
+            properties:
+              matricola:
+                type: integer
+              email:
+                type: string
+      responses:
+        200:
+          description: OK. L'utente con l'ID specificato è stata modificato
+        201:
+          description: Created. E' stato creato un utente con l'id specificato
+        400:
+          description: Bad Request. ID task specificato invalido
+        500:
+          description: Internal Server Error. Errore del server
+          
+  /classes:
+    post: 
+      summary: Crea una classe
+      parameters:
+        - in: body
+          name: group
+          description: per creare una risorsa classe ho bisogno di una lista di user e del nome della classe
+          required: true
+          schema:
+            type: object
+            required:
+              - classname
+              - userlist
+            properties:
+              classname:
+                type: string
+              userlist:
+                $ref: '#/definitions/UsersArray'
+      responses:
+        200:
+          description: OK. Classe creata e restituita.
+          schema:
+            $ref: '#/definitions/Class'
+    get:
+      summary: Ritorna lista di tutte le classi
+      responses:
+        200:
+          description: OK. Lista classi restituita
+          schema:
+            $ref: '#/definitions/ClassesArray'
+        500:
+          description: Internal Server Error. Errore del server
+          
+  /classes/{classId}:
+    get:
+      summary: Ritorna una classe in base all'ID
+      parameters:
+        - in: path
+          name: classId
+          required: true
+          type: integer
+          minimum: 1
+          description: Id numerico della classe da ritornare
+      responses:
+        200:
+          description: OK. Ritornato un oggetto Class
+          schema:
+            $ref: '#/definitions/Class'
+        400:
+          description: Bad Request. ID classe specificato invalido
+        404:
+          description: Not Found. classe con ID specificato non trovata
+    put:
+      summary: Modifica o crea una classe in base all'ID
+      parameters:
+        - in: path
+          name: classId
+          required: true
+          type: integer
+          minimum: 1
+          description: ID numerico del gruppo da modificare
+        - in: body
+          name: editclass
+          description: per modificare una risorsa classe ho bisogno di un nuovo nome o di una nuova lista di utenti
+          required: true
+          schema:
+            type: object
+            required:
+              - classname
+              - userlist
+            properties:
+              classname:
+                type: string
+              userlist:
+                $ref: '#/definitions/UsersArray'
+      responses:
+        200:
+          description: OK. La classe con l'ID specificato è stato modificata
+        201:
+          description: Created. E' stata creata una classe l'id specificato
+        400:
+          description: Bad Request. ID classe specificato invalido
+        500:
+          description: Internal Server Error. Errore del server
+           
+  /groups:
+    post: 
+      summary: Crea un gruppo
+      parameters:
+        - in: body
+          name: group
+          description: per creare una risorsa gruppo ho bisogno di una lista di user
+          required: true
+          schema:
+            $ref: '#/definitions/UsersArray'
+      responses:
+        200:
+          description: OK. Gruppo creato e restituito
+          schema:
+            $ref: '#/definitions/Group'
+    get:
+      summary: Ritorna lista di tutti i gruppi
+      responses:
+        200:
+          description: OK. Lista gruppi restituita
+          schema:
+            $ref: '#/definitions/GroupsArray'
+        500:
+          description: Internal Server Error. Errore del server
+          
+  /groups/{groupId}:
+    get:
+      summary: Ritorna un gruppo in base all'ID
+      parameters:
+        - in: path
+          name: groupId
+          required: true
+          type: integer
+          minimum: 1
+          description: Id numerico del gruppo da ritornare
+      responses:
+        200:
+          description: OK. Ritornato un oggetto Group
+          schema:
+            $ref: '#/definitions/Group'
+        400:
+          description: Bad Request. ID gruppo specificato invalido
+        404:
+          description: Not Found. Gruppo con ID specificato non trovato
+    put:
+      summary: Modifica o crea un gruppo in base all'ID
+      parameters:
+        - in: path
+          name: groupId
+          required: true
+          type: integer
+          minimum: 1
+          description: ID numerico del gruppo da modificare
+        - in: body
+          name: editgroup
+          description: per modificare una risorsa del gruppo ho bisogno di una nuova lista di user
+          required: true
+          schema:
+            $ref: '#/definitions/UsersArray'
+      responses:
+        200:
+          description: OK. Il gruppo con l'ID specificato è stato modificato
+        201:
+          description: Created. E' stato creato un gruppo con l'id specificato
+        400:
+          description: Bad Request. ID gruppo specificato invalido
+        500:
+          description: Internal Server Error. Errore del server
+          
+  /tasks:
+    post: 
+      summary: Crea una task
+      parameters:
+        - in: body
+          name: user
+          description: per creare una risorsa task ho bisogno del tipo di task, della consegna e risoluzione
+          required: true
+          schema:
+            type: object
+            required:
+              - tipo
+              - consegna
+            properties:
+              tipo:
+                type: string
+              consegna:
+                type: string
+              risoluzione:  
+                type: string
+      responses:
+        201:
+          description: Created. Task creata e restituita.
+          schema:
+            $ref: '#/definitions/Task'
+    get:
+      summary: Ritorna lista di tutte le tasks
+      responses:
+        200:
+          description: OK. Lista tasks restituita
+          schema:
+            $ref: '#/definitions/TasksArray'
+        500:
+          description: Internal Server Error. Errore del server
+          
+  /tasks/{taskId}:
+    get:
+      summary: Ritorna una task in base all'ID 
+      #description: Specificato l'ID numerico della task viene ritornato l'oggetto associato alla task.
+      parameters:
+        - in: path
+          name: taskId
+          required: true
+          type: integer
+          minimum: 1
+          description: Id numerico della task da ritornare
+      responses:
+        200:
+          description: OK. Ritornato un oggetto Task
+          schema:
+            $ref: '#/definitions/Task' 
+        400:
+          description: Bad Request. ID task specificato invalido
+        404:
+          description: Not Found. Task con ID specificato non trovata
+    put:
+      summary: Modifica o crea una task in base all'ID
+      parameters:
+        - in: path
+          name: taskId
+          required: true
+          type: integer
+          minimum: 1
+          description: ID numerico della task da modificare
+        - in: body
+          name: edittask
+          description: per modificare una risorsa task ho bisogno o del nuovo tipo o della nuova consegna o della nuova risoluzione
+          required: true
+          schema:
+            type: object
+            properties:
+              tipo:
+                type: string
+              consegna:
+                type: string
+              risoluzione:
+                type: string
+      responses:
+        200:
+          description: OK. La task con l'ID specificato è stata modificata
+        201:
+          description: Created. E' stato creata una task con l'id specificato
+        400:
+          description: Bad Request. ID task specificato invalido
+        500:
+          description: Internal Server Error. Errore del server
+
+  /taskgroups:
+    post: 
+      summary: Crea un gruppo di tasks
+      parameters:
+        - in: body
+          name: taskgroup
+          description: per creare una risorsa gruppo di task ho bisogno di una lista di task
+          required: true
+          schema:
+            $ref: '#/definitions/TasksArray'
+      responses:
+        200:
+          description: OK. Gruppo di task creato e restituito.
+          schema:
+            $ref: '#/definitions/TaskGroup'
+    get:
+      summary: Ritorna lista di tutti i gruppi di task
+      responses:
+        200:
+          description: OK. Lista gruppi task restituita
+          schema:
+            $ref: '#/definitions/TasksArray'
+        500:
+          description: Internal Server Error. Errore del server
+  
+  /taskgroups/{taskgroupId}:
+    get:
+      summary: Ritorna un gruppo di task in base all'ID
+      parameters:
+        - in: path
+          name: taskgroupId
+          required: true
+          type: integer
+          minimum: 1
+          description: Id numerico del gruppo di task da ritornare
+      responses:
+        200:
+          description: OK. Ritornato un oggetto TaskGroup
+          schema:
+            $ref: '#/definitions/TaskGroup'
+        400:
+          description: Bad Request. ID gruppo task specificato invalido
+        404:
+          description: Not Found. Gruppo di task con ID specificato non trovato
+    put:
+      summary: Modifica o crea un gruppo di task in base all'ID
+      parameters:
+        - in: path
+          name: taskgroupId
+          required: true
+          type: integer
+          minimum: 1
+          description: ID numerico del gruppo di task da modificare
+        - in: body
+          name: edittaskgroup
+          description: per modificare una risorsa taskgroup ho bisogno di una nuova lista di task o una nuova deadline o un nuovo destinatario
+          required: true
+          schema:
+            type: object
+            properties:
+              destinatario:
+                type: string
+              deadline:
+                type: string
+              taskslist:
+                $ref: '#/definitions/TasksArray'
+      responses:
+        200:
+          description: OK. Il gruppo di task con l'ID specificato è stato modificato
+        201:
+          description: Created. E' stato creato un gruppo di task con l'id specificato
+        400:
+          description: Bad Request. ID gruppo di task specificato invalido
+        500:
+          description: Internal Server Error. Errore del server
+
+
+definitions:
+  #definizione dell'oggetto user con campi id matricola ed email
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+      mat:
+        type: integer
+      email:
+        type: string
+    required:  
+      - id
+      - mat
+      - email
+      
+  UsersArray:
+    type: array
+    items:
+      $ref: '#/definitions/User'
+      
+  Class:
+    type: object
+    properties:
+      id:
+        type: integer
+      nomeclasse:
+        type: string
+      membri:
+        $ref: '#/definitions/UsersArray'
+    required:
+      - id
+  
+  ClassesArray:
+    type: array
+    items:
+      $ref: '#/definitions/Class'
+      
+  Group:
+    type: object
+    properties:
+      id:
+        type: integer
+      membri:
+        $ref: '#/definitions/UsersArray'
+    required:
+      - id
+  
+  GroupsArray:
+    type: array
+    items:
+      $ref: '#/definitions/Group'
+  
+  Task:
+    type: object
+    properties:
+      id: 
+        type: integer
+      tipo:
+        type: string
+      consegna:
+        type: string
+      risoluzione:
+        type: string
+    required:
+      - id 
+      - tipo
+      - consegna
+  
+  TasksArray:
+    type: array
+    items:
+      $ref: '#/definitions/Task'
+      
+  TaskGroup:
+    type: object
+    properties:
+      id:
+        type: integer
+      tasks:
+        $ref: '#/definitions/TasksArray'
+      deadline:
+        type: integer
+      destinatario:
+        type: integer
