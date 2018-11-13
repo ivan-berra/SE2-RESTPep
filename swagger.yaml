@@ -416,6 +416,89 @@ paths:
         500:
           description: Internal Server Error. Errore del server
 
+  /exams:
+    post: 
+      summary: Crea un esame
+      parameters:
+        - in: body
+          name: exam
+          description: per creare una risorsa esame ho bisogno di una lista di tasks una deadline ed un destinatario
+          required: true
+          schema:
+            type: object
+            properties:
+              destinatario:
+                type: string
+              deadline:
+                type: string
+              taskslist:
+                $ref: '#/definitions/TasksArray'
+      responses:
+        200:
+          description: OK. Esame creato e restituito.
+          schema:
+            $ref: '#/definitions/Exam'
+    get:
+      summary: Ritorna lista di gli esami
+      responses:
+        200:
+          description: OK. Lista esami restituita
+          schema:
+            $ref: '#/definitions/ExamsArray'
+        500:
+          description: Internal Server Error. Errore del server
+  
+  /exams/{examId}:
+    get:
+      summary: Ritorna un esame in base all'ID
+      parameters:
+        - in: path
+          name: examId
+          required: true
+          type: integer
+          minimum: 1
+          description: Id numerico dell'esame da ritornare
+      responses:
+        200:
+          description: OK. Ritornato un oggetto Exam
+          schema:
+            $ref: '#/definitions/Exam'
+        400:
+          description: Bad Request. ID esame specificato invalido
+        404:
+          description: Not Found. Esame con ID specificato non trovato
+    put:
+      summary: Modifica o crea un esame in base all'ID
+      parameters:
+        - in: path
+          name: examId
+          required: true
+          type: integer
+          minimum: 1
+          description: ID numerico dell'esame da modificare
+        - in: body
+          name: editexam
+          description: per modificare un exam mi serve o un nuovo destinatario o una nuova deadline o una nuova lista di task
+          required: true
+          schema:
+            type: object
+            properties:
+              destinatario:
+                type: string
+              deadline:
+                type: string
+              taskslist:
+                $ref: '#/definitions/TasksArray'
+      responses:
+        200:
+          description: OK. Esame con ID specificato è stato modificato
+        201:
+          description: Created. E' stato creato un esame con l'id specificato
+        400:
+          description: Bad Request. ID exams specificato invalido
+        500:
+          description: Internal Server Error. Errore del server
+  
 
 definitions:
   #definizione dell'oggetto user con campi id matricola ed email
@@ -502,3 +585,20 @@ definitions:
         type: integer
       destinatario:
         type: integer
+        
+  Exam:
+    type: object
+    properties:
+      id: 
+        type: integer
+      tasks:
+        $ref: '#/definitions/TasksArray'
+      deadline:
+        type: integer
+      destinatario:
+        type: integer
+  
+  ExamsArray:
+    type: array
+    items:
+      $ref: '#/definitions/Exam'
