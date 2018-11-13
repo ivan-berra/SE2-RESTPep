@@ -398,10 +398,6 @@ paths:
           schema:
             type: object
             properties:
-              destinatario:
-                type: string
-              deadline:
-                type: string
               taskslist:
                 $ref: '#/definitions/TasksArray'
       responses:
@@ -503,7 +499,7 @@ paths:
       parameters:
         - in: body
           name: delivery
-          description: per creare una risorsa delivery 
+          description: per creare una risorsa delivery hai bisogno del tuo id, id delle task, e la soluzione della task
           required: true
           schema:
             type: object
@@ -633,10 +629,6 @@ definitions:
         type: integer
       tasks:
         $ref: '#/definitions/TasksArray'
-      deadline:
-        type: integer
-      destinatario:
-        type: integer
         
   Exam:
     type: object
