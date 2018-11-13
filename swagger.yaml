@@ -259,7 +259,7 @@ paths:
       parameters:
         - in: body
           name: user
-          description: per creare una risorsa task ho bisogno del tipo di task, della consegna e risoluzione
+          description: per creare una risorsa task ho bisogno del tipo di task, della consegna
           required: true
           schema:
             type: object
@@ -319,7 +319,7 @@ paths:
           description: ID numerico della task da modificare
         - in: body
           name: edittask
-          description: per modificare una risorsa task ho bisogno o del nuovo tipo o della nuova consegna o della nuova risoluzione
+          description: per modificare una risorsa task ho bisogno o del nuovo tipo o della nuova consegna
           required: true
           schema:
             type: object
@@ -327,8 +327,6 @@ paths:
               tipo:
                 type: string
               consegna:
-                type: string
-              risoluzione:
                 type: string
       responses:
         200:
@@ -499,6 +497,62 @@ paths:
         500:
           description: Internal Server Error. Errore del server
   
+  /deliveries:
+    post: 
+      summary: Crea una delivery
+      parameters:
+        - in: body
+          name: delivery
+          description: per creare una risorsa delivery 
+          required: true
+          schema:
+            type: object
+            properties:
+              tested-id: #id utente
+                type: integer
+              reviewed-id: #id persona revisionata
+                type: integer
+              task-array:
+                type: array
+                items:
+                  type: object
+                properties:
+                  id: #id della task
+                    type: integer
+                  soluzione: #testo soluzione / review
+                    type: string
+      responses:
+        200:
+          description: OK. Delivery creato.
+    get:
+      summary: Ritorna lista di i deliveries
+      responses:
+        200:
+          description: OK. Lista delivery
+          schema:
+            $ref: '#/definitions/DeliveriesArray'
+        500:
+          description: Internal Server Error. Errore del server
+  
+  /deliveries/{deliveryId}:
+    get:
+      summary: Ritorna una delivery in base all'ID
+      parameters:
+        - in: path
+          name: deliveryId
+          required: true
+          type: integer
+          minimum: 1
+          description: Id numerico della delivery da ritornare
+      responses:
+        200:
+          description: OK. Ritornato un oggetto delivery
+          schema:
+            $ref: '#/definitions/Delivery'
+        400:
+          description: Bad Request. ID delivery specificato invalido
+        404:
+          description: Not Found. Delivery con ID specificato non trovato
 
 definitions:
   #definizione dell'oggetto user con campi id matricola ed email
@@ -562,8 +616,6 @@ definitions:
         type: string
       consegna:
         type: string
-      risoluzione:
-        type: string
     required:
       - id 
       - tipo
@@ -597,8 +649,34 @@ definitions:
         type: integer
       destinatario:
         type: integer
+      autore:
+        type: string
   
   ExamsArray:
     type: array
     items:
       $ref: '#/definitions/Exam'
+      
+  Delivery:
+    type: object
+    properties:
+      id:
+        type: integer
+      tested-id:
+        type: integer
+      reviewed-id:
+        type: integer
+      task-array:
+        type: array
+        items:
+          type: object
+          properties:
+            id: #id della task
+              type: integer
+            soluzione:
+              type: string
+          
+  DeliveriesArray:
+    type: array
+    items:
+      $ref: '#/definitions/Delivery'
