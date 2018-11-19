@@ -843,9 +843,10 @@ definitions:
         $ref: '#/definitions/TasksArray'
         description: lista di task presenti nell'esame
       deadline:
-        type: date-time
+        type: string
+        format: date-time
         description: deadline dopo al quale l'esame si conclude
-        example: 2018-12-25T09:00:00Z (25 dic 2018, 9:00 UTC)
+        example: 2018-12-25T09:00:00Z #(25 dic 2018, 9:00 UTC)
       destinatario:
         type: integer
         description: id della matricola che riceverà l'esame
@@ -871,7 +872,7 @@ definitions:
             tipo: domanda aperta
             consegna: Cos'è il REST?
             risoluzione: Representational State Transfer è un tipo di architettura software per i sistemi distribuiti.
-        deadline: 123
+        deadline: 2018-12-25T09:00:00Z
         destinatario: 93827
         autore: prof. paolo gialli
       - id: 101
@@ -884,7 +885,7 @@ definitions:
             tipo: domanda aperta
             consegna: Cos'è il REST?
             risoluzione: Representational State Transfer è un tipo di architettura software per i sistemi distribuiti.
-        deadline: 212
+        deadline: 2018-11-30T08:30:00Z
         destinatario: 12131
         autore: prof. marco verdi
         
