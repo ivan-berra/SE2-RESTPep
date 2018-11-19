@@ -3,10 +3,13 @@ swagger: '2.0'
 info:
   title: SE2 RESTPep API
   description: APIs per la gestione di esami composti da tasks.
-  version: 0.0.1
+  version: 1.0.0
+  
 
-host: api.example.com
-basePath: /api/v0.0.1
+
+host: se2-restpep-dev.herokuapp.com
+basePath: /api/1.0.0
+
 schemes:
   - https
 
@@ -22,7 +25,6 @@ paths:
       parameters:
         - in: body
           name: user
-          description: per creare una risorsa utente ho bisogno di matricola ed email
           required: true
           schema:
             type: object
@@ -32,8 +34,14 @@ paths:
             properties:
               matricola:
                 type: integer
+                description: matricola dell'utente
+                example: 12456
               email:
                 type: string
+                description: email dell'utente
+                example: mario.rossi@unitn.it
+      tags: 
+        - Users
       responses:
         201:
           description: Created. Utente creato e restituito
@@ -41,6 +49,8 @@ paths:
             $ref: '#/definitions/User'
     get:
       summary: Ritorna lista di tutti gli utenti
+      tags: 
+        - Users
       responses:
         200:
           description: OK. Lista users restituita
@@ -52,14 +62,16 @@ paths:
   /users/{userId}:
     get:
       summary: Ritorna un utente in base all'ID
-      #description: Specificato l'ID numerico dell'utente viene ritornato l'oggetto associato all'utente contenente ID, matricola ed e-mail.
+      #description: Specificato l'ID dell'utente viene ritornato l'oggetto associato all'utente contenente ID, matricola ed e-mail.
       parameters:
         - in: path
           name: userId #nome del parametro (anche se poi il nome non sarà visualizzato es: /users/3812)
           required: true
           type: integer
           minimum: 1
-          description: Id numerico dell'utente da ritornare
+          description: Id dell'utente da ritornare
+      tags: 
+        - Users
       responses:
         200:
           description: OK. Ritornato un oggetto User
@@ -77,18 +89,23 @@ paths:
           required: true
           type: integer
           minimum: 1
-          description: ID numerico dell'utente da modificare
+          description: ID dell'utente da modificare
         - in: body
           name: edituser
-          description: per modificare una risorsa utente ho bisogno o della nuova matricola o della nuova mail
           required: true
           schema:
             type: object
             properties:
               matricola:
                 type: integer
+                description: nuova matricola
+                example: 32562
               email:
                 type: string
+                description: nuova email
+                example: luca.verdi@unitn.it
+      tags: 
+        - Users
       responses:
         200:
           description: OK. L'utente con l'ID specificato è stata modificato
@@ -104,8 +121,7 @@ paths:
       summary: Crea una classe
       parameters:
         - in: body
-          name: group
-          description: per creare una risorsa classe ho bisogno di una lista di user e del nome della classe
+          name: class
           required: true
           schema:
             type: object
@@ -115,8 +131,12 @@ paths:
             properties:
               classname:
                 type: string
+                description: nome della classe
+                example: ingegnera del software 2
               userlist:
                 $ref: '#/definitions/UsersArray'
+      tags: 
+        - Classes
       responses:
         200:
           description: OK. Classe creata e restituita.
@@ -124,6 +144,8 @@ paths:
             $ref: '#/definitions/Class'
     get:
       summary: Ritorna lista di tutte le classi
+      tags: 
+        - Class
       responses:
         200:
           description: OK. Lista classi restituita
@@ -141,7 +163,9 @@ paths:
           required: true
           type: integer
           minimum: 1
-          description: Id numerico della classe da ritornare
+          description: ID della classe da ritornare
+      tags: 
+        - Classes
       responses:
         200:
           description: OK. Ritornato un oggetto Class
@@ -159,7 +183,7 @@ paths:
           required: true
           type: integer
           minimum: 1
-          description: ID numerico del gruppo da modificare
+          description: ID del gruppo da modificare
         - in: body
           name: editclass
           description: per modificare una risorsa classe ho bisogno di un nuovo nome o di una nuova lista di utenti
@@ -174,6 +198,8 @@ paths:
                 type: string
               userlist:
                 $ref: '#/definitions/UsersArray'
+      tags: 
+        - Classes
       responses:
         200:
           description: OK. La classe con l'ID specificato è stato modificata
@@ -190,10 +216,21 @@ paths:
       parameters:
         - in: body
           name: group
-          description: per creare una risorsa gruppo ho bisogno di una lista di user
           required: true
           schema:
-            $ref: '#/definitions/UsersArray'
+            type: object
+            required:
+              - groupname
+              - userlist
+            properties:
+              groupname:
+                type: string
+                description: nome del gruppo
+                example: gruppo 10
+              userlist:
+                $ref: '#/definitions/UsersArray'
+      tags: 
+        - Groups
       responses:
         200:
           description: OK. Gruppo creato e restituito
@@ -201,6 +238,8 @@ paths:
             $ref: '#/definitions/Group'
     get:
       summary: Ritorna lista di tutti i gruppi
+      tags: 
+        - Groups
       responses:
         200:
           description: OK. Lista gruppi restituita
@@ -218,7 +257,9 @@ paths:
           required: true
           type: integer
           minimum: 1
-          description: Id numerico del gruppo da ritornare
+          description: ID del gruppo da ritornare
+      tags: 
+        - Groups
       responses:
         200:
           description: OK. Ritornato un oggetto Group
@@ -236,13 +277,15 @@ paths:
           required: true
           type: integer
           minimum: 1
-          description: ID numerico del gruppo da modificare
+          description: ID del gruppo da modificare
         - in: body
           name: editgroup
           description: per modificare una risorsa del gruppo ho bisogno di una nuova lista di user
           required: true
           schema:
             $ref: '#/definitions/UsersArray'
+      tags: 
+        - Groups
       responses:
         200:
           description: OK. Il gruppo con l'ID specificato è stato modificato
@@ -269,10 +312,18 @@ paths:
             properties:
               tipo:
                 type: string
+                description: tipo della task
+                example: domanda aperta
               consegna:
                 type: string
+                description: consegna della task
+                example: Immaginate a grandi linee una api REST per esse3. come sarebbe strutturata, ad alto livello?
               risoluzione:  
                 type: string
+                description: soluzione della task
+                example: Deve avere per esempio le risorse ...
+      tags: 
+        - Tasks
       responses:
         201:
           description: Created. Task creata e restituita.
@@ -280,6 +331,8 @@ paths:
             $ref: '#/definitions/Task'
     get:
       summary: Ritorna lista di tutte le tasks
+      tags: 
+        - Tasks
       responses:
         200:
           description: OK. Lista tasks restituita
@@ -291,14 +344,16 @@ paths:
   /tasks/{taskId}:
     get:
       summary: Ritorna una task in base all'ID 
-      #description: Specificato l'ID numerico della task viene ritornato l'oggetto associato alla task.
+      #description: Specificato l'ID della task viene ritornato l'oggetto associato alla task.
       parameters:
         - in: path
           name: taskId
           required: true
           type: integer
           minimum: 1
-          description: Id numerico della task da ritornare
+          description: ID della task da ritornare
+      tags: 
+        - Tasks
       responses:
         200:
           description: OK. Ritornato un oggetto Task
@@ -316,7 +371,7 @@ paths:
           required: true
           type: integer
           minimum: 1
-          description: ID numerico della task da modificare
+          description: ID della task da modificare
         - in: body
           name: edittask
           description: per modificare una risorsa task ho bisogno o del nuovo tipo o della nuova consegna
@@ -326,8 +381,18 @@ paths:
             properties:
               tipo:
                 type: string
+                description: tipo della task
+                example: domanda aperta
               consegna:
                 type: string
+                description: consegna della task
+                example: nuova consegna della task....
+              risoluzione:  
+                type: string
+                description: soluzione della task
+                example: nuova risoluzione della task...
+      tags: 
+        - Tasks
       responses:
         200:
           description: OK. La task con l'ID specificato è stata modificata
@@ -344,10 +409,11 @@ paths:
       parameters:
         - in: body
           name: taskgroup
-          description: per creare una risorsa gruppo di task ho bisogno di una lista di task
           required: true
           schema:
             $ref: '#/definitions/TasksArray'
+      tags: 
+        - TasksGroup
       responses:
         200:
           description: OK. Gruppo di task creato e restituito.
@@ -355,6 +421,8 @@ paths:
             $ref: '#/definitions/TaskGroup'
     get:
       summary: Ritorna lista di tutti i gruppi di task
+      tags: 
+        - TasksGroup
       responses:
         200:
           description: OK. Lista gruppi task restituita
@@ -372,7 +440,9 @@ paths:
           required: true
           type: integer
           minimum: 1
-          description: Id numerico del gruppo di task da ritornare
+          description: ID del gruppo di task da ritornare
+      tags: 
+        - TasksGroup
       responses:
         200:
           description: OK. Ritornato un oggetto TaskGroup
@@ -390,16 +460,18 @@ paths:
           required: true
           type: integer
           minimum: 1
-          description: ID numerico del gruppo di task da modificare
+          description: ID del gruppo di task da modificare
         - in: body
           name: edittaskgroup
-          description: per modificare una risorsa taskgroup ho bisogno di una nuova lista di task o una nuova deadline o un nuovo destinatario
+          description: per modificare una risorsa taskgroup ho bisogno di una nuova lista di task
           required: true
           schema:
             type: object
             properties:
-              taskslist:
+              tasks:
                 $ref: '#/definitions/TasksArray'
+      tags: 
+        - TasksGroup
       responses:
         200:
           description: OK. Il gruppo di task con l'ID specificato è stato modificato
@@ -427,6 +499,8 @@ paths:
                 type: string
               taskslist:
                 $ref: '#/definitions/TasksArray'
+      tags: 
+        - Exams
       responses:
         200:
           description: OK. Esame creato e restituito.
@@ -434,6 +508,8 @@ paths:
             $ref: '#/definitions/Exam'
     get:
       summary: Ritorna lista di gli esami
+      tags: 
+        - Exams
       responses:
         200:
           description: OK. Lista esami restituita
@@ -451,7 +527,9 @@ paths:
           required: true
           type: integer
           minimum: 1
-          description: Id numerico dell'esame da ritornare
+          description: ID dell'esame da ritornare
+      tags: 
+        - Exams
       responses:
         200:
           description: OK. Ritornato un oggetto Exam
@@ -469,7 +547,7 @@ paths:
           required: true
           type: integer
           minimum: 1
-          description: ID numerico dell'esame da modificare
+          description: ID dell'esame da modificare
         - in: body
           name: editexam
           description: per modificare un exam mi serve o un nuovo destinatario o una nuova deadline o una nuova lista di task
@@ -479,10 +557,15 @@ paths:
             properties:
               destinatario:
                 type: string
+                description: id dell'utente destinatario
+                example: 2345
               deadline:
                 type: string
+                description: deadline
               taskslist:
                 $ref: '#/definitions/TasksArray'
+      tags: 
+        - Exams
       responses:
         200:
           description: OK. Esame con ID specificato è stato modificato
@@ -504,24 +587,39 @@ paths:
           schema:
             type: object
             properties:
-              tested-id: #id utente
+              tested-id:
                 type: integer
-              reviewed-id: #id persona revisionata
+                description: id della persona che ha svolto l'esame o la peer-review
+                example: 112
+              reviewed-id:
                 type: integer
+                description: id della persona revisionata (vuoto se non si è nella peer-review)
+                example: 167
               task-array:
                 type: array
                 items:
                   type: object
                 properties:
-                  id: #id della task
+                  id:
                     type: integer
-                  soluzione: #testo soluzione / review
+                    description: id della task
+                  soluzione: 
                     type: string
+                    description: testo della soluzione o della review
+                example:
+                  - id: 12
+                    soluzione: soluzione / review della task con id 12 ...
+                  - id: 13
+                    soluzione: soluzione / review della task con id 13 ...
+      tags: 
+        - Deliveries
       responses:
         200:
           description: OK. Delivery creato.
     get:
-      summary: Ritorna lista di i deliveries
+      summary: Ritorna lista di deliveries
+      tags: 
+        - Deliveries
       responses:
         200:
           description: OK. Lista delivery
@@ -539,7 +637,9 @@ paths:
           required: true
           type: integer
           minimum: 1
-          description: Id numerico della delivery da ritornare
+          description: ID della delivery da ritornare
+      tags: 
+        - Deliveries
       responses:
         200:
           description: OK. Ritornato un oggetto delivery
@@ -554,13 +654,20 @@ definitions:
   #definizione dell'oggetto user con campi id matricola ed email
   User:
     type: object
+    description: User object
     properties:
       id:
         type: integer
+        description: id dell'utente
+        example: 93827
       mat:
         type: integer
+        description: matricola dell'utente
+        example: 13768
       email:
         type: string
+        description: email dell'utente
+        example: mario.rossi@unitn.it
     required:  
       - id
       - mat
@@ -568,16 +675,29 @@ definitions:
       
   UsersArray:
     type: array
+    description: lista di utenti
     items:
       $ref: '#/definitions/User'
+    example: 
+      - id: 93827
+        mat: 13768
+        email: mario.rossi@unitn.it
+      - id: 94621
+        mat: 13769
+        email: paolo.verdi@unitn.it
       
   Class:
     type: object
+    description: Class object
     properties:
       id:
         type: integer
+        description: id della classe
+        example: 153
       nomeclasse:
         type: string
+        description: nome della classe
+        example: ingegneria del software 2
       membri:
         $ref: '#/definitions/UsersArray'
     required:
@@ -585,33 +705,101 @@ definitions:
   
   ClassesArray:
     type: array
+    description: lista di classi
     items:
       $ref: '#/definitions/Class'
-      
+    example: 
+      - id: 153
+        nomeclasse: ingegneria del software 2
+        membri:
+          - id: 93827
+            mat: 13768
+            email: mario.rossi@unitn.it
+          - id: 94621
+            mat: 13769
+            email: paolo.verdi@unitn.it
+      - id: 154
+        nomeclasse: linguaggi formali
+        membri:
+          - id: 51227
+            mat: 13652
+            email: francesco.gialli@unitn.it
+          - id: 93827
+            mat: 13768
+            email: mario.rossi@unitn.it
   Group:
     type: object
+    description: Group object
     properties:
       id:
         type: integer
+        description: id del gruppo
+        example: 10
+      nomegruppo:
+        type: string
+        description: nome del gruppo
+        example: gruppo 10
       membri:
         $ref: '#/definitions/UsersArray'
     required:
       - id
+    example:
+      id: 10
+      nomegruppo: gruppo 10
+      membri: 
+        - id: 93827
+          mat: 13768
+          email: mario.rossi@unitn.it
+        - id: 94621
+          mat: 13769
+          email: paolo.verdi@unitn.it
   
   GroupsArray:
     type: array
+    description: lista di gruppi
     items:
       $ref: '#/definitions/Group'
+    example:
+      - id: 10
+        nomegruppo: gruppo 10
+        membri: 
+          - id: 93827
+            mat: 13768
+            email: mario.rossi@unitn.it
+          - id: 94621
+            mat: 13769
+            email: paolo.verdi@unitn.it
+      - id: 11
+        nomegruppo: gruppo 11
+        membri: 
+        - id: 13321
+          mat: 13768
+          email: paolo.rossi@unitn.it
+        - id: 34434
+          mat: 13445
+          email: francesco.gialli@unitn.it
   
   Task:
     type: object
+    description: Task object
     properties:
       id: 
         type: integer
+        description: id della task
+        example: 15
       tipo:
         type: string
+        description: tipo della task
+        enum: [domanda aperta, crocette]
+        example: domanda aperta
       consegna:
         type: string
+        description: consegna della task
+        example: Immaginate a grandi linee una api REST per esse3. come sarebbe strutturata, ad alto livello? 
+      risoluzione: 
+        type: string
+        description: risoluzione della task
+        example: Deve avere per esempio le risorse ...
     required:
       - id 
       - tipo
@@ -619,56 +807,124 @@ definitions:
   
   TasksArray:
     type: array
+    description: lista di tasks
     items:
       $ref: '#/definitions/Task'
-      
+    example: 
+      - id: 15
+        tipo: domanda aperta
+        consegna: Immaginate a grandi linee una api REST per esse3. come sarebbe strutturata, ad alto livello? 
+        risoluzione: Deve avere per esempio le risorse ...
+      - id: 16
+        tipo: domanda aperta
+        consegna: Cos'è il REST?
+        risoluzione: Representational State Transfer è un tipo di architettura software per i sistemi distribuiti.
+        
   TaskGroup:
     type: object
+    description: TaskGroup object
     properties:
       id:
         type: integer
+        description: id del taskgroup
+        example: 4312
       tasks:
         $ref: '#/definitions/TasksArray'
+      
         
   Exam:
     type: object
+    description: Exam object
     properties:
       id: 
         type: integer
+        description: id dell'esame
       tasks:
         $ref: '#/definitions/TasksArray'
+        description: lista di task presenti nell'esame
       deadline:
-        type: integer
+        type: integer #?? tipo da pensare
+        description: deadline dopo al quale l'esame si conclude
+        example: 123
       destinatario:
         type: integer
+        description: id della matricola che riceverà l'esame
+        example: 93827
       autore:
         type: string
-  
+        description: professore che ha creato l'esame
+        example: prof. paolo gialli
+        
   ExamsArray:
     type: array
+    description: lista di esami
     items:
       $ref: '#/definitions/Exam'
-      
+    example: 
+      - id: 382
+        tasks:
+          - id: 15
+            tipo: domanda aperta
+            consegna: Immaginate a grandi linee una api REST per esse3. come sarebbe strutturata, ad alto livello? 
+            risoluzione: Deve avere per esempio le risorse ...
+          - id: 16
+            tipo: domanda aperta
+            consegna: Cos'è il REST?
+            risoluzione: Representational State Transfer è un tipo di architettura software per i sistemi distribuiti.
+        deadline: 123
+        destinatario: 93827
+        autore: prof. paolo gialli
+      - id: 101
+        tasks:
+          - id: 15
+            tipo: domanda aperta
+            consegna: Immaginate a grandi linee una api REST per esse3. come sarebbe strutturata, ad alto livello? 
+            risoluzione: Deve avere per esempio le risorse ...
+          - id: 16
+            tipo: domanda aperta
+            consegna: Cos'è il REST?
+            risoluzione: Representational State Transfer è un tipo di architettura software per i sistemi distribuiti.
+        deadline: 212
+        destinatario: 12131
+        autore: prof. marco verdi
+        
   Delivery:
     type: object
+    description: Delivery object; oggetto tramite cui gli utenti mandano le loro risposte alle task / peer-review
     properties:
       id:
         type: integer
+        description: id della delivery
+        example: 46152
       tested-id:
         type: integer
+        description: id della persona che ha svolto la task 
+        example: 93827
       reviewed-id:
         type: integer
+        description: id della persona di cui si sta svolgendo la peer-review
+        example: 93217
       task-array:
         type: array
+        description: array di oggetti id-task, soluzione
         items:
           type: object
           properties:
-            id: #id della task
+            id:
               type: integer
+              description: id della task
             soluzione:
               type: string
+              description: soluzione della task
+        example:
+          - id: 37162
+            soluzione: soluzione della task con id 37162...
+          - id: 37165 
+            soluzione: soluzione della task con id 37165...
+    
           
   DeliveriesArray:
     type: array
+    description: lista di deliveries
     items:
       $ref: '#/definitions/Delivery'
