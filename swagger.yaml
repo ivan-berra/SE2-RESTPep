@@ -4,11 +4,11 @@ info:
   title: SE2 RESTPep API
   description: APIs per la gestione di esami composti da tasks.
   version: 1.0.0
-  
+
 
 
 host: se2-restpep-dev.herokuapp.com
-basePath: /api/1.0.0
+basePath: /api
 
 schemes:
   - https
@@ -17,7 +17,7 @@ consumes:
   - application/json
 produces:
   - application/json
-  
+
 paths:
   /users:
     post:
@@ -40,16 +40,16 @@ paths:
                 type: string
                 description: email dell'utente
                 example: mario.rossi@unitn.it
-      tags: 
+      tags:
         - Users
       responses:
         201:
           description: Created. Utente creato e restituito
-          schema: 
+          schema:
             $ref: '#/definitions/User'
     get:
       summary: Ritorna lista di tutti gli utenti
-      tags: 
+      tags:
         - Users
       responses:
         200:
@@ -70,7 +70,7 @@ paths:
           type: integer
           minimum: 1
           description: Id dell'utente da ritornare
-      tags: 
+      tags:
         - Users
       responses:
         200:
@@ -104,7 +104,7 @@ paths:
                 type: string
                 description: nuova email
                 example: luca.verdi@unitn.it
-      tags: 
+      tags:
         - Users
       responses:
         200:
@@ -115,9 +115,26 @@ paths:
           description: Bad Request. ID task specificato invalido
         500:
           description: Internal Server Error. Errore del server
-          
+
+    delete:
+      tags:
+        - user
+      description: Cancella un utente partendo dall ID
+      operationId: deleteuserID
+      parameters:
+        - name: userId
+          in: path
+          description: ID dell' utente desiderato
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: User deleted
+        404:
+          description: User not found
   /classes:
-    post: 
+    post:
       summary: Crea una classe
       parameters:
         - in: body
@@ -135,7 +152,7 @@ paths:
                 example: ingegnera del software 2
               userlist:
                 $ref: '#/definitions/UsersArray'
-      tags: 
+      tags:
         - Classes
       responses:
         200:
@@ -144,7 +161,7 @@ paths:
             $ref: '#/definitions/Class'
     get:
       summary: Ritorna lista di tutte le classi
-      tags: 
+      tags:
         - Class
       responses:
         200:
@@ -153,7 +170,7 @@ paths:
             $ref: '#/definitions/ClassesArray'
         500:
           description: Internal Server Error. Errore del server
-          
+
   /classes/{classId}:
     get:
       summary: Ritorna una classe in base all'ID
@@ -164,7 +181,7 @@ paths:
           type: integer
           minimum: 1
           description: ID della classe da ritornare
-      tags: 
+      tags:
         - Classes
       responses:
         200:
@@ -198,7 +215,7 @@ paths:
                 type: string
               userlist:
                 $ref: '#/definitions/UsersArray'
-      tags: 
+      tags:
         - Classes
       responses:
         200:
@@ -209,9 +226,27 @@ paths:
           description: Bad Request. ID classe specificato invalido
         500:
           description: Internal Server Error. Errore del server
-           
+
+    delete:
+      description: Cancella un corso partendo dall ID
+      operationId: deleteclassID
+      parameters:
+        - name: classId
+          in: path
+          description: ID dell' utente desiderato
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Class deleted
+        404:
+          description: Class not found
+      tags:
+        - Classes
+
   /groups:
-    post: 
+    post:
       summary: Crea un gruppo
       parameters:
         - in: body
@@ -229,7 +264,7 @@ paths:
                 example: gruppo 10
               userlist:
                 $ref: '#/definitions/UsersArray'
-      tags: 
+      tags:
         - Groups
       responses:
         200:
@@ -238,7 +273,7 @@ paths:
             $ref: '#/definitions/Group'
     get:
       summary: Ritorna lista di tutti i gruppi
-      tags: 
+      tags:
         - Groups
       responses:
         200:
@@ -247,7 +282,7 @@ paths:
             $ref: '#/definitions/GroupsArray'
         500:
           description: Internal Server Error. Errore del server
-          
+
   /groups/{groupId}:
     get:
       summary: Ritorna un gruppo in base all'ID
@@ -258,7 +293,7 @@ paths:
           type: integer
           minimum: 1
           description: ID del gruppo da ritornare
-      tags: 
+      tags:
         - Groups
       responses:
         200:
@@ -284,7 +319,7 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/UsersArray'
-      tags: 
+      tags:
         - Groups
       responses:
         200:
@@ -295,9 +330,26 @@ paths:
           description: Bad Request. ID gruppo specificato invalido
         500:
           description: Internal Server Error. Errore del server
-          
+
+    delete:
+      description: Cancella un gruppo partendo dall ID
+      operationId: deletegroupID
+      parameters:
+        - name: groupId
+          in: path
+          description: ID dell' utente desiderato
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Group deleted
+        404:
+          description: Group not found
+      tags:
+        - Groups
   /tasks:
-    post: 
+    post:
       summary: Crea una task
       parameters:
         - in: body
@@ -318,11 +370,11 @@ paths:
                 type: string
                 description: consegna della task
                 example: Immaginate a grandi linee una api REST per esse3. come sarebbe strutturata, ad alto livello?
-              risoluzione:  
+              risoluzione:
                 type: string
                 description: soluzione della task
                 example: Deve avere per esempio le risorse ...
-      tags: 
+      tags:
         - Tasks
       responses:
         201:
@@ -331,7 +383,7 @@ paths:
             $ref: '#/definitions/Task'
     get:
       summary: Ritorna lista di tutte le tasks
-      tags: 
+      tags:
         - Tasks
       responses:
         200:
@@ -340,10 +392,10 @@ paths:
             $ref: '#/definitions/TasksArray'
         500:
           description: Internal Server Error. Errore del server
-          
+
   /tasks/{taskId}:
     get:
-      summary: Ritorna una task in base all'ID 
+      summary: Ritorna una task in base all'ID
       #description: Specificato l'ID della task viene ritornato l'oggetto associato alla task.
       parameters:
         - in: path
@@ -352,13 +404,13 @@ paths:
           type: integer
           minimum: 1
           description: ID della task da ritornare
-      tags: 
+      tags:
         - Tasks
       responses:
         200:
           description: OK. Ritornato un oggetto Task
           schema:
-            $ref: '#/definitions/Task' 
+            $ref: '#/definitions/Task'
         400:
           description: Bad Request. ID task specificato invalido
         404:
@@ -387,11 +439,11 @@ paths:
                 type: string
                 description: consegna della task
                 example: nuova consegna della task....
-              risoluzione:  
+              risoluzione:
                 type: string
                 description: soluzione della task
                 example: nuova risoluzione della task...
-      tags: 
+      tags:
         - Tasks
       responses:
         200:
@@ -403,8 +455,25 @@ paths:
         500:
           description: Internal Server Error. Errore del server
 
+    delete:
+      description: Cancella una task partendo dall ID
+      operationId: deletetaskByID
+      parameters:
+        - name: taskId
+          in: path
+          description: ID dell' utente desiderato
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Task deleted
+        404:
+          description: Task not found
+      tags:
+        - Tasks
   /taskgroups:
-    post: 
+    post:
       summary: Crea un gruppo di tasks
       parameters:
         - in: body
@@ -412,7 +481,7 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/TasksArray'
-      tags: 
+      tags:
         - TasksGroup
       responses:
         200:
@@ -421,7 +490,7 @@ paths:
             $ref: '#/definitions/TaskGroup'
     get:
       summary: Ritorna lista di tutti i gruppi di task
-      tags: 
+      tags:
         - TasksGroup
       responses:
         200:
@@ -430,7 +499,7 @@ paths:
             $ref: '#/definitions/TasksArray'
         500:
           description: Internal Server Error. Errore del server
-  
+
   /taskgroups/{taskgroupId}:
     get:
       summary: Ritorna un gruppo di task in base all'ID
@@ -441,7 +510,7 @@ paths:
           type: integer
           minimum: 1
           description: ID del gruppo di task da ritornare
-      tags: 
+      tags:
         - TasksGroup
       responses:
         200:
@@ -470,7 +539,7 @@ paths:
             properties:
               tasks:
                 $ref: '#/definitions/TasksArray'
-      tags: 
+      tags:
         - TasksGroup
       responses:
         200:
@@ -482,8 +551,26 @@ paths:
         500:
           description: Internal Server Error. Errore del server
 
+    delete:
+      description: Cancella un gruppo di task partendo dall ID
+      operationId: deletetaskgroupByID
+      parameters:
+        - name: taskgroupId
+          in: path
+          description: ID dell' utente desiderato
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Task group deleted
+        404:
+          description: Task group not found
+      tags:
+        - Classes
+
   /exams:
-    post: 
+    post:
       summary: Crea un esame
       parameters:
         - in: body
@@ -499,7 +586,7 @@ paths:
                 type: string
               taskslist:
                 $ref: '#/definitions/TasksArray'
-      tags: 
+      tags:
         - Exams
       responses:
         200:
@@ -508,7 +595,7 @@ paths:
             $ref: '#/definitions/Exam'
     get:
       summary: Ritorna lista di gli esami
-      tags: 
+      tags:
         - Exams
       responses:
         200:
@@ -517,7 +604,7 @@ paths:
             $ref: '#/definitions/ExamsArray'
         500:
           description: Internal Server Error. Errore del server
-  
+
   /exams/{examId}:
     get:
       summary: Ritorna un esame in base all'ID
@@ -528,7 +615,7 @@ paths:
           type: integer
           minimum: 1
           description: ID dell'esame da ritornare
-      tags: 
+      tags:
         - Exams
       responses:
         200:
@@ -564,7 +651,7 @@ paths:
                 description: deadline
               taskslist:
                 $ref: '#/definitions/TasksArray'
-      tags: 
+      tags:
         - Exams
       responses:
         200:
@@ -575,9 +662,27 @@ paths:
           description: Bad Request. ID exams specificato invalido
         500:
           description: Internal Server Error. Errore del server
-  
+
+    delete:
+      description: Cancella un esame partendo dall ID
+      operationId: deleteExamID
+      parameters:
+        - name: examId
+          in: path
+          description: ID dell' utente desiderato
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Class deleted
+        404:
+          description: Class not found
+      tags:
+        - Exams
+
   /deliveries:
-    post: 
+    post:
       summary: Crea una delivery
       parameters:
         - in: body
@@ -603,7 +708,7 @@ paths:
                   id:
                     type: integer
                     description: id della task
-                  soluzione: 
+                  soluzione:
                     type: string
                     description: testo della soluzione o della review
                 example:
@@ -611,14 +716,14 @@ paths:
                     soluzione: soluzione / review della task con id 12 ...
                   - id: 13
                     soluzione: soluzione / review della task con id 13 ...
-      tags: 
+      tags:
         - Deliveries
       responses:
         200:
           description: OK. Delivery creato.
     get:
       summary: Ritorna lista di deliveries
-      tags: 
+      tags:
         - Deliveries
       responses:
         200:
@@ -627,7 +732,7 @@ paths:
             $ref: '#/definitions/DeliveriesArray'
         500:
           description: Internal Server Error. Errore del server
-  
+
   /deliveries/{deliveryId}:
     get:
       summary: Ritorna una delivery in base all'ID
@@ -638,7 +743,7 @@ paths:
           type: integer
           minimum: 1
           description: ID della delivery da ritornare
-      tags: 
+      tags:
         - Deliveries
       responses:
         200:
@@ -668,24 +773,37 @@ definitions:
         type: string
         description: email dell'utente
         example: mario.rossi@unitn.it
-    required:  
+    required:
       - id
       - mat
       - email
-      
+
   UsersArray:
     type: array
     description: lista di utenti
     items:
       $ref: '#/definitions/User'
-    example: 
+    example:
       - id: 93827
         mat: 13768
         email: mario.rossi@unitn.it
       - id: 94621
         mat: 13769
         email: paolo.verdi@unitn.it
-      
+
+  DeleteUserID:
+    type: array
+    description: lista di utenti
+    items:
+      $ref: '#/definitions/User'
+    example:
+      - id: 93827
+        mat: 13768
+        email: mario.rossi@unitn.it
+      - id: 94621
+        mat: 13769
+        email: paolo.verdi@unitn.it
+
   Class:
     type: object
     description: Class object
@@ -702,13 +820,13 @@ definitions:
         $ref: '#/definitions/UsersArray'
     required:
       - id
-  
+
   ClassesArray:
     type: array
     description: lista di classi
     items:
       $ref: '#/definitions/Class'
-    example: 
+    example:
       - id: 153
         nomeclasse: ingegneria del software 2
         membri:
@@ -746,14 +864,14 @@ definitions:
     example:
       id: 10
       nomegruppo: gruppo 10
-      membri: 
+      membri:
         - id: 93827
           mat: 13768
           email: mario.rossi@unitn.it
         - id: 94621
           mat: 13769
           email: paolo.verdi@unitn.it
-  
+
   GroupsArray:
     type: array
     description: lista di gruppi
@@ -762,7 +880,7 @@ definitions:
     example:
       - id: 10
         nomegruppo: gruppo 10
-        membri: 
+        membri:
           - id: 93827
             mat: 13768
             email: mario.rossi@unitn.it
@@ -771,19 +889,19 @@ definitions:
             email: paolo.verdi@unitn.it
       - id: 11
         nomegruppo: gruppo 11
-        membri: 
+        membri:
         - id: 13321
           mat: 13768
           email: paolo.rossi@unitn.it
         - id: 34434
           mat: 13445
           email: francesco.gialli@unitn.it
-  
+
   Task:
     type: object
     description: Task object
     properties:
-      id: 
+      id:
         type: integer
         description: id della task
         example: 15
@@ -795,31 +913,31 @@ definitions:
       consegna:
         type: string
         description: consegna della task
-        example: Immaginate a grandi linee una api REST per esse3. come sarebbe strutturata, ad alto livello? 
-      risoluzione: 
+        example: Immaginate a grandi linee una api REST per esse3. come sarebbe strutturata, ad alto livello?
+      risoluzione:
         type: string
         description: risoluzione della task
         example: Deve avere per esempio le risorse ...
     required:
-      - id 
+      - id
       - tipo
       - consegna
-  
+
   TasksArray:
     type: array
     description: lista di tasks
     items:
       $ref: '#/definitions/Task'
-    example: 
+    example:
       - id: 15
         tipo: domanda aperta
-        consegna: Immaginate a grandi linee una api REST per esse3. come sarebbe strutturata, ad alto livello? 
+        consegna: Immaginate a grandi linee una api REST per esse3. come sarebbe strutturata, ad alto livello?
         risoluzione: Deve avere per esempio le risorse ...
       - id: 16
         tipo: domanda aperta
         consegna: Cos'è il REST?
         risoluzione: Representational State Transfer è un tipo di architettura software per i sistemi distribuiti.
-        
+
   TaskGroup:
     type: object
     description: TaskGroup object
@@ -830,13 +948,13 @@ definitions:
         example: 4312
       tasks:
         $ref: '#/definitions/TasksArray'
-      
-        
+
+
   Exam:
     type: object
     description: Exam object
     properties:
-      id: 
+      id:
         type: integer
         description: id dell'esame
       tasks:
@@ -855,18 +973,18 @@ definitions:
         type: string
         description: professore che ha creato l'esame
         example: prof. paolo gialli
-        
+
   ExamsArray:
     type: array
     description: lista di esami
     items:
       $ref: '#/definitions/Exam'
-    example: 
+    example:
       - id: 382
         tasks:
           - id: 15
             tipo: domanda aperta
-            consegna: Immaginate a grandi linee una api REST per esse3. come sarebbe strutturata, ad alto livello? 
+            consegna: Immaginate a grandi linee una api REST per esse3. come sarebbe strutturata, ad alto livello?
             risoluzione: Deve avere per esempio le risorse ...
           - id: 16
             tipo: domanda aperta
@@ -879,7 +997,7 @@ definitions:
         tasks:
           - id: 15
             tipo: domanda aperta
-            consegna: Immaginate a grandi linee una api REST per esse3. come sarebbe strutturata, ad alto livello? 
+            consegna: Immaginate a grandi linee una api REST per esse3. come sarebbe strutturata, ad alto livello?
             risoluzione: Deve avere per esempio le risorse ...
           - id: 16
             tipo: domanda aperta
@@ -888,7 +1006,7 @@ definitions:
         deadline: 2018-11-30T08:30:00Z
         destinatario: 12131
         autore: prof. marco verdi
-        
+
   Delivery:
     type: object
     description: Delivery object; oggetto tramite cui gli utenti mandano le loro risposte alle task / peer-review
@@ -899,7 +1017,7 @@ definitions:
         example: 46152
       tested-id:
         type: integer
-        description: id della persona che ha svolto la task 
+        description: id della persona che ha svolto la task
         example: 93827
       reviewed-id:
         type: integer
@@ -920,10 +1038,10 @@ definitions:
         example:
           - id: 37162
             soluzione: soluzione della task con id 37162...
-          - id: 37165 
+          - id: 37165
             soluzione: soluzione della task con id 37165...
-    
-          
+
+
   DeliveriesArray:
     type: array
     description: lista di deliveries
