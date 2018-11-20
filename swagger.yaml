@@ -82,7 +82,7 @@ paths:
         404:
           description: Not Found. Utente con ID specificato non trovato
     put:
-      summary: Modifica o crea un utente in base all'ID
+      summary: Modifica un utente in base all'ID
       parameters:
         - in: path
           name: userId
@@ -109,8 +109,6 @@ paths:
       responses:
         200:
           description: OK. L'utente con l'ID specificato è stata modificato
-        201:
-          description: Created. E' stato creato un utente con l'id specificato
         400:
           description: Bad Request. ID task specificato invalido
         500:
@@ -119,7 +117,7 @@ paths:
     delete:
       tags:
         - user
-      description: Cancella un utente partendo dall ID
+      summary: Cancella un utente partendo dall ID
       operationId: deleteuserID
       parameters:
         - name: userId
@@ -127,124 +125,12 @@ paths:
           description: ID dell' utente desiderato
           required: true
           type: integer
-          format: int64
       responses:
         204:
           description: User deleted
         404:
           description: User not found
-  /classes:
-    post:
-      summary: Crea una classe
-      parameters:
-        - in: body
-          name: class
-          required: true
-          schema:
-            type: object
-            required:
-              - classname
-              - userlist
-            properties:
-              classname:
-                type: string
-                description: nome della classe
-                example: ingegnera del software 2
-              userlist:
-                $ref: '#/definitions/UsersArray'
-      tags:
-        - Classes
-      responses:
-        200:
-          description: OK. Classe creata e restituita.
-          schema:
-            $ref: '#/definitions/Class'
-    get:
-      summary: Ritorna lista di tutte le classi
-      tags:
-        - Class
-      responses:
-        200:
-          description: OK. Lista classi restituita
-          schema:
-            $ref: '#/definitions/ClassesArray'
-        500:
-          description: Internal Server Error. Errore del server
-
-  /classes/{classId}:
-    get:
-      summary: Ritorna una classe in base all'ID
-      parameters:
-        - in: path
-          name: classId
-          required: true
-          type: integer
-          minimum: 1
-          description: ID della classe da ritornare
-      tags:
-        - Classes
-      responses:
-        200:
-          description: OK. Ritornato un oggetto Class
-          schema:
-            $ref: '#/definitions/Class'
-        400:
-          description: Bad Request. ID classe specificato invalido
-        404:
-          description: Not Found. classe con ID specificato non trovata
-    put:
-      summary: Modifica o crea una classe in base all'ID
-      parameters:
-        - in: path
-          name: classId
-          required: true
-          type: integer
-          minimum: 1
-          description: ID del gruppo da modificare
-        - in: body
-          name: editclass
-          description: per modificare una risorsa classe ho bisogno di un nuovo nome o di una nuova lista di utenti
-          required: true
-          schema:
-            type: object
-            required:
-              - classname
-              - userlist
-            properties:
-              classname:
-                type: string
-              userlist:
-                $ref: '#/definitions/UsersArray'
-      tags:
-        - Classes
-      responses:
-        200:
-          description: OK. La classe con l'ID specificato è stato modificata
-        201:
-          description: Created. E' stata creata una classe l'id specificato
-        400:
-          description: Bad Request. ID classe specificato invalido
-        500:
-          description: Internal Server Error. Errore del server
-
-    delete:
-      description: Cancella un corso partendo dall ID
-      operationId: deleteclassID
-      parameters:
-        - name: classId
-          in: path
-          description: ID dell' utente desiderato
-          required: true
-          type: integer
-          format: int64
-      responses:
-        204:
-          description: Class deleted
-        404:
-          description: Class not found
-      tags:
-        - Classes
-
+  
   /groups:
     post:
       summary: Crea un gruppo
@@ -305,7 +191,7 @@ paths:
         404:
           description: Not Found. Gruppo con ID specificato non trovato
     put:
-      summary: Modifica o crea un gruppo in base all'ID
+      summary: Modifica un gruppo in base all'ID
       parameters:
         - in: path
           name: groupId
@@ -324,15 +210,13 @@ paths:
       responses:
         200:
           description: OK. Il gruppo con l'ID specificato è stato modificato
-        201:
-          description: Created. E' stato creato un gruppo con l'id specificato
         400:
           description: Bad Request. ID gruppo specificato invalido
         500:
           description: Internal Server Error. Errore del server
 
     delete:
-      description: Cancella un gruppo partendo dall ID
+      summary: Cancella un gruppo partendo dall ID
       operationId: deletegroupID
       parameters:
         - name: groupId
@@ -340,7 +224,6 @@ paths:
           description: ID dell' utente desiderato
           required: true
           type: integer
-          format: int64
       responses:
         204:
           description: Group deleted
@@ -416,7 +299,7 @@ paths:
         404:
           description: Not Found. Task con ID specificato non trovata
     put:
-      summary: Modifica o crea una task in base all'ID
+      summary: Modifica una task in base all'ID
       parameters:
         - in: path
           name: taskId
@@ -448,15 +331,13 @@ paths:
       responses:
         200:
           description: OK. La task con l'ID specificato è stata modificata
-        201:
-          description: Created. E' stato creata una task con l'id specificato
         400:
           description: Bad Request. ID task specificato invalido
         500:
           description: Internal Server Error. Errore del server
 
     delete:
-      description: Cancella una task partendo dall ID
+      summary: Cancella una task partendo dall ID
       operationId: deletetaskByID
       parameters:
         - name: taskId
@@ -464,7 +345,6 @@ paths:
           description: ID dell' utente desiderato
           required: true
           type: integer
-          format: int64
       responses:
         204:
           description: Task deleted
@@ -522,7 +402,7 @@ paths:
         404:
           description: Not Found. Gruppo di task con ID specificato non trovato
     put:
-      summary: Modifica o crea un gruppo di task in base all'ID
+      summary: Modifica un gruppo di task in base all'ID
       parameters:
         - in: path
           name: taskgroupId
@@ -544,15 +424,13 @@ paths:
       responses:
         200:
           description: OK. Il gruppo di task con l'ID specificato è stato modificato
-        201:
-          description: Created. E' stato creato un gruppo di task con l'id specificato
         400:
           description: Bad Request. ID gruppo di task specificato invalido
         500:
           description: Internal Server Error. Errore del server
 
     delete:
-      description: Cancella un gruppo di task partendo dall ID
+      summary: Cancella un gruppo di task partendo dall ID
       operationId: deletetaskgroupByID
       parameters:
         - name: taskgroupId
@@ -560,14 +438,11 @@ paths:
           description: ID dell' utente desiderato
           required: true
           type: integer
-          format: int64
       responses:
         204:
           description: Task group deleted
         404:
           description: Task group not found
-      tags:
-        - Classes
 
   /exams:
     post:
@@ -627,7 +502,7 @@ paths:
         404:
           description: Not Found. Esame con ID specificato non trovato
     put:
-      summary: Modifica o crea un esame in base all'ID
+      summary: Modifica un esame in base all'ID
       parameters:
         - in: path
           name: examId
@@ -656,15 +531,13 @@ paths:
       responses:
         200:
           description: OK. Esame con ID specificato è stato modificato
-        201:
-          description: Created. E' stato creato un esame con l'id specificato
         400:
           description: Bad Request. ID exams specificato invalido
         500:
           description: Internal Server Error. Errore del server
 
     delete:
-      description: Cancella un esame partendo dall ID
+      summary: Cancella un esame partendo dall ID
       operationId: deleteExamID
       parameters:
         - name: examId
@@ -672,7 +545,6 @@ paths:
           description: ID dell' utente desiderato
           required: true
           type: integer
-          format: int64
       responses:
         204:
           description: Class deleted
@@ -754,7 +626,58 @@ paths:
           description: Bad Request. ID delivery specificato invalido
         404:
           description: Not Found. Delivery con ID specificato non trovato
-
+    delete:
+      summary: Cancella una delivery partendo dall ID
+      operationId: deleteDeliveryID
+      parameters:
+        - name: deliveryId
+          in: path
+          description: ID della delivery desiderata
+          required: true
+          type: integer
+      responses:
+        204:
+          description: Delivery deleted
+        404:
+          description: Delivery not found
+      tags:
+        - Deliveries
+  /deliveries/{ExamId}:
+    get:
+      summary: Ritorna deliveries in base all'ID dell'esame
+      parameters:
+        - in: path
+          name: ExamId
+          required: true
+          type: integer
+          minimum: 1
+          description: ID dell'esame di cui voglio le delivery da ritornare
+      tags:
+        - Deliveries
+      responses:
+        200:
+          description: OK. Ritornato una lista di delivery
+          schema:
+            $ref: '#/definitions/DeliveriesArray'
+        400:
+          description: Bad Request. ID exam specificato invalido
+        404:
+          description: Not Found. Exam con ID specificato non trovato
+    delete:
+      summary: Cancella delle deliveries partendo dall ID dell'esame
+      parameters:
+        - name: ExamId
+          in: path
+          description: ID dell'esame di cui eliminare le delivery'
+          required: true
+          type: integer
+      responses:
+        204:
+          description: Deliveries deleted
+        404:
+          description: Exam not found
+      tags:
+        - Deliveries
 definitions:
   #definizione dell'oggetto user con campi id matricola ed email
   User:
@@ -821,30 +744,6 @@ definitions:
     required:
       - id
 
-  ClassesArray:
-    type: array
-    description: lista di classi
-    items:
-      $ref: '#/definitions/Class'
-    example:
-      - id: 153
-        nomeclasse: ingegneria del software 2
-        membri:
-          - id: 93827
-            mat: 13768
-            email: mario.rossi@unitn.it
-          - id: 94621
-            mat: 13769
-            email: paolo.verdi@unitn.it
-      - id: 154
-        nomeclasse: linguaggi formali
-        membri:
-          - id: 51227
-            mat: 13652
-            email: francesco.gialli@unitn.it
-          - id: 93827
-            mat: 13768
-            email: mario.rossi@unitn.it
   Group:
     type: object
     description: Group object
