@@ -642,12 +642,12 @@ paths:
           description: Delivery not found
       tags:
         - Deliveries
-  /deliveries/{ExamId}:
+  /deliveries/{examId}:
     get:
       summary: Ritorna deliveries in base all'ID dell'esame
       parameters:
         - in: path
-          name: ExamId
+          name: examId
           required: true
           type: integer
           minimum: 1
@@ -666,7 +666,7 @@ paths:
     delete:
       summary: Cancella delle deliveries partendo dall ID dell'esame
       parameters:
-        - name: ExamId
+        - name: examId
           in: path
           description: ID dell'esame di cui eliminare le delivery'
           required: true
@@ -726,23 +726,6 @@ definitions:
       - id: 94621
         mat: 13769
         email: paolo.verdi@unitn.it
-
-  Class:
-    type: object
-    description: Class object
-    properties:
-      id:
-        type: integer
-        description: id della classe
-        example: 153
-      nomeclasse:
-        type: string
-        description: nome della classe
-        example: ingegneria del software 2
-      membri:
-        $ref: '#/definitions/UsersArray'
-    required:
-      - id
 
   Group:
     type: object
@@ -862,7 +845,7 @@ definitions:
       deadline:
         type: string
         format: date-time
-        description: deadline dopo al quale l'esame si conclude
+        description: deadline dopo alla quale l'esame si conclude
         example: 2018-12-25T09:00:00Z #(25 dic 2018, 9:00 UTC)
       destinatario:
         type: integer
