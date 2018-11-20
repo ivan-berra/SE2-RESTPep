@@ -2,7 +2,7 @@ swagger: '2.0'
 
 info:
   title: SE2 RESTPep API
-  description: APIs per la gestione di esami composti da tasks.
+  description: APIs per la gestione di esami composti da task.
   version: 1.0.0
 
 
@@ -22,6 +22,7 @@ paths:
   /users:
     post:
       summary: Crea un utente
+      description: Metodo usato dal utente per registrarsi all'interno del sistema
       parameters:
         - in: body
           name: user
@@ -49,6 +50,7 @@ paths:
             $ref: '#/definitions/User'
     get:
       summary: Ritorna lista di tutti gli utenti
+      description: Metodo usato dal professore per visualizzare la lista di utenti
       tags:
         - Users
       responses:
@@ -62,7 +64,7 @@ paths:
   /users/{userId}:
     get:
       summary: Ritorna un utente in base all'ID
-      #description: Specificato l'ID dell'utente viene ritornato l'oggetto associato all'utente contenente ID, matricola ed e-mail.
+      description: Metodo usato dall'utente per visualizzare il suo profilo o da un professore per visualizzare il profilo di un utente specifico
       parameters:
         - in: path
           name: userId #nome del parametro (anche se poi il nome non sarà visualizzato es: /users/3812)
@@ -83,6 +85,7 @@ paths:
           description: Not Found. Utente con ID specificato non trovato
     put:
       summary: Modifica un utente in base all'ID
+      description: Metodo usato da un utente per modificare il proprio profilo
       parameters:
         - in: path
           name: userId
@@ -118,6 +121,7 @@ paths:
       tags:
         - user
       summary: Cancella un utente partendo dall ID
+      description: Metodo usato da un professore in caso voglia eliminare un utente e tutti i suoi dati
       operationId: deleteuserID
       parameters:
         - name: userId
@@ -134,6 +138,7 @@ paths:
   /groups:
     post:
       summary: Crea un gruppo
+      description: Metodo usato da un professore per creare un gruppo di utenti
       parameters:
         - in: body
           name: group
@@ -159,6 +164,7 @@ paths:
             $ref: '#/definitions/Group'
     get:
       summary: Ritorna lista di tutti i gruppi
+      description: Metodo usato dal professore per visualizzare la lista di tutti i gruppi di utenti
       tags:
         - Groups
       responses:
@@ -172,6 +178,7 @@ paths:
   /groups/{groupId}:
     get:
       summary: Ritorna un gruppo in base all'ID
+      description: Metodo usato da un professore per visualizzare le informazioni riguardo ad un gruppo di utenti specifico
       parameters:
         - in: path
           name: groupId
@@ -192,6 +199,7 @@ paths:
           description: Not Found. Gruppo con ID specificato non trovato
     put:
       summary: Modifica un gruppo in base all'ID
+      description: Metodo usato da un professore per modificare le informazioni riguardo un gruppo di utenti.
       parameters:
         - in: path
           name: groupId
@@ -214,9 +222,9 @@ paths:
           description: Bad Request. ID gruppo specificato invalido
         500:
           description: Internal Server Error. Errore del server
-
     delete:
       summary: Cancella un gruppo partendo dall ID
+      description: Metodo usato da un professore per eliminare un gruppo di utenti
       operationId: deletegroupID
       parameters:
         - name: groupId
@@ -234,6 +242,7 @@ paths:
   /tasks:
     post:
       summary: Crea una task
+      description: 'Metodo usato dal professore per creare una task. Ce ne sono di due tipi: domanda aperta o crocette. ' 
       parameters:
         - in: body
           name: user
@@ -248,6 +257,7 @@ paths:
               tipo:
                 type: string
                 description: tipo della task
+                enum: [domanda aperta, crocette]
                 example: domanda aperta
               consegna:
                 type: string
@@ -265,12 +275,13 @@ paths:
           schema:
             $ref: '#/definitions/Task'
     get:
-      summary: Ritorna lista di tutte le tasks
+      summary: Ritorna lista di tutte le task
+      description: Metodo usato dal professore per vedere tutte le task che ha creato
       tags:
         - Tasks
       responses:
         200:
-          description: OK. Lista tasks restituita
+          description: OK. Lista task restituita
           schema:
             $ref: '#/definitions/TasksArray'
         500:
@@ -279,7 +290,7 @@ paths:
   /tasks/{taskId}:
     get:
       summary: Ritorna una task in base all'ID
-      #description: Specificato l'ID della task viene ritornato l'oggetto associato alla task.
+      description: Metodo usato dal professore per visualizzare informazioni riguardo ad una specifica task
       parameters:
         - in: path
           name: taskId
@@ -300,6 +311,7 @@ paths:
           description: Not Found. Task con ID specificato non trovata
     put:
       summary: Modifica una task in base all'ID
+      description: Metodo usato dal professore per modificare le informazioni di una task
       parameters:
         - in: path
           name: taskId
@@ -338,6 +350,7 @@ paths:
 
     delete:
       summary: Cancella una task partendo dall ID
+      description: Metodo usato dal professore per eliminare una task dato il suo ID
       operationId: deletetaskByID
       parameters:
         - name: taskId
@@ -354,7 +367,8 @@ paths:
         - Tasks
   /taskgroups:
     post:
-      summary: Crea un gruppo di tasks
+      summary: Crea un gruppo di task
+      description: Metodo usato dal professore per creare un gruppo di task
       parameters:
         - in: body
           name: taskgroup
@@ -383,6 +397,7 @@ paths:
   /taskgroups/{taskgroupId}:
     get:
       summary: Ritorna un gruppo di task in base all'ID
+      description: Metodo usato dal professore per vedere la lista dei gruppi di task
       parameters:
         - in: path
           name: taskgroupId
@@ -403,6 +418,7 @@ paths:
           description: Not Found. Gruppo di task con ID specificato non trovato
     put:
       summary: Modifica un gruppo di task in base all'ID
+      description: Metodo usato dal professore per modificare un gruppo di task
       parameters:
         - in: path
           name: taskgroupId
@@ -431,6 +447,7 @@ paths:
 
     delete:
       summary: Cancella un gruppo di task partendo dall ID
+      description: Metodo usato dal professore per eliminare un gruppo di task
       operationId: deletetaskgroupByID
       parameters:
         - name: taskgroupId
@@ -447,18 +464,23 @@ paths:
   /exams:
     post:
       summary: Crea un esame
+      description: Metodo usato dal professore per creare un esame. Va specicata la lista di task, un gruppo di utenti ed una deadline
       parameters:
         - in: body
           name: exam
-          description: per creare una risorsa esame ho bisogno di una lista di tasks una deadline ed un destinatario
           required: true
           schema:
             type: object
             properties:
               destinatario:
-                type: string
+                type: integer
+                description: ID del gruppo di utenti
+                example: 123
               deadline:
                 type: string
+                format: date-time
+                description: deadline dopo al quale l'esame si conclude
+                example: 2018-12-25T09:00:00Z #(25 dic 2018, 9:00 UTC)
               taskslist:
                 $ref: '#/definitions/TasksArray'
       tags:
@@ -470,6 +492,7 @@ paths:
             $ref: '#/definitions/Exam'
     get:
       summary: Ritorna lista di gli esami
+      description: Metodo usato da un professore per visualizzare tutti gli esami che ha creato
       tags:
         - Exams
       responses:
@@ -483,6 +506,7 @@ paths:
   /exams/{examId}:
     get:
       summary: Ritorna un esame in base all'ID
+      description: Metodo usato da un professore per visualizzare un esame specifico dato il suo ID
       parameters:
         - in: path
           name: examId
@@ -503,6 +527,7 @@ paths:
           description: Not Found. Esame con ID specificato non trovato
     put:
       summary: Modifica un esame in base all'ID
+      description: Metodo usato da un professore per modificare un esame dato il suo ID
       parameters:
         - in: path
           name: examId
@@ -538,6 +563,7 @@ paths:
 
     delete:
       summary: Cancella un esame partendo dall ID
+      description: Metodo usato da un professore per eliminare un esame dato il suo ID
       operationId: deleteExamID
       parameters:
         - name: examId
@@ -556,6 +582,7 @@ paths:
   /deliveries:
     post:
       summary: Crea una delivery
+      description: Metodo usato da uno studente per inviare la sua risoluzione dell'esame o la sua peer-review riguardo ad un esame di un altro studente
       parameters:
         - in: body
           name: delivery
@@ -595,6 +622,7 @@ paths:
           description: OK. Delivery creato.
     get:
       summary: Ritorna lista di deliveries
+      description: Metodo usato da un professore per vedere tutte le risoluzioni inviate dagli studenti
       tags:
         - Deliveries
       responses:
@@ -608,6 +636,7 @@ paths:
   /deliveries/{deliveryId}:
     get:
       summary: Ritorna una delivery in base all'ID
+      description: Metodo usato dal professore per visualizzare una delivery in base al suo ID
       parameters:
         - in: path
           name: deliveryId
@@ -628,6 +657,7 @@ paths:
           description: Not Found. Delivery con ID specificato non trovato
     delete:
       summary: Cancella una delivery partendo dall ID
+      description: Metodo usato dal professore per eliminare una delivery di uno studente in base al suo ID
       operationId: deleteDeliveryID
       parameters:
         - name: deliveryId
@@ -642,9 +672,11 @@ paths:
           description: Delivery not found
       tags:
         - Deliveries
+        
   /deliveries/{examId}:
     get:
       summary: Ritorna deliveries in base all'ID dell'esame
+      description: Metodo usato da un professore per vedere tutte le deliveries riguardo ad uno specifico esame
       parameters:
         - in: path
           name: examId
@@ -665,6 +697,7 @@ paths:
           description: Not Found. Exam con ID specificato non trovato
     delete:
       summary: Cancella delle deliveries partendo dall ID dell'esame
+      description: Metodo usato da un professore per eliminare tutte le deliveries di uno specifico esame
       parameters:
         - name: examId
           in: path
@@ -807,7 +840,7 @@ definitions:
 
   TasksArray:
     type: array
-    description: lista di tasks
+    description: lista di task
     items:
       $ref: '#/definitions/Task'
     example:
@@ -922,7 +955,6 @@ definitions:
             soluzione: soluzione della task con id 37162...
           - id: 37165
             soluzione: soluzione della task con id 37165...
-
 
   DeliveriesArray:
     type: array
