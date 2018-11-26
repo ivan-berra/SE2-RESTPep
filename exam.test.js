@@ -12,11 +12,11 @@ test("unvalid2: formato deadline erroneo", () =>{
   expect(exampost(123, 2018.12, [1,2,3], 321, [42,9])).toBe(400);
 });
 
-test("unvalid3: formato taskarray erroneo", () => {
+test("unvalid3: formato tasksarray erroneo", () => {
 	expect(exampost(123, '2018-12-25T09:00:00Z', 1, 321, [7,8,9])).toBe(400);
 });
 
-test("unvalid4: contenuto taskarray erroneo", () => {
+test("unvalid4: contenuto tasksarray erroneo", () => {
 	expect(exampost(123, '2018-12-25T09:00:00Z', [1,'error',3], 321, [7,8,9])).toBe(400);
 });
 

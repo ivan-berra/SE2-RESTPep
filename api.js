@@ -21,8 +21,7 @@ app.get('/exams', (req, res) => {
 
 app.post('/exams', (req, res) => {
 	let newexam = req.body;
-	//taskpost guarda se i campi sono formattati bene
-	let check = exampost(newexam.destinatario, newexam.deadline, newexam.tasklist, newexam.autore, newexam.condivisi);
+	let check = exampost(newexam.destinatario, newexam.deadline, newexam.tasksarray, newexam.autore, newexam.condivisi);
   console.log(newexam);
   console.log(check);
 	if(check==200){
