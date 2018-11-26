@@ -7,10 +7,17 @@ app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(PORT, () => console.log('Example app listening on port ' + PORT))
 
 var users = [{
-	id : 1,
-	mat : 200912,
-	email: "prova@test.com",
-	isTeacher: false,
+		id : 1,
+		mat : 200912,
+		email: "prova@test.com",
+		isTeacher: false,
+	},
+
+	{
+		id : 2,
+		mat : 312343,
+		email: "test@prova.com",
+		isTeacher : true
 	}];
 
 app.post('/api/users', function (req, res) {
@@ -23,13 +30,14 @@ app.post('/api/users', function (req, res) {
 	res.location("/api/users" + user.id);
 	res.status(201);
 	res.send();
+
 });
 
 app.get('/api/users', function (req, res) {
 
 	res.contentType('application/json');
 
-	var result = JSON.stringify(users);
+	var result = users;
 
 	process.on('uncaughtException', function (err) {
 		console.error((new Date).toUTCString() + 'UncaughtException:', 
@@ -42,3 +50,27 @@ err.message);
 	res.status(200);
 	res.send(result);
 })
+
+app.get('/api/users/:userId', function (req, res) {
+	
+	var searchedId = req.params.userId;
+
+	if (searchedId < 1 || isNaN(searchedId))
+	{
+		res.status(400).send();
+		return;
+	}
+
+	for (var i = 0; i < users.length; i++)
+	{
+		if(users[i].id == searchedId)
+		{
+			res.status(200);
+			res.send(users[searchedId - 1]);
+			return;
+		}
+	}
+
+	res.status(404).send();
+
+});
