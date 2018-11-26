@@ -24,3 +24,21 @@ app.post('/api/users', function (req, res) {
 	res.status(201);
 	res.send();
 });
+
+app.get('/api/users', function (req, res) {
+
+	res.contentType('application/json');
+
+	var result = JSON.stringify(users);
+
+	process.on('uncaughtException', function (err) {
+		console.error((new Date).toUTCString() + 'UncaughtException:', 
+err.message);
+		console.error(err.stack);
+		res.status(500).send();
+		process.exit(1);
+	})
+
+	res.status(200);
+	res.send(result);
+})
