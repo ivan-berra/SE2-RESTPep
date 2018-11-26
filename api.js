@@ -7,17 +7,18 @@ app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(PORT, () => console.log('Example app listening on port ' + PORT))
 
 var users = [];
+users.length = 0;
 
 app.post('/api/users', function (req, res) {
 	
 	var user = req.body;
-	user.id = product.length + 1;
+
+	user.id = users.length + 1;
 
 	users.push(req.body);
 
-	res.location("/api/users" + user.id);
 	res.status(201);
-	res.send();
+	res.send(users[users.length - 1]);
 
 });
 
