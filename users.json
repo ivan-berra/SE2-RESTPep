@@ -1,0 +1,23 @@
+{
+  "groups":
+  [
+    {
+      "id": 1,
+      "mat": 783290,
+      "email": "emailuser1@legitmail.com",
+      "isTeacher": false
+    },
+    {
+      "id": 2,
+      "mat": 137846,
+      "email": "emailuser2@legitmail.com",
+      "isTeacher": false
+    },
+    {
+      "id": 3,
+      "mat": 788350,
+      "email": "emailuser3@legitmail.com",
+      "isTeacher": true
+    }
+  ]
+}
