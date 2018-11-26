@@ -19,4 +19,4 @@ function getdelivery(){
   }
 }
 
-module.exports = delivery;
+module.exports = postdelivery;
