@@ -22,7 +22,7 @@ test('Trying to connect to the server', () => {
 
 });
 
-
+/*
 test('Trying to create a new user through POST', () => {
 
 	var options = {
@@ -94,4 +94,4 @@ test('Trying to delete the previously created user through DELETE', () => {
 
 	});
 });
-
+*/
