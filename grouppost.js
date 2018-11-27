@@ -1,34 +1,34 @@
 var fs = require('fs');
 
 
-function grouppost(nomegruppo, listamembri){
-	if(typeof nomegruppo === "string")
+function groupPost(nomeGruppo, listaMembri){
+	if(typeof nomeGruppo === "string")
 	{
-		if(typeof listamembri === "object" && listamembri !=null)
+		if(typeof listaMembri === "object" && listaMembri !=null)
 		{
 			let strtmp=[];
-			var fortmaterror = false;
-			for(var i=0; i<listamembri.length && !fortmaterror; i++)
+			var formatError = false;
+			for(var i=0; i<listaMembri.length && !formatError; i++)
 			{
-				if(!(typeof listamembri[i] === "number" && Number.isInteger(listamembri[i])))
-					fortmaterror=true;
-				if(!fortmaterror)
-					if(!esisteuser(listamembri[i]))
-						fortmaterror=true;
-				if(i==listamembri.length-1)
+				if(!(typeof listaMembri[i] === "number" && Number.isInteger(listaMembri[i])))
+					formatError=true;
+				if(!formatError)
+					if(!esisteUser(listaMembri[i]))
+						formatError=true;
+				if(i==listaMembri.length-1)
 				{
 					//strtmp+='{userid:'+listamembri[i]+"},";
-					let numero=listamembri[i];
-					strtmp.push({"userid":numero},);
+					let numero=listaMembri[i];
+					strtmp.push({"userId":numero},);
 				}
 				else
 				{
 					//strtmp+='{userid:'+listamembri[i]+"}";
-					let numero=listamembri[i];
-					strtmp.push({"userid":numero});
+					let numero=listaMembri[i];
+					strtmp.push({"userId":numero});
 				}
 			}
-			if(!fortmaterror)
+			if(!formatError)
 			{
 				//INSERIMENTO EFFETTIVO
 				let imported = fs.readFileSync('./groups.json', 'utf8', function (err, data) {
@@ -36,12 +36,12 @@ function grouppost(nomegruppo, listamembri){
 			    var obj = JSON.parse(data);
 				});
 				let gruppi=JSON.parse(imported);
-				let iddaassegnare=gruppi.nextid;
-				gruppi.nextid=iddaassegnare+1;
+				let idDaAssegnare=gruppi.nextId;
+				gruppi.nextId=idDaAssegnare+1;
 
 
 				//gruppi['groups'].push({"groupid":iddaassegnare,"groupname":nomegruppo,"userlist":[strtmp]});
-				gruppi['groups'].push({"groupid":iddaassegnare,"groupname":nomegruppo,"userlist":[]});
+				gruppi['groups'].push({"groupId":idDaAssegnare,"groupName":nomeGruppo,"userList":[]});
 				let exported=JSON.stringify(gruppi);
 				let index=exported.lastIndexOf("[");
 				exported=exported.substring(0,index)+JSON.stringify(strtmp)+'}'+exported.substring(index+1, exported.length-2);
@@ -56,7 +56,7 @@ function grouppost(nomegruppo, listamembri){
 }
 
 //si suppone siano in ordine nel file
-function esisteuser(iduser)
+function esisteUser(idUser)
 {
 	//var imported = require('./users.json');
 	let imported = fs.readFileSync('./users.json', 'utf8', function (err, data) {
@@ -66,25 +66,25 @@ function esisteuser(iduser)
 	/*var re = /\0/g;
 	var utenti=JSON.parse(imported.toString().replace(re, ""));*/
 	var utenti = JSON.parse(imported);
-	var lookingat=iduser-1;
-	if(utenti.nextid<=iduser)
+	var lookingAt=iduser-1;
+	if(utenti.nextId<=iduser)
 		return false;
-	else if (utenti.users[lookingat].id==iduser)
+	else if (utenti.users[lookingAt].id==idUser)
 		return true;
 	else {
-		var beginsearch=0;
-		var endsearch=utenti.nextid-1;
+		var beginSearch=0;
+		var endSearch=utenti.nextId-1;
 		do{
-			if(utenti.users[lookingat]<iduser)
-				beginsearch=lookingat+1;
-			else if (utenti.users[lookingat]>iduser)
-				endsearch=lookingat-1;
-			else if(utenti.users[lookingat]==iduser)
+			if(utenti.users[lookingAt]<idUser)
+				beginSearch=lookingAt+1;
+			else if (utenti.users[lookingAt]>idUser)
+				endSearch=lookingAt-1;
+			else if(utenti.users[lookingAt]==idUser)
 				return true;
-			lookingat=((beginsearch+endsearch)/2);
-		}while(beginsearch<=endsearch)
+			lookingAt=((beginSearch+endSearch)/2);
+		}while(beginSearch<=endSearch)
 		return false;
 	}
 }
 
-module.exports = grouppost;
+module.exports = groupPost;
