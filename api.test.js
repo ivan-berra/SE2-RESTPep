@@ -45,7 +45,7 @@ test('Tries to post an exam', () => {
 
 	});
 });
-*/
+
 test('Tries to get an exam by id 1', () => {
   let options = {
     uri: 'http://localhost:3000/exams/1',
@@ -84,3 +84,34 @@ test('Tries to get an exam by unvalid id', () => {
     expect(body).toBe("400 BAD REQUEST");
   })
 });
+
+ test('Tries to delete an exam by id 2', () => {
+   let options = {
+     uri: 'http://localhost:3000/exams/2',
+     method: 'DELETE'
+   };
+   request.delete(options, (error, response, body) => {
+     expect(body).toBe("204 EXAM DELETED");
+   })
+ });
+
+ test('Tries to delete an exam by unexisting id 9090', () => {
+   let options = {
+     uri: 'http://localhost:3000/exams/9090',
+     method: 'DELETE'
+   };
+   request.delete(options, (error, response, body) => {
+     expect(body).toBe("404 EXAM NOT FOUND");
+   })
+ });
+
+ test('Tries to delete an exam by unvalid id', () => {
+	 let options = {
+		 uri: 'http://localhost:3000/exams/testest',
+		 method: 'DELETE'
+	 };
+	 request.delete(options, (error, response, body) => {
+		 expect(body).toBe("400 BAD REQUEST");
+	 })
+ });
+*/
