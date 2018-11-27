@@ -11,8 +11,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
+//tasks tenute in memoria dal server
 var tasks = [{id: 12, aperta: false, consegna: 'Di che colore è il sole? | rosso | blu | verde | giallo', risoluzione: 'A', punteggiomax: 10}];
-
 let taskIdCounter=12;
 
 app.get('/tasks', (req, res) => {
@@ -23,16 +23,23 @@ app.post('/tasks', (req, res) => {
 	let newtask = req.body;
 	//taskpost guarda se i campi sono formattati bene
 	let check = taskpost(newtask.aperta, newtask.consegna, newtask.risoluzione, newtask.punteggiomax);
-	//console.log(newtask);
 	if(check==200){
+		try{
+			newtask.id=taskIdCounter;
+			tasks.push(newtask);
+		}catch(error){
+			console.log(error);
+			res.status(500);
+			res.send("500 INTERNAL SERVER ERROR");
+		}
 		taskIdCounter++;
-		newtask.id=taskIdCounter;
-		tasks.push(newtask);
-		res.send("201 CREATED");
+		res.status(201);
+		res.json(newtask);
 	}
 	else{
-		res.send("500 BAD FORMAT");
+		res.status(400);
+		res.send("400 BAD REQUEST");
 	}
 })
 
-app.listen(PORT, () => console.log('Example app listening on port ' + PORT))
+app.listen(PORT, () => console.log('App listening on port ' + PORT))
