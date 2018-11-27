@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 function exampost(destinatario, deadline, tasksarray, autore, condivisi){
     if(typeof deadline === "string"){
       if(typeof destinatario === "number" && Number.isInteger(destinatario)){
