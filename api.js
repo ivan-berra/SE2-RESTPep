@@ -12,10 +12,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => res.send('Hello World!'))
 
 //tasks tenute in memoria dal server
-var tasks = [{id: 1, aperta: false, consegna: 'Di che colore è il sole? | rosso | blu | verde | giallo', risoluzione: 'A', punteggiomax: 10}];
+var tasks = [{id: 0, aperta: false, consegna: 'Domanda 1 | scelta 1 | scelta 2 | scelta 3 | scelta 4', risoluzione:'1|4', punteggiomax: 10}];
 
 //id della prossima task da inserire
-let taskIdCounter=2;
+let taskIdCounter=1;
 
 app.get('/tasks', (req, res) => {
 	try{
@@ -53,7 +53,7 @@ app.post('/tasks', (req, res) => {
 app.get('/tasks/:id', (req, res) => {
 
 	let id =  req.params.id;
-	if (id > tasks.length || id < 1 || isNaN(id)) {
+	if (id > tasks.length || id < 0 || isNaN(id)) {
 		res.status(404);
 		res.send('404 NOT FOUND');
 		return;
