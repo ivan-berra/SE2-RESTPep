@@ -8,16 +8,16 @@ function Tgrouppost(id_Tgroup, tasklist){
 	{
 		if(typeof tasklist === "object" && tasklist !=null)
 		{
-			var format_error = false;
-			for(var i=0; i<tasklist.length && !format_error; i++)
+			var format = false;
+			for(var i=0; i<tasklist.length && !format; i++)
 			{
 				if(!(Number.isInteger(tasklist[i])))
-					format_error=true;
-				if(!format_error)
+					format=true;
+				if(!format)
 					if(!esisteduplicato(tasklist[i],i))
-						format_error=true;
+						format=true;
 			}
-			if(!format_error)
+			if(!format)
 			{   
 				return 200;
             }
@@ -49,4 +49,19 @@ function esisteduplicato(id_task,pos)
     return false;
 }
 
-module.exports = Tgrouppost;
+// 
+function Tgroupget(){
+	let imported = fs.readFileSync('./Logical/taskgroup.json', 'utf8', function (err, data) {
+        if (err) throw err;
+        var obj = JSON.parse(data);
+    });
+
+    let task=JSON.parse(imported);
+
+    return 200;
+}
+
+module.exports = {
+	Tgrouppost,
+	Tgroupget
+};
