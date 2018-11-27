@@ -5,7 +5,7 @@ test('valid open question', () => {
 });
 
 test('valid closed question', () => {
-	expect(taskpost(false, 'Di che colore è il sole', 'Giallo | Verde | Blu',5)).toBe(200);
+	expect(taskpost(false, 'Domanda | opzione 1 | opzione 2','1|2', 5)).toBe(200);
 });
 
 test('valid risoluzione null', () => {
@@ -47,3 +47,10 @@ test('unvalid field aperta | is undefined', () => {
 });
 
 
+test('unvalid field | aperta false and consegna bad formatted' , () => {
+	expect(taskpost(false,'consegna','1',10)).toBe(400);
+});
+
+test('unvalid field | aperta false risoluzione bad formatted' , () => {
+	expect(taskpost(false,'consegna | opz 1 | opz 2',' A | B',10)).toBe(400);
+});

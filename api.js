@@ -18,8 +18,13 @@ var tasks = [{id: 1, aperta: false, consegna: 'Di che colore è il sole? | rosso
 let taskIdCounter=2;
 
 app.get('/tasks', (req, res) => {
+	try{
 		res.json(tasks);
-})
+	}catch(error){
+		res.status(500);
+		res.send("500 INTERNAL SERVER ERROR");
+	}
+	})
 
 app.post('/tasks', (req, res) => {
 	let newtask = req.body;
@@ -44,5 +49,20 @@ app.post('/tasks', (req, res) => {
 		res.send("400 BAD REQUEST");
 	}
 })
+
+app.get('/tasks/:id', (req, res) => {
+
+	let id =  req.params.id;
+	if (id > tasks.length || id < 1 || isNaN(id)) {
+		res.status(404);
+		res.send('404 NOT FOUND');
+		return;
+	}
+	else{
+		res.send(tasks[id-1]);
+	} 
+});
+
+
 
 app.listen(PORT, () => console.log('App listening on port ' + PORT))
