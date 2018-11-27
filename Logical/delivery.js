@@ -10,7 +10,7 @@ function postdelivery(id_tested, id_reviewd){
   }
 }
 
-function getdelivery(){
+function getdelivery(id){
 	if(Number.isInteger(id)){
     return 200;
   }
