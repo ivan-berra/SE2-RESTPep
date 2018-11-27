@@ -5,7 +5,7 @@ function taskpost(aperta, consegna, risoluzione, punteggio){
 	if(typeof aperta === "boolean" &&  aperta != null){
 		if(typeof consegna === "string" && consegna != null){
 			if(typeof risoluzione === "string" || typeof risoluzione === 'null' || typeof risoluzione === 'undefined'){
-				if (Number.isInteger(punteggio))
+				if (Number.isInteger(punteggio) && punteggio > 0)
 				{
 					return 200;
 				}
