@@ -1,19 +1,17 @@
-//const url = 'http://se2-restpep-dev.herokuapp.com/';
+const url = 'http://se2-restpep-dev.herokuapp.com/';
 
 //const url = 'http://localhost';
 
-const port = process.env.PORT || 3000;
+//const port = process.env.PORT || 3000;
 
-const https = require('http');
+const https = require('https');
 
-var testData = JSON.stringify({matricola: 200000,email: 'prova@prova.it',isTeacher: false});
+//var testData = JSON.stringify({matricola: 200000,email: 'prova@prova.it',isTeacher: false});
 
 
 test('Trying to connect to the server', () => {
 	
-	var testRes;
-
-	https.get('http://localhost:3000', (res) => {
+	https.get(url, (res) => {
 		
 	    res.on('data', (d) => {		
 			expect(String(d)).toEqual('Hello World!');
