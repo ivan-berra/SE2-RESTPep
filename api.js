@@ -12,8 +12,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => res.send('Hello World!'))
 
 //tasks tenute in memoria dal server
-var tasks = [{id: 12, aperta: false, consegna: 'Di che colore è il sole? | rosso | blu | verde | giallo', risoluzione: 'A', punteggiomax: 10}];
-let taskIdCounter=12;
+var tasks = [{id: 1, aperta: false, consegna: 'Di che colore è il sole? | rosso | blu | verde | giallo', risoluzione: 'A', punteggiomax: 10}];
+
+//id della prossima task da inserire
+let taskIdCounter=2;
 
 app.get('/tasks', (req, res) => {
 		res.json(tasks);
@@ -21,6 +23,7 @@ app.get('/tasks', (req, res) => {
 
 app.post('/tasks', (req, res) => {
 	let newtask = req.body;
+	console.log(newtask);
 	//taskpost guarda se i campi sono formattati bene
 	let check = taskpost(newtask.aperta, newtask.consegna, newtask.risoluzione, newtask.punteggiomax);
 	if(check==200){
