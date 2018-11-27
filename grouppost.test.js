@@ -53,3 +53,7 @@ test("unvalid9: formato dati erroneo 7", () => {
 test("unvalid10: formato dati erroneo 8", () => {
 	expect(grouppost("nomegruppo", null)).toBe(400);
 });
+
+test("unvalid11: formato dati erroneo 9", () => {
+	expect(grouppost("nomegruppo", [1,-2,3])).toBe(400);
+});

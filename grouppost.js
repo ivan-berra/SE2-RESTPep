@@ -1,7 +1,7 @@
 var fs = require('fs');
 
 
-function groupPost(nomeGruppo, listaMembri){
+function grouppost(nomeGruppo, listaMembri){
 	if(typeof nomeGruppo === "string")
 	{
 		if(typeof listaMembri === "object" && listaMembri !=null)
@@ -10,20 +10,20 @@ function groupPost(nomeGruppo, listaMembri){
 			var formatError = false;
 			for(var i=0; i<listaMembri.length && !formatError; i++)
 			{
-				if(!(typeof listaMembri[i] === "number" && Number.isInteger(listaMembri[i])))
+				if(!(typeof listaMembri[i] === "number" && Number.isInteger(listaMembri[i]) && listaMembri[i]>=0))
 					formatError=true;
 				if(!formatError)
 					if(!esisteUser(listaMembri[i]))
 						formatError=true;
 				if(i==listaMembri.length-1)
 				{
-					//strtmp+='{userid:'+listamembri[i]+"},";
+					//strtmp+='{userId:'+listamembri[i]+"},";
 					let numero=listaMembri[i];
 					strtmp.push({"userId":numero},);
 				}
 				else
 				{
-					//strtmp+='{userid:'+listamembri[i]+"}";
+					//strtmp+='{userId:'+listamembri[i]+"}";
 					let numero=listaMembri[i];
 					strtmp.push({"userId":numero});
 				}
@@ -40,7 +40,7 @@ function groupPost(nomeGruppo, listaMembri){
 				gruppi.nextId=idDaAssegnare+1;
 
 
-				//gruppi['groups'].push({"groupid":iddaassegnare,"groupname":nomegruppo,"userlist":[strtmp]});
+				//gruppi['groups'].push({"groupId":iddaassegnare,"groupName":nomegruppo,"userList":[strtmp]});
 				gruppi['groups'].push({"groupId":idDaAssegnare,"groupName":nomeGruppo,"userList":[]});
 				let exported=JSON.stringify(gruppi);
 				let index=exported.lastIndexOf("[");
@@ -66,8 +66,8 @@ function esisteUser(idUser)
 	/*var re = /\0/g;
 	var utenti=JSON.parse(imported.toString().replace(re, ""));*/
 	var utenti = JSON.parse(imported);
-	var lookingAt=iduser-1;
-	if(utenti.nextId<=iduser)
+	var lookingAt=idUser;
+	if(utenti.nextId<=idUser)
 		return false;
 	else if (utenti.users[lookingAt].id==idUser)
 		return true;
@@ -87,4 +87,6 @@ function esisteUser(idUser)
 	}
 }
 
-module.exports = groupPost;
+grouppost("provaloop",[1,2,3])
+
+module.exports = grouppost;

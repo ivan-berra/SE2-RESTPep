@@ -1,43 +1,43 @@
 var fs = require('fs');
 
-function groupgroupiddelete(idgruppodacancellare)
+function groupgroupIddelete(idGruppoDaCancellare)
 {
   //controlli
-  if(typeof idgruppodacancellare === "number" && Number.isInteger(idgruppodacancellare))
+  if(typeof idGruppoDaCancellare === "number" && Number.isInteger(idGruppoDaCancellare) && idGruppoDaCancellare>=0)
   {
-    let gruppistring = fs.readFileSync('./groups.json', 'utf8', function (err, data) {
+    let gruppiString = fs.readFileSync('./groups.json', 'utf8', function (err, data) {
       if (err) throw err; // we'll not consider error handling for now
       var obj = JSON.parse(data);
     });
-    let gruppijson=JSON.parse(gruppistring);
-    if(idgruppodacancellare>=gruppijson.nextid)
+    let gruppiJson=JSON.parse(gruppiString);
+    if(idGruppoDaCancellare>=gruppiJson.nextId)
     {
       return 400;
     }
     else
     {
       //trovare il gruppogiainserito
-      let beginsearch=0;
-      let endsearch=gruppijson.groups.length-1;
-      let lookingat=((beginsearch+endsearch)/2);
+      let beginSearch=0;
+      let endSearch=gruppiJson.groups.length-1;
+      let lookingAt=((beginSearch+endSearch)/2);
       let trovato=false;
       do {
-        let tmp=gruppijson.groups[lookingat];
-        if(tmp.groupid==idgruppodacancellare)
+        let tmp=gruppiJson.groups[lookingAt];
+        if(tmp.groupId==idGruppoDaCancellare)
           trovato=true;
-        else if(tmp.groupid<idgruppodacancellare)
-          beginsearch=lookingat+1;
+        else if(tmp.groupId<idGruppoDaCancellare)
+          beginSearch=lookingAt+1;
         else
-          endsearch=lookingat-1
-        lookingat=((beginsearch+endsearch)/2);
-      } while (beginsearch<=endsearch && !trovato);
+          endSearch=lookingAt-1
+        lookingAt=((beginSearch+endSearch)/2);
+      } while (beginSearch<=endSearch && !trovato);
       if(!trovato)
         return 400;
       else
       {
         //cancellazione
-        gruppijson.groups.splice(lookingat,1);
-        fs.writeFileSync('./groups.json', JSON.stringify(gruppijson));
+        gruppiJson.groups.splice(lookingAt,1);
+        fs.writeFileSync('./groups.json', JSON.stringify(gruppiJson));
         return 200;
       }
     }
@@ -48,4 +48,4 @@ function groupgroupiddelete(idgruppodacancellare)
   }
 }
 
-module.exports = groupgroupiddelete;
+module.exports = groupgroupIddelete;
