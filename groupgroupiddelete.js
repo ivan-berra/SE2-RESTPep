@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-function groupgroupIddelete(idGruppoDaCancellare)
+function groupgroupiddelete(idGruppoDaCancellare)
 {
   //controlli
   if(typeof idGruppoDaCancellare === "number" && Number.isInteger(idGruppoDaCancellare) && idGruppoDaCancellare>=0)
@@ -12,7 +12,7 @@ function groupgroupIddelete(idGruppoDaCancellare)
     let gruppiJson=JSON.parse(gruppiString);
     if(idGruppoDaCancellare>=gruppiJson.nextId)
     {
-      return 400;
+      return 404;
     }
     else
     {
@@ -23,22 +23,65 @@ function groupgroupIddelete(idGruppoDaCancellare)
       let trovato=false;
       do {
         let tmp=gruppiJson.groups[lookingAt];
-        if(tmp.groupId==idGruppoDaCancellare)
+        if(tmp==null)
+        {
+          //ricerca di un elemento usabile
+          let indice=lookingAt+1;
+          tmp=gruppiJson.groups[indice];
+          while(indice<=endSearch && tmp==null)
+          {
+            indice++;
+            tmp=gruppiJson.groups[indice];
+          }
+          if(indice>endSearch)
+          {
+            indice=lookingAt-1;
+            tmp=gruppiJson.groups[indice];
+            while(indice>=beginSearch && tmp==null)
+            {
+              indice--;
+              tmp=gruppiJson.groups[indice];
+            }
+            if(indice<beginSearch)
+            {
+              return 404;
+            }
+            else
+            {
+              if(tmp.groupId==idGruppoDaCancellare)
+                trovato=true;
+              else if(tmp.groupId<idGruppoDaCancellare)
+                beginSearch=indice+1;
+              else
+                endSearch=indice-1;
+            }
+          }
+          else
+          {
+            if(tmp.groupId==idGruppoDaCancellare)
+              trovato=true;
+            else if(tmp.groupId<idGruppoDaCancellare)
+              beginSearch=indice+1;
+            else
+              endSearch=indice-1;
+          }
+        }
+        else if(tmp.groupId==idGruppoDaCancellare)
           trovato=true;
         else if(tmp.groupId<idGruppoDaCancellare)
           beginSearch=lookingAt+1;
         else
-          endSearch=lookingAt-1
+          endSearch=lookingAt-1;
         lookingAt=((beginSearch+endSearch)/2);
       } while (beginSearch<=endSearch && !trovato);
       if(!trovato)
-        return 400;
+        return 404;
       else
       {
         //cancellazione
         gruppiJson.groups.splice(lookingAt,1);
         fs.writeFileSync('./groups.json', JSON.stringify(gruppiJson));
-        return 200;
+        return 204;
       }
     }
   }
@@ -48,4 +91,4 @@ function groupgroupIddelete(idGruppoDaCancellare)
   }
 }
 
-module.exports = groupgroupIddelete;
+module.exports = groupgroupiddelete;
