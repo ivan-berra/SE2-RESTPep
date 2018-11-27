@@ -22,7 +22,7 @@ paths:
   /users:
     post:
       summary: Crea un utente
-      description: Metodo usato dal utente per registrarsi all'interno del sistema
+      description: Metodo usato dal utente per registrarsi all'interno del sistema. L'utente puo essere o uno studente o un professore
       parameters:
         - in: body
           name: user
@@ -32,6 +32,7 @@ paths:
             required:
               - matricola
               - email
+              - isTeacher
             properties:
               matricola:
                 type: integer
@@ -41,6 +42,10 @@ paths:
                 type: string
                 description: email dell'utente
                 example: mario.rossi@unitn.it
+              isTeacher: 
+                type: boolean
+                description: true se l'utente è un professore, false altrimenti
+                example: true
       tags:
         - Users
       responses:
@@ -107,6 +112,10 @@ paths:
                 type: string
                 description: nuova email
                 example: luca.verdi@unitn.it
+              isTeacher: 
+                type: boolean
+                description: true se l'utente è un professore, false altrimenti
+                example: true
       tags:
         - Users
       responses:
@@ -251,22 +260,26 @@ paths:
           schema:
             type: object
             required:
-              - tipo
+              - aperta
               - consegna
+              - punteggiomax
             properties:
-              tipo:
-                type: string
-                description: tipo della task
-                enum: [domanda aperta, crocette]
-                example: domanda aperta
+              aperta:
+                type: boolean
+                description: true se la domanda è aperta, false altrimenti
+                example: false
               consegna:
                 type: string
                 description: consegna della task
-                example: Immaginate a grandi linee una api REST per esse3. come sarebbe strutturata, ad alto livello?
+                example: Di che colore è il sole? | rosso | blu | verde | giallo
               risoluzione:
                 type: string
-                description: soluzione della task
-                example: Deve avere per esempio le risorse ...
+                description: risoluzione della task. In caso di domanda a crocette è la lettera della risposta, in caso di domanda aperta è null
+                example: A
+              punteggiomax:
+                type: integer
+                description: punteggio massimo della task
+                example: 10
       tags:
         - Tasks
       responses:
@@ -326,18 +339,22 @@ paths:
           schema:
             type: object
             properties:
-              tipo:
-                type: string
-                description: tipo della task
-                example: domanda aperta
+              aperta:
+                type: boolean
+                description: true se la domanda è aperta, false altrimenti
+                example: false
               consegna:
                 type: string
                 description: consegna della task
-                example: nuova consegna della task....
+                example: Di che colore è il sole? | rosso | blu | verde | giallo
               risoluzione:
                 type: string
-                description: soluzione della task
-                example: nuova risoluzione della task...
+                description: risoluzione della task. In caso di domanda a crocette è la lettera della risposta, in caso di domanda aperta è null
+                example: A
+              punteggiomax:
+                type: integer
+                description: punteggio massimo della task
+                example: 10
       tags:
         - Tasks
       responses:
@@ -483,6 +500,20 @@ paths:
                 example: 2018-12-25T09:00:00Z #(25 dic 2018, 9:00 UTC)
               taskslist:
                 $ref: '#/definitions/TasksArray'
+              autore:
+                type: integer
+                description: id del professore che ha creato l'esame
+                example: 1237
+              condivisi:
+                type: array
+                description: lista di ID dei TA che possono visualizzare i dati dell'esame
+                items:
+                  type: integer
+                  example:
+                    - 1263
+                    - 1271
+                    - 2817
+              
       tags:
         - Exams
       responses:
@@ -551,6 +582,19 @@ paths:
                 description: deadline
               taskslist:
                 $ref: '#/definitions/TasksArray'
+              autore:
+                type: integer
+                description: id del professore che ha creato l'esame
+                example: 1237
+              condivisi:
+                type: array
+                description: lista di ID dei TA che possono visualizzare i dati dell'esame
+                items:
+                  type: integer
+                example:
+                  - 1263
+                  - 1271
+                  - 2817
       tags:
         - Exams
       responses:
@@ -609,12 +653,17 @@ paths:
                     description: id della task
                   soluzione:
                     type: string
-                    description: testo della soluzione o della review
+                    description: soluzione della task data dallo studente. Oppure correzione del peer-review
+                  punteggio:
+                    type: integer
+                    description: indica il punteggio dato alla soluzione, assegnato dal professore o dal sistema (il sistema corregge solo le crocette). Una risposta non ancora processata contiene il valore null
                 example:
-                  - id: 12
-                    soluzione: soluzione / review della task con id 12 ...
-                  - id: 13
-                    soluzione: soluzione / review della task con id 13 ...
+                  - id: 37162
+                    soluzione: "il design è importante perchè..."
+                    punteggio: null
+                  - id: 37165
+                    soluzione: "B"
+                    punteggio: 5
       tags:
         - Deliveries
       responses:
@@ -636,7 +685,7 @@ paths:
   /deliveries/{deliveryId}:
     get:
       summary: Ritorna una delivery in base all'ID
-      description: Metodo usato dal professore per visualizzare una delivery in base al suo ID
+      description: Metodo usato da un utente per visualizzare una delivery. In particolare viene usato dallo studente per vedere la risoluzione data dal sistema della sua delivery
       parameters:
         - in: path
           name: deliveryId
@@ -712,7 +761,7 @@ paths:
       tags:
         - Deliveries
 definitions:
-  #definizione dell'oggetto user con campi id matricola ed email
+
   User:
     type: object
     description: User object
@@ -729,10 +778,15 @@ definitions:
         type: string
         description: email dell'utente
         example: mario.rossi@unitn.it
+      isTeacher: 
+        type: boolean
+        description: true se l'utente è un professore, false altrimenti
+        example: true
     required:
       - id
       - mat
       - email
+      - isTeacher
 
   UsersArray:
     type: array
@@ -820,23 +874,28 @@ definitions:
         type: integer
         description: id della task
         example: 15
-      tipo:
-        type: string
-        description: tipo della task
-        enum: [domanda aperta, crocette]
-        example: domanda aperta
+      aperta:
+        type: boolean
+        description: "tipo della task: se true domanda aperta altrimenti domanda a crocette"
+        example: false
       consegna:
         type: string
-        description: consegna della task
-        example: Immaginate a grandi linee una api REST per esse3. come sarebbe strutturata, ad alto livello?
+        description: consegna della task. In caso di domanda a crocette ogni domanda (e la consegna) vanno separate da un |
+        #example: Immaginate a grandi linee una api REST per esse3. come sarebbe strutturata, ad alto livello?
+        example: Di che colore è il sole? | rosso | blu | verde | giallo
       risoluzione:
         type: string
-        description: risoluzione della task
-        example: Deve avere per esempio le risorse ...
+        description: risoluzione della task. In caso di domanda a crocette è la lettera della risposta, in caso di domanda aperta è null
+        example: A
+      punteggiomax:
+        type: integer
+        description: punteggio massimo della task
+        example: 10
     required:
       - id
-      - tipo
+      - aperta
       - consegna
+      - punteggiomax
 
   TasksArray:
     type: array
@@ -885,10 +944,19 @@ definitions:
         description: id della matricola che riceverà l'esame
         example: 93827
       autore:
-        type: string
-        description: professore che ha creato l'esame
-        example: prof. paolo gialli
-
+        type: integer
+        description: id del professore che ha creato l'esame
+        example: 1237
+      condivisi:
+        type: array
+        description: lista di ID dei TA che possono visualizzare i dati dell'esame
+        items:
+          type: integer
+        example:
+          - 1263
+          - 1271
+          - 2817
+          
   ExamsArray:
     type: array
     description: lista di esami
@@ -907,7 +975,11 @@ definitions:
             risoluzione: Representational State Transfer è un tipo di architettura software per i sistemi distribuiti.
         deadline: 2018-12-25T09:00:00Z
         destinatario: 93827
-        autore: prof. paolo gialli
+        autore: 12621
+        condivisi:  
+          - 1263
+          - 1271
+          - 2817
       - id: 101
         tasks:
           - id: 15
@@ -920,11 +992,15 @@ definitions:
             risoluzione: Representational State Transfer è un tipo di architettura software per i sistemi distribuiti.
         deadline: 2018-11-30T08:30:00Z
         destinatario: 12131
-        autore: prof. marco verdi
+        autore: 15361
+        condivisi:  
+          - 1263
+          - 1272
+          - 2812
 
   Delivery:
     type: object
-    description: Delivery object; oggetto tramite cui gli utenti mandano le loro risposte alle task / peer-review
+    description: Delivery object; oggetto tramite cui gli utenti mandano le loro risposte alle task / peer-review. 
     properties:
       id:
         type: integer
@@ -940,21 +1016,26 @@ definitions:
         example: 93217
       task-array:
         type: array
-        description: array di oggetti id-task, soluzione
+        description: array di oggetti id-task, soluzione data e punteggio dato
         items:
           type: object
           properties:
             id:
               type: integer
-              description: id della task
+              description: id della task a cui si fa riferimento
             soluzione:
               type: string
-              description: soluzione della task
+              description: soluzione della task data dallo studente. Oppure correzione del peer-review
+            punteggio:
+              type: integer
+              description: indica il punteggio dato alla soluzione, assegnato dal professore o dal sistema (il sistema corregge solo le crocette). Una risposta non ancora processata contiene il valore null
         example:
           - id: 37162
-            soluzione: soluzione della task con id 37162...
+            soluzione: "il design è importante perchè..."
+            punteggio: null
           - id: 37165
-            soluzione: soluzione della task con id 37165...
+            soluzione: "B"
+            punteggio: 5
 
   DeliveriesArray:
     type: array
