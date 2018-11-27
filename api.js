@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3000
 app.get('/', (req, res) => res.send('Hello World!'))
 
 app.listen(PORT, () => console.log('Example app listening on port ' + PORT))
-
+/*
 var users = [];
 
 app.post('/api/users', function (req, res) {
@@ -99,3 +99,4 @@ app.delete('/api/users/:userId', function (req, res) {
 	res.status(404).send();
 
 });
+*/
