@@ -7,19 +7,30 @@ app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(PORT, () => console.log('Example app listening on port ' + PORT))
 
 var users = [];
-users.length = 0;
 
 app.post('/api/users', function (req, res) {
 	
 	var user = req.body;
 
-	user.id = users.length + 1;
+	if(typeof user != 'undefined'         || 
+	   typeof user.matricola != undefined ||
+           typeof user.email != undefined     ||
+           typeof user.isTeacher != undefined)
+	{
+		user.id = users.length + 1;
 
-	users.push(req.body);
+		users.push(req.body);
 
-	res.status(201);
-	res.send(users[users.length - 1]);
+		res.status(201);
 
+		res.send(users[users.length - 1]);
+	}
+	else
+	{
+		console.log("I dati ricevuti sono incompleti per creare un 
+utente.");
+		res.status(400).send();
+	};
 });
 
 app.get('/api/users', function (req, res) {
