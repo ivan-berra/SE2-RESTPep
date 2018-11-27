@@ -81,8 +81,8 @@ function esisteuser(iduser)
 				endsearch=lookingat-1;
 			else if(utenti.users[lookingat]==iduser)
 				return true;
-				lookingat=((beginsearch+endsearch)/2);
-		}while(beginsearch>endsearch)
+			lookingat=((beginsearch+endsearch)/2);
+		}while(beginsearch<=endsearch)
 		return false;
 	}
 }
