@@ -65,28 +65,61 @@ function esisteUser(idUser)
 	});
 	/*var re = /\0/g;
 	var utenti=JSON.parse(imported.toString().replace(re, ""));*/
-	var utenti = JSON.parse(imported);
+	let utenti = JSON.parse(imported);
 	var lookingAt=idUser;
 	if(utenti.nextId<=idUser)
 		return false;
 	else if (utenti.users[lookingAt].id==idUser)
 		return true;
 	else {
-		var beginSearch=0;
-		var endSearch=utenti.nextId-1;
+		let beginSearch=0;
+		let endSearch=utenti.users.length-1;
+		lookingAt=((beginSearch+endSearch)/2);
 		do{
-			if(utenti.users[lookingAt]<idUser)
+			lookingAt=((beginSearch+endSearch)/2);
+			if(utenti.users[lookingAt]==null)
+			{
+				let indice=lookingAt-1;
+				while(indice>=beginSearch && utenti.users[indice]==null)
+					indice--;
+				if(indice<beginSearch)
+				{
+					indice=lookingAt+1;
+					while(indice<=endSearch && utenti.users[indice]==null)
+						indice++;
+					if(indice>endSearch)
+						return false;
+					else
+					{
+						if(utenti.users[indice]<idUser)
+							beginSearch=indice+1;
+						else if (utenti.users[indice]>idUser)
+							endSearch=indice-1;
+						else if(utenti.users[indice]==idUser)
+							return true;
+					}
+				}
+				else
+				{
+					if(utenti.users[indice]<idUser)
+						beginSearch=indice+1;
+					else if (utenti.users[indice]>idUser)
+						endSearch=indice-1;
+					else if(utenti.users[indice]==idUser)
+						return true;
+				}
+			}
+			else if(utenti.users[lookingAt]<idUser)
 				beginSearch=lookingAt+1;
 			else if (utenti.users[lookingAt]>idUser)
 				endSearch=lookingAt-1;
 			else if(utenti.users[lookingAt]==idUser)
 				return true;
-			lookingAt=((beginSearch+endSearch)/2);
 		}while(beginSearch<=endSearch)
 		return false;
 	}
 }
 
-grouppost("provaloop",[1,2,3])
+//grouppost("provaloop",[1,2,3])
 
 module.exports = grouppost;
