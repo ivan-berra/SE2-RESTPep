@@ -2,7 +2,7 @@ var fs = require("fs");
 
 function usergetid(searchedId){
 
-    if (searchedId > 0 && typeof searchedId === "number")
+    if (searchedId >= 0 && typeof searchedId === "number")
     {
         var searchedUser = esisteUser(searchedId);
         if (!searchedUser)
