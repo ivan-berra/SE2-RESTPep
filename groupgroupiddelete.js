@@ -22,27 +22,28 @@ function groupgroupiddelete(idGruppoDaCancellare)
       let lookingAt=((beginSearch+endSearch)/2);
       let trovato=false;
       do {
+        lookingAt=((beginSearch+endSearch)/2);
         let tmp=gruppiJson.groups[lookingAt];
         if(tmp==null)
         {
           //ricerca di un elemento usabile
-          let indice=lookingAt+1;
+          let indice=lookingAt-1;
           tmp=gruppiJson.groups[indice];
-          while(indice<=endSearch && tmp==null)
+          while(indice>=beginSearch && tmp==null)
           {
-            indice++;
+            indice--;
             tmp=gruppiJson.groups[indice];
           }
-          if(indice>endSearch)
+          if(indice<beginSearch)
           {
-            indice=lookingAt-1;
+            indice=lookingAt+1;
             tmp=gruppiJson.groups[indice];
-            while(indice>=beginSearch && tmp==null)
+            while(indice<=endSearch && tmp==null)
             {
-              indice--;
+              indice++;
               tmp=gruppiJson.groups[indice];
             }
-            if(indice<beginSearch)
+            if(indice>endSearch)
             {
               return 404;
             }
@@ -72,7 +73,6 @@ function groupgroupiddelete(idGruppoDaCancellare)
           beginSearch=lookingAt+1;
         else
           endSearch=lookingAt-1;
-        lookingAt=((beginSearch+endSearch)/2);
       } while (beginSearch<=endSearch && !trovato);
       if(!trovato)
         return 404;
