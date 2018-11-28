@@ -143,7 +143,7 @@ paths:
           description: User deleted
         404:
           description: User not found
-  
+
   /groups:
     post:
       summary: Crea un gruppo
@@ -251,7 +251,7 @@ paths:
   /tasks:
     post:
       summary: Crea una task
-      description: 'Metodo usato dal professore per creare una task. Ce ne sono di due tipi: domanda aperta o crocette. ' 
+      description: 'Metodo usato dal professore per creare una task. Ce ne sono di due tipi: domanda aperta o crocette.'
       parameters:
         - in: body
           name: user
@@ -270,15 +270,15 @@ paths:
                 example: false
               consegna:
                 type: string
-                description: consegna della task
-                example: Di che colore è il sole? | rosso | blu | verde | giallo
+                description: consegna della task. Le consegna e le varie scelte devono essere separate dal simbolo ' | ' (separato da spazi)
+                example: Domanda ... | opzione 1 | opzione 2 | opzione 3 | opzione 4
               risoluzione:
                 type: string
-                description: risoluzione della task. In caso di domanda a crocette è la lettera della risposta, in caso di domanda aperta è null
-                example: A
+                description: risoluzione della task. In caso di domanda a crocette è il numero associato alla scelta (parte da 1). In caso di scelte multiple i numeri vanno separati da |. In caso di domanda aperta è null
+                example: '1|4'
               punteggiomax:
                 type: integer
-                description: punteggio massimo della task
+                description: punteggio massimo della task. Intero positivo.
                 example: 10
       tags:
         - Tasks
@@ -287,6 +287,10 @@ paths:
           description: Created. Task creata e restituita.
           schema:
             $ref: '#/definitions/Task'
+        400:
+          description: Bad Request. Il formato dell'oggetto è errato
+        500:
+          description: Internal Server Error. Errore nell'elaborazione della richiesta da parte del server
     get:
       summary: Ritorna lista di tutte le task
       description: Metodo usato dal professore per vedere tutte le task che ha creato
@@ -345,12 +349,12 @@ paths:
                 example: false
               consegna:
                 type: string
-                description: consegna della task
-                example: Di che colore è il sole? | rosso | blu | verde | giallo
+                description: consegna della task. Le consegna e le varie scelte devono essere separate dal simbolo ' | ' (separato da spazi)
+                example: Domanda ... | opzione 1 | opzione 2 | opzione 3 | opzione 4
               risoluzione:
                 type: string
-                description: risoluzione della task. In caso di domanda a crocette è la lettera della risposta, in caso di domanda aperta è null
-                example: A
+                description: risoluzione della task. In caso di domanda a crocette è il numero associato alla scelta (parte da 1). In caso di scelte multiple i numeri vanno separati da |. In caso di domanda aperta è null
+                example: '1|4'
               punteggiomax:
                 type: integer
                 description: punteggio massimo della task
@@ -513,7 +517,6 @@ paths:
                     - 1263
                     - 1271
                     - 2817
-              
       tags:
         - Exams
       responses:
@@ -721,7 +724,7 @@ paths:
           description: Delivery not found
       tags:
         - Deliveries
-        
+
   /deliveries/{examId}:
     get:
       summary: Ritorna deliveries in base all'ID dell'esame
@@ -778,7 +781,7 @@ definitions:
         type: string
         description: email dell'utente
         example: mario.rossi@unitn.it
-      isTeacher: 
+      isTeacher:
         type: boolean
         description: true se l'utente è un professore, false altrimenti
         example: true
@@ -880,13 +883,12 @@ definitions:
         example: false
       consegna:
         type: string
-        description: consegna della task. In caso di domanda a crocette ogni domanda (e la consegna) vanno separate da un |
-        #example: Immaginate a grandi linee una api REST per esse3. come sarebbe strutturata, ad alto livello?
-        example: Di che colore è il sole? | rosso | blu | verde | giallo
+        description: consegna della task. Le consegna e le varie scelte devono essere separate dal simbolo ' | ' (separato da spazi)
+        example: Domanda ... | opzione 1 | opzione 2 | opzione 3 | opzione 4
       risoluzione:
         type: string
-        description: risoluzione della task. In caso di domanda a crocette è la lettera della risposta, in caso di domanda aperta è null
-        example: A
+        description: risoluzione della task. In caso di domanda a crocette è il numero associato alla scelta (parte da 1). In caso di scelte multiple i numeri vanno separati da |. In caso di domanda aperta è null
+        example: '1|4'
       punteggiomax:
         type: integer
         description: punteggio massimo della task
@@ -956,7 +958,7 @@ definitions:
           - 1263
           - 1271
           - 2817
-          
+
   ExamsArray:
     type: array
     description: lista di esami
@@ -976,7 +978,7 @@ definitions:
         deadline: 2018-12-25T09:00:00Z
         destinatario: 93827
         autore: 12621
-        condivisi:  
+        condivisi:
           - 1263
           - 1271
           - 2817
@@ -993,14 +995,14 @@ definitions:
         deadline: 2018-11-30T08:30:00Z
         destinatario: 12131
         autore: 15361
-        condivisi:  
+        condivisi:
           - 1263
           - 1272
           - 2812
 
   Delivery:
     type: object
-    description: Delivery object; oggetto tramite cui gli utenti mandano le loro risposte alle task / peer-review. 
+    description: Delivery object; oggetto tramite cui gli utenti mandano le loro risposte alle task / peer-review.
     properties:
       id:
         type: integer
