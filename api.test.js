@@ -1,11 +1,20 @@
 const http = require('http');
 const request = require('request');
 const fs = require('fs');
-test('Tries to connect to  the server', () => {
+const url = 'https://se2-restpep-dev.herokuapp.com/';
 
-	http.get('https://exam-feature-api.herokuapp.com/', (res) => {
-		res.on('data', (d) => {
-			expect(String(d)).toBe('Hello World!');
+//const url = 'http://localhost';
+
+//const port = process.env.PORT || 3000;
+
+const https = require('https');
+
+test('Trying to connect to the server', () => {
+
+	https.get(url, (res) => {
+
+	    res.on('data', (d) => {
+			expect(String(d)).toEqual('Hello World!');
 		});
 	});
 
