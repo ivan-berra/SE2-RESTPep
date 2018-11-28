@@ -1,4 +1,4 @@
-const url = 'https://se2-restpep-dev.herokuapp.com/';
+const url = 'https://exam-feature-api.herokuapp.com/';
 
 //const url = 'http://localhost';
 
