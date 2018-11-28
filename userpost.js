@@ -12,11 +12,9 @@ function userpost(matricola, email, isTeacher){
 	if (matricola > 0 && validateEmail(email))
 	    
 	{
+
+	    let imported = fs.readFileSync('./users.json', 'utf8');
 	    
-	    let imported = fs.readFileSync('./users.json', 'utf8', function (err, data) {
-                if (err) throw err;
-                var obj = JSON.parse(data);
-            });
             let utenti=JSON.parse(imported);
             let idUtente=utenti.nextId;
             utenti.nextId=idUtente+1;
