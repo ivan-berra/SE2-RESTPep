@@ -3,7 +3,7 @@ const request = require('request');
 const fs = require('fs');
 test('Tries to connect to  the server', () => {
 
-	http.get('http://localhost:3000/', (res) => {
+	http.get('https://exam-feature-api.herokuapp.com/', (res) => {
 		res.on('data', (d) => {
 			expect(String(d)).toBe('Hello World!');
 		});
