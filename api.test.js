@@ -10,10 +10,10 @@ const https = require('https');
 
 
 test('Trying to connect to the server', () => {
-	
+
 	https.get(url, (res) => {
-		
-	    res.on('data', (d) => {		
+
+	    res.on('data', (d) => {
 			expect(String(d)).toEqual('Hello World!');
 		});
 	});
@@ -35,34 +35,42 @@ test('Trying to create a new user through POST', () => {
 	};
 
 	console.log(testData);
-	
+
 	var req = https.request(options, function(res) {
 
 		res.on('data', (d) => {
 
-			console.log(JSON.stringify(d));			
+			console.log(JSON.stringify(d));
 
-		  	expect(String((d))).toEqual(String(testData)); 
+		  	expect(String((d))).toEqual(String(testData));
 		});
 
-	});	
-	
+	});
+
 	req.write(testData);
 	req.end();
-    
+
 });
 
 
 test('Trying to find the previously created user through GET', () => {
 
-	
-	https.get('http://localhost:3000/api/users/1', (res) => {
-		
-		res.on('data', (d) => {		
 
-		        console.log(String(d));			
+	https.get('http://localhost:3000/api/users/1', (res) => {
+
+		res.on('data', (d) => {
+
+		        console.log(String(d));
 
 			expect(String(d)).toEqual(String(testData));
+const http = require('http');
+const request = require('request');
+const fs = require('fs');
+test('Tries to connect to  the server', () => {
+
+	http.get('http://localhost:3000/', (res) => {
+		res.on('data', (d) => {
+			expect(String(d)).toBe('Hello World!');
 		});
 
 	});
@@ -80,16 +88,120 @@ test('Trying to delete the previously created user through DELETE', () => {
 			'Content-Type': 'application/json',
 		}
 	};
-    
-	https.request(options, (res) => {
-		
-		res.on('data', (d) => {		
 
-		        console.log(String(d));			
+	https.request(options, (res) => {
+
+		res.on('data', (d) => {
+
+		        console.log(String(d));
 
 			expect(String(d)).toEqual(String(testData));
 		});
 
 	});
 });
+/*
+test('Tries to get exams', () => {
+  let options = {
+    uri: 'http://localhost:3000/exams',
+    method: 'GET'
+  };
+
+  let examJson = fs.readFileSync('./exams.json', 'utf8', function(err, data){
+  	if (err) throw err;
+  	let parsedJson = JSON.parse(data);
+  });
+  let exams = JSON.parse(examJson);
+
+  request.get(options, (error, response, body) => {
+    expect(body).toEqual(JSON.stringify(exams));
+  })
+});
+
+test('Tries to post an exam', () => {
+	let options = {
+		uri: 'http://localhost:3000/exams',
+		method: 'POST',
+ 		json: {"destinatario": 133,
+          "deadline": "2008-12-25T09:00:00Z",
+          "tasksarray":[11,22,31],
+          "autore": 12137,
+          "condivisi": [12171, 28117]}
+	};
+
+	request.post(options, (error, response, body) => {
+		//console.log(body);
+		expect(body).toEqual("201 CREATED");
+
+	});
+});
+
+test('Tries to get an exam by id 1', () => {
+  let options = {
+    uri: 'http://localhost:3000/exams/1',
+    method: 'GET'
+  };
+
+  let examJson = fs.readFileSync('./exams.json', 'utf8', function(err, data){
+  	if (err) throw err;
+  	let parsedJson = JSON.parse(data);
+  });
+  let exams = JSON.parse(examJson);
+
+  request.get(options, (error, response, body) => {
+    expect(body).toEqual(JSON.stringify(exams.exams[0]));
+  })
+});
+
+test('Tries to get an exam by unexisting id', () => {
+  let options = {
+    uri: 'http://localhost:3000/exams/19999',
+    method: 'GET'
+  };
+
+  request.get(options, (error, response, body) => {
+    expect(body).toBe("404 ID NOT FOUND");
+  })
+});
+
+test('Tries to get an exam by unvalid id', () => {
+  let options = {
+    uri: 'http://localhost:3000/exams/testtest',
+    method: 'GET'
+  };
+
+  request.get(options, (error, response, body) => {
+    expect(body).toBe("400 BAD REQUEST");
+  })
+});
+
+ test('Tries to delete an exam by id 2', () => {
+   let options = {
+     uri: 'http://localhost:3000/exams/2',
+     method: 'DELETE'
+   };
+   request.delete(options, (error, response, body) => {
+     expect(body).toBe("204 EXAM DELETED");
+   })
+ });
+
+ test('Tries to delete an exam by unexisting id 9090', () => {
+   let options = {
+     uri: 'http://localhost:3000/exams/9090',
+     method: 'DELETE'
+   };
+   request.delete(options, (error, response, body) => {
+     expect(body).toBe("404 EXAM NOT FOUND");
+   })
+ });
+
+ test('Tries to delete an exam by unvalid id', () => {
+	 let options = {
+		 uri: 'http://localhost:3000/exams/testest',
+		 method: 'DELETE'
+	 };
+	 request.delete(options, (error, response, body) => {
+		 expect(body).toBe("400 BAD REQUEST");
+	 })
+ });
 */
