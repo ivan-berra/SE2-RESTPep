@@ -16,8 +16,7 @@ function usergetid(searchedId){
 function esisteUser(idUser)
 {
 	let imported = fs.readFileSync('./users.json', 'utf8', function (err, data) {
-    if (err) throw err; // we'll not consider error handling for now
-    var obj = JSON.parse(data);
+	    if (err) throw err; // we'll not consider error handling for now
 	});
 	var utenti = JSON.parse(imported);
 	var lookingAt=idUser;
