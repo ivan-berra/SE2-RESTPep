@@ -32,7 +32,7 @@ function Tgrouppost(id_Tgroup, tasklist){
 function esisteduplicato(id_task,pos)
 {
 	//var imported = require('./users.json');
-	let imported = fs.readFileSync('./Logical/taskgroup.json', 'utf8', function (err, data) {
+	let imported = fs.readFileSync('./taskgroup.json', 'utf8', function (err, data) {
         if (err) throw err; // we'll not consider error handling for now
         var obj = JSON.parse(data);
 	});
@@ -51,7 +51,7 @@ function esisteduplicato(id_task,pos)
 
 // 
 function Tgroupget(){
-	let imported = fs.readFileSync('./Logical/taskgroup.json', 'utf8', function (err, data) {
+	let imported = fs.readFileSync('./taskgroup.json', 'utf8', function (err, data) {
         if (err) throw err;
         var obj = JSON.parse(data);
     });
