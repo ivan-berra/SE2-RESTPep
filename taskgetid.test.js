@@ -10,19 +10,31 @@ test('Test valido', () => {
 test('Test valido', () => {
     expect(taskgetid(5)).toBe(200);
 });
-/*
+
 test('Test valido', () => {
     expect(taskgetid(4)).toBe(404);
 });
-*/
-test('Test non valido: id negativo', () => {
-    expect(taskgetid(-1)).toBe(400);
+
+test('Test valido: id negativo', () => {
+    expect(taskgetid(1)).toBe(200);
+
+});
+
+
+test('Test valido: id negativo', () => {
+    expect(taskgetid(0)).toBe(200);
 
 });
 
 test('Test valido: utente non esistente', () => {
     expect(taskgetid(200)).toBe(404);
 });
+
+test('Test non valido: id negativo', () => {
+    expect(taskgetid(-1)).toBe(400);
+
+});
+
 
 test('Test non valido: id stringa', () => {
     expect(taskgetid("alfa")).toBe(400);

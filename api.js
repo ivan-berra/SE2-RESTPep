@@ -107,6 +107,7 @@ app.delete('/api/users/:userId', function (req, res) {
 });
 */
 
+/*
 
 //tasks tenute in memoria dal server
 var tasks = [{id: 0, aperta: false, consegna: 'Domanda 1 | scelta 1 | scelta 2 | scelta 3 | scelta 4', risoluzione:'1|4', punteggiomax: 10}];
@@ -160,6 +161,6 @@ app.get('/tasks/:id', (req, res) => {
 	} 
 });
 
-
+*/
 
 app.listen(PORT, () => console.log('App listening on port ' + PORT))
