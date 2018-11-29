@@ -4,7 +4,7 @@
       "id":1,
       "destinatario":123,
       "deadline":"2018-12-25T09:00:00Z",
-      "taskslist":[1,2,3],
+      "tasksarray":[1,2,3],
       "autore":1237,
       "condivisi":[1271,2817]
       },
