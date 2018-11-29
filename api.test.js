@@ -1,7 +1,7 @@
 const http = require('http');
 const request = require('request');
 const fs = require('fs');
-const url = 'https://se2-restpep-dev.herokuapp.com/';
+const url = 'https://exam-feature-api.herokuapp.com/';
 
 //const url = 'http://localhost';
 
@@ -19,6 +19,7 @@ test('Trying to connect to the server', () => {
 	});
 
 });
+
 /*
 test('Tries to get exams', () => {
   let options = {
