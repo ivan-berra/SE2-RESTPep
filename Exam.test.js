@@ -1,80 +1,121 @@
 const valid = require ('./Exam').valid;
+const write = require ('./Exam').write;
+const get = require ('./Exam').get;
 const fs = require('fs');
 
-let examJSON = fs.readFileSync('./exams.json', 'utf8', function(err, data){
-	if (err) throw err;
-	let parsedJson = JSON.parse(data);
-});
+let examJSON = fs.readFileSync('./exams.json', 'utf8');
 var exams = JSON.parse(examJSON);
 
-test('valid', () => {
-	expect(valid(exams.exams[0])).toBe(200);
+var testExam = {
+	"destinatario":100,
+	"deadline":"1010-10-10T10:10:10Z",
+	"tasksarray":[1,10,11,100,101],
+	"autore":101010,
+	"condivisi":[110,111,101110]
+};
+
+afterEach(() => {
+	testExam = {
+		"destinatario":100,
+		"deadline":"1010-10-10T10:10:10Z",
+		"tasksarray":[1,10,11,100,101],
+		"autore":101010,
+		"condivisi":[110,111,101110]
+	};
 });
-/*
+
+afterAll(() => {
+	let newJson = JSON.stringify(exams);
+	fs.writeFileSync('./exams.json', newJson);
+})
+
+
+// EXAMS -> GET
+test('exams.json not a JSON', () => {
+	let newJson = "blabla";
+	fs.writeFileSync('./exams.json', newJson);
+	expect(get()).toBe(500);
+});
+
+test('valid', () => {
+	let newJson = JSON.stringify(exams);
+	fs.writeFileSync('./exams.json', newJson);
+	expect(get()).toEqual(exams);
+});
+
+
+//EXAMS -> VALID
+test('valid', () => {
+	expect(valid(testExam)).toBe(200);
+});
+
 test("unvalid1: formato destinatario erroneo", () => {
-	expect(examValid('Classe 2', '2018-12-25T09:00:00Z', 123, 321, [7,8,9])).toBe(400);
+	testExam.destinatario = "error";
+	expect(valid(testExam)).toBe(400);
+
 });
 
 test("unvalid2: formato deadline erroneo", () =>{
-  expect(examValid(123, 2018.12, [1,2,3], 321, [42,9])).toBe(400);
+	testExam.deadline = 404;
+  expect(valid(testExam)).toBe(400);
+
 });
 
 test("unvalid3: formato tasksarray erroneo", () => {
-	expect(examValid(123, '2018-12-25T09:00:00Z', 1, 321, [7,8,9])).toBe(400);
+	testExam.tasksarray = "error";
+	expect(valid(testExam)).toBe(400);
+
 });
 
 test("unvalid4: contenuto tasksarray erroneo", () => {
-	expect(examValid(123, '2018-12-25T09:00:00Z', [1,'error',3], 321, [7,8,9])).toBe(400);
+	testExam.tasksarray[0] = "error";
+	expect(valid(testExam)).toBe(400);
 });
 
-
 test("unvalid5: formato autore erroneo", () => {
-	expect(examValid(123, '2018-12-25T09:00:00Z', [1,2,3], "Prof. Sebastiani", [7,8,9])).toBe(400);
+	testExam.autore = "error";
+	expect(valid(testExam)).toBe(400);
 });
 
 test("unvalid6: formato condivisi erroneo", () => {
-	expect(examValid(123, '2018-12-25T09:00:00Z', [1,2,3], 321, 'tutti')).toBe(400);
+	testExam.condivisi = "error";
+	expect(valid(testExam)).toBe(400);
 });
 
 test("unvalid7: contenuto condivisi erroneo", () => {
-	expect(examValid(123, '2018-12-25T09:00:00Z', [1,2,3], 321, [7,'error',9])).toBe(400);
+	testExam.condivisi[0] = "error";
+	expect(valid(testExam)).toBe(400);
 });
 
 test("unvalid8: formato dati erroneo 1", () => {
-	expect(examValid(123)).toBe(400);
+	expect(valid(testExam.destinatario)).toBe(400);
 });
-
 
 test("unvalid9: formato dati erroneo 2", () => {
-	expect(examValid(123, '2018-12-25T09:00:00Z')).toBe(400);
+	testExam.tasksarray = null;
+	testExam.autore = null;
+	testExam.condivisi = null;
+	expect(valid(testExam)).toBe(400);
 });
-
 
 test("unvalid10: formato dati erroneo 3", () => {
-	expect(examValid(123, '2018-12-25T09:00:00Z', [1,2,3])).toBe(400);
+	testExam.autore = null;
+	testExam.condivisi = null;
+	expect(valid(testExam)).toBe(400);
 });
-
 
 test("unvalid11: formato dati erroneo 4", () => {
-	expect(examValid(123, '2018-12-25T09:00:00Z', [1,2,3], 321)).toBe(400);
+	testExam.condivisi = null;
+	expect(valid(testExam)).toBe(400);
 });
 
-test("unvalid12: formato dati erroneo 5", () => {
-	expect(examValid(null, '2018-12-25T09:00:00Z', [1,2,3], 321, [7,8,9])).toBe(400);
+
+//EXAMS -> WRITE
+test('valid', () => {
+	expect(write(exams.exams[0])).toBe(200);
 });
 
-test("unvalid13: formato dati erroneo 6", () => {
-	expect(examValid(123, null, [1,2,3], 321, [7,8,9])).toBe(400);
+test("unvalid1: formato esame erroneo", () => {
+	testExam.destinatario = "error";
+	expect(write(testExam)).toBe(400);
 });
-
-test("unvalid14: formato dati erroneo 7", () => {
-	expect(examValid(123, '2018-12-25T09:00:00Z', null, 321, [7,8,9])).toBe(400);
-});
-
-test("unvalid15: formato dati erroneo 8", () => {
-	expect(examValid(123, '2018-12-25T09:00:00Z', [1,2,3], null, [7,8,9])).toBe(400);
-});
-
-test("unvalid16: formato dati erroneo 8", () => {
-	expect(examValid(123, '2018-12-25T09:00:00Z', [1,2,3], 321, null)).toBe(400);
-}); */

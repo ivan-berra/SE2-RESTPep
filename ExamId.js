@@ -9,10 +9,7 @@ function idFound(id){
 //  console.log("idFound received ID: ", examID);
 //  console.log("is it a number? ",Number.isInteger(examID));
   if(typeof examID === "number" && Number.isInteger(examID)){
-    let examJSON = fs.readFileSync('./exams.json', 'utf8', function(err, data){
-      if (err) throw err;
-      let parsedJson = JSON.parse(data);
-    });
+    let examJSON = fs.readFileSync('./exams.json', 'utf8');
     var exams = JSON.parse(examJSON);
     const examIndex = exams.exams.findIndex(obj => obj.id == examID);
     if(examIndex != -1){
@@ -27,10 +24,7 @@ function idFound(id){
 function idGet(examID){
   let examIndex = idFound(examID);
   if(examIndex > -1){
-    let examJSON = fs.readFileSync('./exams.json', 'utf8', function(err, data){
-    	if (err) throw err;
-    	let parsedJson = JSON.parse(data);
-    });
+    let examJSON = fs.readFileSync('./exams.json', 'utf8');
     var exams = JSON.parse(examJSON);
 //    console.log("Exam taken at examIndex: ", examIndex);
     return exams.exams[examIndex];
@@ -42,10 +36,7 @@ function idGet(examID){
 function idDelete(examID){
   let examIndex = idFound(examID);
   if(examIndex > -1){
-    let examJSON = fs.readFileSync('./exams.json', 'utf8', function(err, data){
-    	if (err) throw err;
-    	let parsedJson = JSON.parse(data);
-    });
+    let examJSON = fs.readFileSync('./exams.json', 'utf8');
     var exams = JSON.parse(examJSON);
     exams.exams.splice(examIndex, 1);
     let newJson = JSON.stringify(exams);
@@ -61,10 +52,7 @@ function idPut(examJson, examID){
   let examIndex = idFound(examID);
   if(examIndex > -1){
     if(Exam.valid(examJson) == 200){
-      let examJSON = fs.readFileSync('./exams.json', 'utf8', function(err, data){
-      	if (err) throw err;
-      	let parsedJson = JSON.parse(data);
-      });
+      let examJSON = fs.readFileSync('./exams.json', 'utf8');
       var exams = JSON.parse(examJSON);
       examJson.id = exams.exams[examIndex].id;
       exams.exams[examIndex] = examJson;

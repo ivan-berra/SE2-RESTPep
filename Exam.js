@@ -1,11 +1,11 @@
 const fs = require('fs');
 
 function get(){
-	let examJSON = fs.readFileSync('./exams.json', 'utf8', function(err, data){
-		if (err) throw err;
-		let parsedJson = JSON.parse(data);
-	});
- 	return JSON.parse(examJSON);
+	let examJSON = fs.readFileSync('./exams.json', 'utf8');
+	try{
+		let exams = JSON.parse(examJSON);
+		return exams;
+	}catch(error){return 500;}
 }
 
 function valid(examJson){
@@ -24,14 +24,17 @@ function valid(examJson){
                 if(!(typeof examJson.tasksarray[i] === "number" && Number.isInteger(examJson.tasksarray[i])))
                   formaterror = true;
               }
-              for(var i=0; i<examJson.condivisi.length && !formaterror; i++){
-                if(!(typeof examJson.condivisi[i] === "number" && Number.isInteger(examJson.condivisi[i])))
-                  formaterror = true;
-              }
-              if(!formaterror){
-                return 200;
-              }
-              else return 400;
+								if(!formaterror){
+	              for(var i=0; i<examJson.condivisi.length && !formaterror; i++){
+	                if(!(typeof examJson.condivisi[i] === "number" && Number.isInteger(examJson.condivisi[i])))
+	                  formaterror = true;
+	              }
+	              if(!formaterror){
+	                return 200;
+	              }
+	              else return 400;
+							}
+							else return 400;
             }
             else return 400;
           }
@@ -46,10 +49,7 @@ function valid(examJson){
 
 function write(newExam){
   if(valid(newExam) == 200){
-		let examJSON = fs.readFileSync('./exams.json', 'utf8', function(err, data){
-			if (err) throw err;
-			let parsedJson = JSON.parse(data);
-		});
+		let examJSON = fs.readFileSync('./exams.json', 'utf8');
 		var exams = JSON.parse(examJSON);
     newExam.id = exams.nextid;
     exams.exams.push(newExam);

@@ -13,9 +13,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => res.send('Hello World!'))
 
 app.get('/exams', (req, res) => {
+	let exams = Exam.get();
+	if(exams != 500){
 		res.contentType('application/json');
 		res.status(200);
-		res.json(Exam.get());
+		res.json(exams);
+	}
+	else{
+		res.status(500);
+		res.send("500 INTERNAL SERVER ERROR");
+	}
 })
 
 app.post('/exams', (req, res) => {
@@ -43,8 +50,10 @@ app.get('/exams/:examID', (req, res) => {
 			res.status(404);
 			res.send("404 ID NOT FOUND");
 		}
-		res.status(200);
-		res.json(examJson);
+		else{
+			res.status(200);
+			res.json(examJson);
+		}
 	}catch(error){console.log(error);}
 })
 
