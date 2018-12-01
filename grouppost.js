@@ -2,57 +2,63 @@ var fs = require('fs');
 
 
 function grouppost(nomeGruppo, listaMembri){
-	if(typeof nomeGruppo === "string")
+	if(arguments.length==2)
 	{
-		if(typeof listaMembri === "object" && listaMembri !=null)
+		if(typeof nomeGruppo === "string")
 		{
-			let strtmp=[];
-			var formatError = false;
-			for(var i=0; i<listaMembri.length && !formatError; i++)
+			if(typeof listaMembri === "object" && listaMembri !=null)
 			{
-				if(!(typeof listaMembri[i] === "number" && Number.isInteger(listaMembri[i]) && listaMembri[i]>=0))
-					formatError=true;
-				if(!formatError)
-					if(!esisteUser(listaMembri[i]))
+				let strtmp=[];
+				var formatError = false;
+				for(var i=0; i<listaMembri.length && !formatError; i++)
+				{
+					if(!(typeof listaMembri[i] === "number" && Number.isInteger(listaMembri[i]) && listaMembri[i]>=0))
 						formatError=true;
-				if(i==listaMembri.length-1)
-				{
-					//strtmp+='{userId:'+listamembri[i]+"},";
-					let numero=listaMembri[i];
-					strtmp.push({"userId":numero},);
+					if(!formatError)
+						if(!esisteUser(listaMembri[i]))
+							formatError=true;
+					if(i==listaMembri.length-1)
+					{
+						//strtmp+='{userId:'+listamembri[i]+"},";
+						let numero=listaMembri[i];
+						strtmp.push({"userId":numero},);
+					}
+					else
+					{
+						//strtmp+='{userId:'+listamembri[i]+"}";
+						let numero=listaMembri[i];
+						strtmp.push({"userId":numero});
+					}
 				}
-				else
+				if(!formatError)
 				{
-					//strtmp+='{userId:'+listamembri[i]+"}";
-					let numero=listaMembri[i];
-					strtmp.push({"userId":numero});
-				}
-			}
-			if(!formatError)
-			{
-				//INSERIMENTO EFFETTIVO
-				let imported = fs.readFileSync('./groups.json', 'utf8', function (err, data) {
-			    if (err) throw err; // we'll not consider error handling for now
-			    var obj = JSON.parse(data);
-				});
-				let gruppi=JSON.parse(imported);
-				let idDaAssegnare=gruppi.nextId;
-				gruppi.nextId=idDaAssegnare+1;
+					//INSERIMENTO EFFETTIVO
+					let imported = fs.readFileSync('./groups.json', 'utf8', function (err, data) {
+				    if (err) throw err; // we'll not consider error handling for now
+				    var obj = JSON.parse(data);
+					});
+					let gruppi=JSON.parse(imported);
+					let idDaAssegnare=gruppi.nextId;
+					gruppi.nextId=idDaAssegnare+1;
 
 
-				//gruppi['groups'].push({"groupId":iddaassegnare,"groupName":nomegruppo,"userList":[strtmp]});
-				gruppi['groups'].push({"groupId":idDaAssegnare,"groupName":nomeGruppo,"userList":[]});
-				let exported=JSON.stringify(gruppi);
-				let index=exported.lastIndexOf("[");
-				exported=exported.substring(0,index)+JSON.stringify(strtmp)+'}'+exported.substring(index+1, exported.length-2);
-				fs.writeFileSync('./groups.json', exported);
-				return 200;
+					//gruppi['groups'].push({"groupId":iddaassegnare,"groupName":nomegruppo,"userList":[strtmp]});
+					gruppi['groups'].push({"groupId":idDaAssegnare,"groupName":nomeGruppo,"userList":[]});
+					let exported=JSON.stringify(gruppi);
+					let index=exported.lastIndexOf("[");
+					exported=exported.substring(0,index)+JSON.stringify(strtmp)+'}'+exported.substring(index+1, exported.length-2);
+					fs.writeFileSync('./groups.json', exported);
+					return 200;
+				}
+				else return 400;
 			}
 			else return 400;
 		}
 		else return 400;
+	else
+	{
+		return 400;
 	}
-	else return 400;
 }
 
 //si suppone siano in ordine nel file
