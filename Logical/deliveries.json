@@ -1,0 +1,28 @@
+
+{"nextid": 2,
+  "deliveries":
+  [{
+    "id": 1,
+    "exam-id": 3,
+    "tested-id": 1,
+    "reviewed-id": 2,
+    "examples":
+    [
+      {
+        "id": 1,
+        "soluzione": "false",
+        "punteggio": 1
+      },
+      {
+        "id": 2,
+        "soluzione": "false",
+        "punteggio": 0
+      },
+      {
+        "id": 3,
+        "soluzione": "true",
+        "punteggio": 0
+      }
+    ]
+  }]
+}
