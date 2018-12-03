@@ -1,9 +1,11 @@
 var fs = require('fs');
 
-function groupgroupidput(idgruppo, nuovalistaMembri){
-	if(arguments.length==2)
+//nuovoNome o nuovalistaMembri possono essere null, ma non entrambi
+function groupgroupidput(idgruppo, nuovoNome, nuovalistaMembri){
+	if(arguments.length==3)
 	{
-		if(typeof idgruppo==="number" && Number.isInteger(idgruppo) && idgruppo>=0 && typeof nuovalistaMembri === "object" && nuovalistaMembri !=null)
+		//if(typeof idgruppo==="number" && Number.isInteger(idgruppo) && idgruppo>=0 && typeof nuovoNome === "string" && typeof nuovalistaMembri === "object" && nuovalistaMembri !=null)
+		if(typeof idgruppo==="number" && Number.isInteger(idgruppo) && idgruppo>=0 && (typeof nuovoNome === "string" || nuovoNome == null) && ((typeof nuovalistaMembri === "object" && nuovalistaMembri !=null)||(nuovalistaMembri == null)) && (!(nuovoNome == null && nuovalistaMembri == null)))
 		{
 			let gruppiString = fs.readFileSync('./groups.json', 'utf8', function (err, data) {
 				if (err) throw err; // we'll not consider error handling for now
@@ -17,23 +19,30 @@ function groupgroupidput(idgruppo, nuovalistaMembri){
 			}
 			else
 			{
-				gruppodamodificare.userList.splice(0);
-				for(var i=0; i<nuovalistaMembri.length; i++)
+				if(!(nuovalistaMembri == null))
 				{
-					if(!(typeof nuovalistaMembri[i] === "number" && Number.isInteger(nuovalistaMembri[i]) && nuovalistaMembri[i]>=0))
-						return 400;
-					else if(!esisteUser(nuovalistaMembri[i]))
-						return 400;
-					if(i==nuovalistaMembri.length-1)
+					gruppodamodificare.userList.splice(0);
+					for(var i=0; i<nuovalistaMembri.length; i++)
 					{
-						let numero=nuovalistaMembri[i];
-						gruppodamodificare.userList.push({"userId":numero},);
+						if(!(typeof nuovalistaMembri[i] === "number" && Number.isInteger(nuovalistaMembri[i]) && nuovalistaMembri[i]>=0))
+							return 400;
+						else if(!esisteUser(nuovalistaMembri[i]))
+							return 400;
+						if(i==nuovalistaMembri.length-1)
+						{
+							let numero=nuovalistaMembri[i];
+							gruppodamodificare.userList.push({"userId":numero},);
+						}
+						else
+						{
+							let numero=nuovalistaMembri[i];
+							gruppodamodificare.userList.push({"userId":numero});
+						}
 					}
-					else
-					{
-						let numero=nuovalistaMembri[i];
-						gruppodamodificare.userList.push({"userId":numero});
-					}
+				}
+				if(!(nuovoNome == null))
+				{
+					gruppodamodificare.groupName=nuovoNome;
 				}
 				let exported=JSON.stringify(gruppiJson);
 				fs.writeFileSync('./groups.json', exported);
@@ -65,7 +74,7 @@ function esisteUser(idUser)
 	var lookingAt=idUser;
 	if(utenti.nextId<=idUser)
 		return false;
-	else if (utenti.users[lookingAt].id==idUser)
+	else if (utenti.users[lookingAt]!=null && utenti.users[lookingAt]!=undefined && utenti.users[lookingAt].id==idUser)
 		return true;
 	else {
 		let beginSearch=0;

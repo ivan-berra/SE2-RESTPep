@@ -75,7 +75,7 @@ function esisteUser(idUser)
 	var lookingAt=idUser;
 	if(utenti.nextId<=idUser)
 		return false;
-	else if (utenti.users[lookingAt].id==idUser)
+	else if (utenti.users[lookingAt]!=null && utenti.users[lookingAt]!=undefined && utenti.users[lookingAt].id==idUser)
 		return true;
 	else {
 		let beginSearch=0;
