@@ -9,7 +9,7 @@ function userput(searchedId, matricola, email, isTeacher){
     {
         var searchedUser = esisteUser(searchedId);
         if (!searchedUser)
-            return 404;
+            return {"status": 404, "jsonData": null};
     
 
     var newMatricola = false;
@@ -55,12 +55,12 @@ function userput(searchedId, matricola, email, isTeacher){
                 
                 fs.writeFileSync('./users.json', exported);
                 
-                return 200;	     
+                return {"status": 200, "jsonData": null};;	     
                 
         }
-        else return 400;
+        else return {"status": 400, "jsonData": null};;
     }
-    else return 400;
+    else return {"status": 400, "jsonData": null};;
 
 }
 
