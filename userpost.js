@@ -19,16 +19,19 @@ function userpost(matricola, email, isTeacher){
             let exported=JSON.stringify(utenti);
 	    
 	    fs.writeFileSync('./users.json', exported);
-            //return JSON.stringify({"id":idUtente,"mat":matricola,"email":email,"isTeacher":isTeacher});	
-            return 200;	
+        
+        return {
+            "status": 200, 
+            "jsonData": {"id":idUtente,"mat":matricola,"email":email,"isTeacher":isTeacher}
+        };	
             
-	    
 	}
 	
-	else return 400;
+	else return {"status":400, "jsonData": null};
 	
     }
-    else return 400;
+
+    else return {"status":400, "jsonData": null};
 
 }
 
