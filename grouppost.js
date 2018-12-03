@@ -55,6 +55,7 @@ function grouppost(nomeGruppo, listaMembri){
 			else return 400;
 		}
 		else return 400;
+	}
 	else
 	{
 		return 400;
