@@ -12,9 +12,68 @@ function groupgroupidput(idgruppo, nuovoNome, nuovalistaMembri){
 				var obj = JSON.parse(data);
 			});
 			let gruppiJson=JSON.parse(gruppiString);
-			let gruppodamodificare=gruppiJson.groups[idgruppo];
+
+
+			//ricerca del gruppo da modificare gruppiJson.groups[idgruppo]
+			let gruppodamodificare=null;
+			if (gruppiJson.groups[idgruppo]!=null && gruppiJson.groups[idgruppo]!=undefined && gruppiJson.groups[idgruppo].groupId==idgruppo)
+				 gruppodamodificare=gruppiJson.groups[idgruppo];
+			else {
+				let beginSearch=0;
+				let endSearch=gruppiJson.groups.length-1;
+				lookingAt=((beginSearch+endSearch)/2);
+				let finisciclo=false;
+				do{
+					lookingAt=((beginSearch+endSearch)/2);
+					let tmp=gruppiJson.groups[lookingAt];
+					if(tmp==null)
+					{
+						let indice=lookingAt-1;
+						while(indice>=beginSearch && gruppiJson.groups[indice]==null)
+							indice--;
+						if(indice<beginSearch)
+						{
+							indice=lookingAt+1;
+							while(indice<=endSearch && gruppiJson.groups[indice]==null)
+								indice++;
+							if(indice>endSearch)
+								finisciclo=true;
+							else
+							{
+								tmp=gruppiJson.groups[indice];
+								if(tmp.groupId<idgruppo)
+									beginSearch=indice+1;
+								else if (tmp.groupId>idgruppo)
+									endSearch=indice-1;
+								else if(tmp.groupId==idgruppo)
+									gruppodamodificare=tmp;
+							}
+						}
+						else
+						{
+							if(tmp.groupId<idgruppo)
+								beginSearch=indice+1;
+							else if (tmp.groupId>idgruppo)
+								endSearch=indice-1;
+							else if(tmp.groupId==idgruppo)
+								gruppodamodificare=tmp;
+						}
+					}
+					else if(tmp.groupId<idgruppo)
+						beginSearch=lookingAt+1;
+					else if (tmp.groupId>idgruppo)
+						endSearch=lookingAt-1;
+					else if(tmp.groupId==idgruppo)
+						gruppodamodificare=tmp;
+				}while(beginSearch<=endSearch && gruppodamodificare==null && finisciclo==false)
+			}
+
+
+
+
 			if(gruppodamodificare==null)
 			{
+				esci:
 				return 400;
 			}
 			else
