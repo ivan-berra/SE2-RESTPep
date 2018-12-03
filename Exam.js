@@ -4,8 +4,8 @@ function get(){
 	let examJSON = fs.readFileSync('./exams.json', 'utf8');
 	try{
 		let exams = JSON.parse(examJSON);
-		return exams;
-	}catch(error){return 500;}
+		return [200,exams];
+	}catch(error){return [500,null];}
 }
 
 function valid(examJson){
@@ -56,9 +56,9 @@ function write(newExam){
     exams.nextid ++;
     let newJson = JSON.stringify(exams);
     fs.writeFileSync('./exams.json', newJson);
-    return 200;
+    return [201,newExam.id];
   }
-  else return 400;
+  else return [400,null];
 }
 
 module.exports.get = get;

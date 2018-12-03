@@ -14,26 +14,26 @@ app.get('/', (req, res) => res.send('Hello World!'))
 
 app.get('/exams', (req, res) => {
 	let exams = Exam.get();
-	if(exams != 500){
+	if(exams[0] != 500){
 		res.contentType('application/json');
-		res.status(200);
-		res.json(exams);
+		res.status(exams[0]);
+		res.json(exams[1]);
 	}
-	else{
-		res.status(500);
+	else if(exams[0] == 500){
+		res.status(check[0]);
 		res.send("500 INTERNAL SERVER ERROR");
 	}
 })
 
 app.post('/exams', (req, res) => {
 	let check = Exam.write(req.body);
-//	console.log("Check: ", check);
-	if(check == 200){
-		res.status(201);
-		res.send("201 CREATED");
+	console.log("Check: ", check);
+	if(check[0] == 201){
+		res.status(check[0]);
+		res.send("201 EXAM CREATED");
 	}
-	else{
-		res.status(400);
+	else if(check[0] == 400){
+		res.status(check[0]);
 		res.send("400 BAD REQUEST");
 	}
 })
@@ -42,17 +42,17 @@ app.get('/exams/:examID', (req, res) => {
 	res.contentType('application/json');
 	try{
 		let examJson = ExamId.idGet(req.params.examID);
-		if(examJson == 400){
-			res.status(400);
+		if(examJson[0] == 200){
+			res.status(examJson[0]);
+			res.json(examJson[1]);
+		}
+		if(examJson[0] == 400){
+			res.status(examJson[0]);
 			res.send("400 BAD REQUEST");
 		}
-		if(examJson == 404){
-			res.status(404);
+		if(examJson[0] == 404){
+			res.status(examJson[0]);
 			res.send("404 ID NOT FOUND");
-		}
-		else{
-			res.status(200);
-			res.json(examJson);
 		}
 	}catch(error){console.log(error);}
 })

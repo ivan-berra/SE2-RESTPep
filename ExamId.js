@@ -27,10 +27,10 @@ function idGet(examID){
     let examJSON = fs.readFileSync('./exams.json', 'utf8');
     var exams = JSON.parse(examJSON);
 //    console.log("Exam taken at examIndex: ", examIndex);
-    return exams.exams[examIndex];
+    return [200,exams.exams[examIndex]];
   }
-  else if(examIndex == -1) return 400;
-  else if(examIndex == -2) return 404;
+  else if(examIndex == -1) return [400, null];
+  else if(examIndex == -2) return [404, null];
 }
 
 function idDelete(examID){
