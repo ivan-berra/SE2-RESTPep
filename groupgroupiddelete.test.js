@@ -10,7 +10,8 @@ const groupgroupiddelete= require('./groupgroupiddelete');
 /* MESSO A COMMENTO PER GLI ERRORI ONLINE
 test('valid', () => {
 	expect(groupgroupiddelete(1)).toBe(204);
-});*/
+});
+
 
 test("unvalid1: cancella gruppo che non esiste", () => {
 	expect(groupgroupiddelete(1)).toBe(404);
@@ -19,7 +20,7 @@ test("unvalid1: cancella gruppo che non esiste", () => {
 
 test("unvalid2: cancella gruppo che non esiste", () => {
 	expect(groupgroupiddelete(5000)).toBe(404);
-});
+});*/
 
 
 test("unvalid3: formato dati erroneo 1", () => {
