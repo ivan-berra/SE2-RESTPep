@@ -1,9 +1,5 @@
 var fs = require('fs');
-
-function validateEmail(email) {
-    var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-}
+var validateEmail = require('./validateEmail');
 
 function userpost(matricola, email, isTeacher){
     if(typeof matricola === "number" && typeof email === "string" && typeof isTeacher === "boolean")

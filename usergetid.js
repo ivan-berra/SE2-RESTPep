@@ -1,8 +1,10 @@
 var fs = require("fs");
 
+var esisteUser = require("./esisteUser")
+
 function usergetid(searchedId){
 
-    if (searchedId > 0 && typeof searchedId === "number")
+    if (searchedId >= 0 && typeof searchedId === "number")
     {
         var searchedUser = esisteUser(searchedId);
         if (!searchedUser)
@@ -11,33 +13,6 @@ function usergetid(searchedId){
 
     } else return 400;
 
-}
-
-function esisteUser(idUser)
-{
-
-	let imported = fs.readFileSync('./users.json', 'utf8');
-
-	var utenti = JSON.parse(imported);
-	var lookingAt=idUser;
-	if(utenti.nextId<=idUser)
-		return false;
-	else if (utenti.users[lookingAt].id==idUser)
-		return true;
-	else {
-		var beginSearch=0;
-		var endSearch=utenti.nextId-1;
-		do{
-			if(utenti.users[lookingAt]<idUser)
-				beginSearch=lookingAt+1;
-			else if (utenti.users[lookingAt]>idUser)
-				endSearch=lookingAt-1;
-			else if(utenti.users[lookingAt]==idUser)
-				return true;
-			lookingAt=((beginSearch+endSearch)/2);
-		}while(beginSearch<=endSearch)
-		return false;
-	}
 }
 
 module.exports = usergetid;
