@@ -1,5 +1,5 @@
-/*const POSTtasks = require('../core/POSTtasks');
-const fetch = require('node-fetch');
+const POSTtasks = require('../core/POSTtasks');
+/*const fetch = require('node-fetch');
 const fs = require('fs');
 var url = 'http://localhost:3000/tasks';
 
@@ -49,8 +49,26 @@ test('test post', () => {
 
 */
 
+var validTask = {"aperta":true,"consegna":"test post valida","risoluzione":"1","punteggiomax":10}
 
 
-test('Test valido', () => {
-	expect("").toEqual("");
+var unvalidTask = {"aperta":"error","consegna":"test post valida","risoluzione":"1","punteggiomax":10}
+
+
+var unvalidTask2 = {"aperta":"false","consegna":"test post valida","risoluzione":"1","punteggiomax":10}
+
+test('Test POST valid', () => {
+	let res = POSTtasks(validTask);
+	expect(res.status).toBe(201);
 });
+
+test('Test POST unvalid aperta field', () => {
+	let res = POSTtasks(unvalidTask);
+	expect(res.status).toBe(400);
+})
+
+
+test('Test POST unvalid multiple choice formatting', () => {
+	let res = POSTtasks(unvalidTask2);
+	expect(res.status).toBe(400);
+})
