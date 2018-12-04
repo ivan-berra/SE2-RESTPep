@@ -76,7 +76,7 @@ test('Tries to connect to  the server', () => {
 const http = require('http');
 const request = require('request');
 const fs = require('fs');
-const url = 'https://se2-restpep-dev.herokuapp.com/';
+const url = 'https://exam-feature-api.herokuapp.com/';
 
 //const url = 'http://localhost';
 
@@ -119,6 +119,7 @@ test('Trying to delete the previously created user through DELETE', () => {
 
 	});
 });
+
 /*
 test('Tries to get exams', () => {
   let options = {
