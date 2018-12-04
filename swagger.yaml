@@ -42,7 +42,7 @@ paths:
                 type: string
                 description: email dell'utente
                 example: mario.rossi@unitn.it
-              isTeacher: 
+              isTeacher:
                 type: boolean
                 description: true se l'utente è un professore, false altrimenti
                 example: true
@@ -112,7 +112,7 @@ paths:
                 type: string
                 description: nuova email
                 example: luca.verdi@unitn.it
-              isTeacher: 
+              isTeacher:
                 type: boolean
                 description: true se l'utente è un professore, false altrimenti
                 example: true
@@ -163,7 +163,11 @@ paths:
                 description: nome del gruppo
                 example: gruppo 10
               userlist:
-                $ref: '#/definitions/UsersArray'
+                type: array
+                description: lista di utenti sottoforma di id
+                items:
+                  type: integer
+                example: [5,7]
       tags:
         - Groups
       responses:
@@ -219,9 +223,9 @@ paths:
         - in: body
           name: editgroup
           description: per modificare una risorsa del gruppo ho bisogno di una nuova lista di user
-          required: true
+          required: false
           schema:
-            $ref: '#/definitions/UsersArray'
+            $ref: '#/definitions/Group'
       tags:
         - Groups
       responses:
@@ -830,7 +834,10 @@ definitions:
         description: nome del gruppo
         example: gruppo 10
       membri:
-        $ref: '#/definitions/UsersArray'
+        type: array
+        description: lista di utenti sottoforma di id
+        items:
+          type: integer
     required:
       - id
     example:
@@ -838,11 +845,7 @@ definitions:
       nomegruppo: gruppo 10
       membri:
         - id: 93827
-          mat: 13768
-          email: mario.rossi@unitn.it
         - id: 94621
-          mat: 13769
-          email: paolo.verdi@unitn.it
 
   GroupsArray:
     type: array
@@ -854,20 +857,12 @@ definitions:
         nomegruppo: gruppo 10
         membri:
           - id: 93827
-            mat: 13768
-            email: mario.rossi@unitn.it
           - id: 94621
-            mat: 13769
-            email: paolo.verdi@unitn.it
       - id: 11
         nomegruppo: gruppo 11
         membri:
         - id: 13321
-          mat: 13768
-          email: paolo.rossi@unitn.it
         - id: 34434
-          mat: 13445
-          email: francesco.gialli@unitn.it
 
   Task:
     type: object
