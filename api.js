@@ -14,8 +14,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
-<<<<<<< HEAD
-=======
 app.listen(PORT, () => console.log('Example app listening on port ' + PORT))
 
 /*
@@ -113,15 +111,6 @@ app.delete('/api/users/:userId', function (req, res) {
 
 });
 
-let examJson = fs.readFileSync('./exams.json', 'utf8', function(err, data){
-	if (err) throw err;
-	let parsedJson = JSON.parse(data);
-});
-var exams = JSON.parse(examJson);
-
-var examsIdCounter=1;
-
->>>>>>> origin/develop
 app.get('/exams', (req, res) => {
 	let response = Exam.get();
 	if(response.status != 500){
@@ -203,8 +192,6 @@ app.put('/exams/:examID', (req,res) => {
 	}catch(error){console.log(error);}
 })
 
-app.listen(PORT, () => console.log('Example app listening on port ' + PORT))
-*/
 
 /*
 
