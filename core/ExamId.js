@@ -27,7 +27,8 @@ function idGet(examID){
   if(examIndex > -1){
     let examJSON = fs.readFileSync('./db/exams.json', 'utf8');
     response.status = 200;
-    response.jsonData = JSON.parse(examJSON);
+    exams = JSON.parse(examJSON);
+    response.jsonData = exams.exams[examIndex];
 //    console.log("Exam taken at examIndex: ", examIndex);
     return response;
   }

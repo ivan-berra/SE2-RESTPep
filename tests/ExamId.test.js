@@ -1,12 +1,14 @@
-const idGet = require('./core/ExamId').idGet;
-const idFound = require('./core/ExamId').idFound;
-const idDelete = require('./core/ExamId').idDelete;
-const idPut = require('./core/ExamId').idPut;
+const idGet = require('../core/ExamId').idGet;
+const idFound = require('../core/ExamId').idFound;
+const idDelete = require('../core/ExamId').idDelete;
+const idPut = require('../core/ExamId').idPut;
 const fs = require('fs');
 
 let examJSON = fs.readFileSync('./db/exams.json', 'utf8');
 var exams = JSON.parse(examJSON);
 
+var errorRes = {"jsonData": null, "status": 400};
+var notfoundRes = {"jsonData": null, "status": 404};
 var testExam = {
 	"destinatario":100,
 	"deadline":"1010-10-10T10:10:10Z",
@@ -27,7 +29,7 @@ afterEach(() => {
 
 afterAll(() => {
 	let newJson = JSON.stringify(exams);
-	fs.writeFileSync('./exams.json', newJson);
+	fs.writeFileSync('./db/exams.json', newJson);
 })
 
 
@@ -59,24 +61,24 @@ test('unvalid5: ID non esiste', () => {
 
 //EXAMS/{EXAMSID} -> IDGET (TEST ID PASSANO PER IDFOUND)
 test('valid', () => {
-	expect(idGet(1)).toEqual(exams.exams[0]);
+	expect(idGet(1)).toEqual({"status": 200, "jsonData": exams.exams[0]});
 });
 
 test('unvalid1: formato ID erroneo', () => {
-	expect(idGet(null)).toBe(400);
+	expect(idGet(null)).toEqual(errorRes);
 });
 
 test('unvalid2: ID non esiste', () => {
-	expect(idGet(101)).toBe(404);
+	expect(idGet(101)).toEqual(notfoundRes);
 });
 test('unvalid2: ID non esiste', () => {
-	expect(idGet(-2)).toBe(404);
+	expect(idGet(-2)).toEqual(notfoundRes);
 });
 test('unvalid2: ID non esiste', () => {
-	expect(idGet(101.10)).toBe(404);
+	expect(idGet(101.10)).toEqual(notfoundRes);
 });
 test('unvalid2: ID non esiste', () => {
-	expect(idGet([101,1])).toBe(404);
+	expect(idGet([101,1])).toEqual(notfoundRes);
 });
 
 //EXAMS/{EXAMSID} -> IDDELETE (TEST ID PASSANO PER IDFOUND)

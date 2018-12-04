@@ -1,6 +1,6 @@
-const valid = require ('./core/Exam').valid;
-const write = require ('./core/Exam').write;
-const get = require ('./core/Exam').get;
+const valid = require ('../core/Exam').valid;
+const write = require ('../core/Exam').write;
+const get = require ('../core/Exam').get;
 const fs = require('fs');
 
 let examJSON = fs.readFileSync('./db/exams.json', 'utf8');
@@ -26,21 +26,21 @@ afterEach(() => {
 
 afterAll(() => {
 	let newJson = JSON.stringify(exams);
-	fs.writeFileSync('./exams.json', newJson);
+	fs.writeFileSync('./db/exams.json', newJson);
 })
 
 
 // EXAMS -> GET
 test('exams.json not a JSON', () => {
 	let newJson = "blabla";
-	fs.writeFileSync('./exams.json', newJson);
-	expect(get()).toBe(500);
+	fs.writeFileSync('./db/exams.json', newJson);
+	expect(get()).toEqual({"status": 500, "jsonData": null});
 });
 
 test('valid', () => {
 	let newJson = JSON.stringify(exams);
-	fs.writeFileSync('./exams.json', newJson);
-	expect(get()).toEqual(exams);
+	fs.writeFileSync('./db/exams.json', newJson);
+	expect(get()).toEqual({"status": 200, "jsonData": exams});
 });
 
 
@@ -112,10 +112,10 @@ test("unvalid11: formato dati erroneo 4", () => {
 
 //EXAMS -> WRITE
 test('valid', () => {
-	expect(write(exams.exams[0])).toBe(200);
+	expect(write(testExam)).toEqual({"status":201, "examId": 3});
 });
 
 test("unvalid1: formato esame erroneo", () => {
 	testExam.destinatario = "error";
-	expect(write(testExam)).toBe(400);
+	expect(write(testExam)).toEqual({"status":400, "examId": null});
 });

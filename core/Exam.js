@@ -1,8 +1,8 @@
 const fs = require('fs');
 
 function get(){
-	try{
 	let response = {"status": null, "jsonData": null};
+	try{
 	let examJSON = fs.readFileSync('./db/exams.json', 'utf8');
 		response.status = 200;
 		response.jsonData = JSON.parse(examJSON);
@@ -50,8 +50,8 @@ function valid(examJson){
 }
 
 function write(newExam){
+	let response = {"status": null, "examId": null};
   if(valid(newExam) == 200){
-		let response = {"status": null, "examId": null};
 		let examJSON = fs.readFileSync('./db/exams.json', 'utf8');
 		var exams = JSON.parse(examJSON);
     newExam.id = exams.nextid;
