@@ -1,4 +1,4 @@
-const grouppost = require('./grouppost');
+const grouppost = require('../core/grouppost');
 
 //il metodo per il test è pensato per restituire il valore di http status
 

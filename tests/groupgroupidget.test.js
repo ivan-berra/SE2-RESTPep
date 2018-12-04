@@ -1,4 +1,4 @@
-const groupgroupidget = require('./groupgroupidget');
+const groupgroupidget = require('../core/groupgroupidget');
 
 
 test('valid1', () => {

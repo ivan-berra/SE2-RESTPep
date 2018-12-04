@@ -33,7 +33,7 @@ function grouppost(nomeGruppo, listaMembri){
 				if(!formatError)
 				{
 					//INSERIMENTO EFFETTIVO
-					let imported = fs.readFileSync('./groups.json', 'utf8', function (err, data) {
+					let imported = fs.readFileSync('db/groups.json', 'utf8', function (err, data) {
 				    if (err) throw err; // we'll not consider error handling for now
 				    var obj = JSON.parse(data);
 					});
@@ -66,7 +66,7 @@ function grouppost(nomeGruppo, listaMembri){
 function esisteUser(idUser)
 {
 	//var imported = require('./users.json');
-	let imported = fs.readFileSync('./users.json', 'utf8', function (err, data) {
+	let imported = fs.readFileSync('db/users.json', 'utf8', function (err, data) {
     if (err) throw err; // we'll not consider error handling for now
     var obj = JSON.parse(data);
 	});

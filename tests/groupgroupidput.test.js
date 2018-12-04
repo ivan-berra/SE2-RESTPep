@@ -1,4 +1,4 @@
-const groupgroupidput = require('./groupgroupidput');
+const groupgroupidput = require('../core/groupgroupidput');
 
 
 //il metodo per il test è pensato per restituire il valore di http status

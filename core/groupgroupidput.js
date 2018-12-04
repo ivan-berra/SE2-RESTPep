@@ -7,7 +7,7 @@ function groupgroupidput(idgruppo, nuovoNome, nuovalistaMembri){
 		//if(typeof idgruppo==="number" && Number.isInteger(idgruppo) && idgruppo>=0 && typeof nuovoNome === "string" && typeof nuovalistaMembri === "object" && nuovalistaMembri !=null)
 		if(typeof idgruppo==="number" && Number.isInteger(idgruppo) && idgruppo>=0 && (typeof nuovoNome === "string" || nuovoNome == null) && ((typeof nuovalistaMembri === "object" && nuovalistaMembri !=null)||(nuovalistaMembri == null)) && (!(nuovoNome == null && nuovalistaMembri == null)))
 		{
-			let gruppiString = fs.readFileSync('./groups.json', 'utf8', function (err, data) {
+			let gruppiString = fs.readFileSync('db/groups.json', 'utf8', function (err, data) {
 				if (err) throw err; // we'll not consider error handling for now
 				var obj = JSON.parse(data);
 			});
@@ -123,7 +123,7 @@ function groupgroupidput(idgruppo, nuovoNome, nuovalistaMembri){
 function esisteUser(idUser)
 {
 	//var imported = require('./users.json');
-	let imported = fs.readFileSync('./users.json', 'utf8', function (err, data) {
+	let imported = fs.readFileSync('db/users.json', 'utf8', function (err, data) {
     if (err) throw err; // we'll not consider error handling for now
     var obj = JSON.parse(data);
 	});

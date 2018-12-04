@@ -1,4 +1,4 @@
-const groupgroupiddelete= require('./groupgroupiddelete');
+const groupgroupiddelete= require('../core/groupgroupiddelete');
 
 //const grouppost = require('./grouppost'); //serve per inserire i gruppi da testare
 
