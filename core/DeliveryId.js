@@ -6,7 +6,7 @@ function idFound(id){
 //  console.log("idFound received ID: ", deliveryID);
 //  console.log("is it a number? ",Number.isInteger(deliveryID));
   if(typeof deliveryID === "number" && Number.isInteger(deliveryID)){
-    let deliveryJSON = fs.readFileSync('./Logical/deliveries.json', 'utf8');
+    let deliveryJSON = fs.readFileSync('./db/deliveries.json', 'utf8');
     var deliveries = JSON.parse(deliveryJSON);
     const deliveryIndex = deliveries.deliveries.findIndex(obj => obj.examId == deliveryID);
     if(deliveryIndex != -1){
@@ -20,7 +20,7 @@ function idFound(id){
 function idGet(deliveryID){
   let deliveryIndex = idFound(deliveryID);
   if(deliveryIndex > -1){
-    let deliveryJSON = fs.readFileSync('./Logical/deliveries.json', 'utf8');
+    let deliveryJSON = fs.readFileSync('./db/deliveries.json', 'utf8');
     var deliveries = JSON.parse(deliveryJSON);
 //    console.log("delivery taken at deliveryIndex: ", deliveryIndex);
     return deliveries.deliveries[deliveryIndex];
@@ -32,11 +32,11 @@ function idGet(deliveryID){
 function idDelete(deliveryID){
   let deliveryIndex = idFound(deliveryID);
   if(deliveryIndex > -1){
-    let deliveryJSON = fs.readFileSync('./Logical/deliveries.json', 'utf8');
+    let deliveryJSON = fs.readFileSync('./sv/deliveries.json', 'utf8');
     var deliveries = JSON.parse(deliveryJSON);
     deliveries.deliveries.splice(deliveryIndex, 1);
     let newJson = JSON.stringify(deliveries);
-    fs.writeFileSync('./Logical/deliveries.json', newJson);
+    fs.writeFileSync('./db/deliveries.json', newJson);
 //    console.log("delivery deleted at deliveryIndex: ", deliveryIndex);
     return 204;
   }
