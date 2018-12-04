@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Exam = require('./Exam');
-const ExamId = require('./ExamId');
+const Exam = require('./core/Exam');
+const ExamId = require('./core/ExamId');
 const fs = require('fs');
 
 const app = express()
@@ -13,27 +13,27 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => res.send('Hello World!'))
 
 app.get('/exams', (req, res) => {
-	let exams = Exam.get();
-	if(exams[0] != 500){
+	let response = Exam.get();
+	if(response.status != 500){
 		res.contentType('application/json');
-		res.status(exams[0]);
-		res.json(exams[1]);
+		res.status(response.status);
+		res.json(response.jsonData);
 	}
-	else if(exams[0] == 500){
-		res.status(check[0]);
+	else if(response.status == 500){
+		res.status(response.status);
 		res.send("500 INTERNAL SERVER ERROR");
 	}
 })
 
 app.post('/exams', (req, res) => {
-	let check = Exam.write(req.body);
-	console.log("Check: ", check);
-	if(check[0] == 201){
-		res.status(check[0]);
-		res.send("201 EXAM CREATED");
+	let response = Exam.write(req.body);
+	console.log("Response: ", response);
+	if(response.status == 201){
+		res.status(response.status);
+		res.send("201 EXAM CREATED WITH ID: ", response.examId.toString());
 	}
-	else if(check[0] == 400){
-		res.status(check[0]);
+	else if(response.status == 400){
+		res.status(response.status);
 		res.send("400 BAD REQUEST");
 	}
 })
@@ -41,17 +41,17 @@ app.post('/exams', (req, res) => {
 app.get('/exams/:examID', (req, res) => {
 	res.contentType('application/json');
 	try{
-		let examJson = ExamId.idGet(req.params.examID);
-		if(examJson[0] == 200){
-			res.status(examJson[0]);
-			res.json(examJson[1]);
+		let response = ExamId.idGet(req.params.examID);
+		if(response.status == 200){
+			res.status(response.status);
+			res.json(response.jsonData);
 		}
-		if(examJson[0] == 400){
-			res.status(examJson[0]);
+		if(response.status == 400){
+			res.status(response.jsonData);
 			res.send("400 BAD REQUEST");
 		}
-		if(examJson[0] == 404){
-			res.status(examJson[0]);
+		if(responsae.status == 404){
+			res.status(response.status);
 			res.send("404 ID NOT FOUND");
 		}
 	}catch(error){console.log(error);}

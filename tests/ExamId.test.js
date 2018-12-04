@@ -1,10 +1,10 @@
-const idGet = require('./ExamId').idGet;
-const idFound = require('./ExamId').idFound;
-const idDelete = require('./ExamId').idDelete;
-const idPut = require('./ExamId').idPut;
+const idGet = require('./core/ExamId').idGet;
+const idFound = require('./core/ExamId').idFound;
+const idDelete = require('./core/ExamId').idDelete;
+const idPut = require('./core/ExamId').idPut;
 const fs = require('fs');
 
-let examJSON = fs.readFileSync('./exams.json', 'utf8');
+let examJSON = fs.readFileSync('./db/exams.json', 'utf8');
 var exams = JSON.parse(examJSON);
 
 var testExam = {
@@ -70,7 +70,7 @@ test('unvalid2: ID non esiste', () => {
 	expect(idGet(101)).toBe(404);
 });
 test('unvalid2: ID non esiste', () => {
-	expect(idGet(-101)).toBe(404);
+	expect(idGet(-2)).toBe(404);
 });
 test('unvalid2: ID non esiste', () => {
 	expect(idGet(101.10)).toBe(404);

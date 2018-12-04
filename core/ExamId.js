@@ -9,7 +9,7 @@ function idFound(id){
 //  console.log("idFound received ID: ", examID);
 //  console.log("is it a number? ",Number.isInteger(examID));
   if(typeof examID === "number" && Number.isInteger(examID)){
-    let examJSON = fs.readFileSync('./exams.json', 'utf8');
+    let examJSON = fs.readFileSync('./db/exams.json', 'utf8');
     var exams = JSON.parse(examJSON);
     const examIndex = exams.exams.findIndex(obj => obj.id == examID);
     if(examIndex != -1){
@@ -22,25 +22,27 @@ function idFound(id){
 
 //Returns a JSON object exam taken an examIndex
 function idGet(examID){
+  let response = {"status": null, "jsonData": null};
   let examIndex = idFound(examID);
   if(examIndex > -1){
-    let examJSON = fs.readFileSync('./exams.json', 'utf8');
-    var exams = JSON.parse(examJSON);
+    let examJSON = fs.readFileSync('./db/exams.json', 'utf8');
+    response.status = 200;
+    response.jsonData = JSON.parse(examJSON);
 //    console.log("Exam taken at examIndex: ", examIndex);
-    return [200,exams.exams[examIndex]];
+    return response;
   }
-  else if(examIndex == -1) return [400, null];
-  else if(examIndex == -2) return [404, null];
+  else if(examIndex == -1) {response.status = 400; return response;}
+  else if(examIndex == -2) {response.status = 404; return response;}
 }
 
 function idDelete(examID){
   let examIndex = idFound(examID);
   if(examIndex > -1){
-    let examJSON = fs.readFileSync('./exams.json', 'utf8');
+    let examJSON = fs.readFileSync('./db/exams.json', 'utf8');
     var exams = JSON.parse(examJSON);
     exams.exams.splice(examIndex, 1);
     let newJson = JSON.stringify(exams);
-    fs.writeFileSync('./exams.json', newJson);
+    fs.writeFileSync('./db/exams.json', newJson);
 //    console.log("Exam deleted at examIndex: ", examIndex);
     return 204;
   }
@@ -52,12 +54,12 @@ function idPut(examJson, examID){
   let examIndex = idFound(examID);
   if(examIndex > -1){
     if(Exam.valid(examJson) == 200){
-      let examJSON = fs.readFileSync('./exams.json', 'utf8');
+      let examJSON = fs.readFileSync('./db/exams.json', 'utf8');
       var exams = JSON.parse(examJSON);
       examJson.id = exams.exams[examIndex].id;
       exams.exams[examIndex] = examJson;
       let newJson = JSON.stringify(exams);
-      fs.writeFileSync('./exams.json', newJson);
+      fs.writeFileSync('./db/exams.json', newJson);
 //      console.log("Exam modified at examIndex: ", examIndex);
       return 202;
     }

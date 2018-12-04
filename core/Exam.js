@@ -1,11 +1,13 @@
 const fs = require('fs');
 
 function get(){
-	let examJSON = fs.readFileSync('./exams.json', 'utf8');
 	try{
-		let exams = JSON.parse(examJSON);
-		return [200,exams];
-	}catch(error){return [500,null];}
+	let response = {"status": null, "jsonData": null};
+	let examJSON = fs.readFileSync('./db/exams.json', 'utf8');
+		response.status = 200;
+		response.jsonData = JSON.parse(examJSON);
+		return response;
+	}catch(error){response.status = 500; return response;}
 }
 
 function valid(examJson){
@@ -49,16 +51,22 @@ function valid(examJson){
 
 function write(newExam){
   if(valid(newExam) == 200){
-		let examJSON = fs.readFileSync('./exams.json', 'utf8');
+		let response = {"status": null, "examId": null};
+		let examJSON = fs.readFileSync('./db/exams.json', 'utf8');
 		var exams = JSON.parse(examJSON);
     newExam.id = exams.nextid;
+		response.examId = newExam.id;
+		response.status = 201;
     exams.exams.push(newExam);
     exams.nextid ++;
     let newJson = JSON.stringify(exams);
-    fs.writeFileSync('./exams.json', newJson);
-    return [201,newExam.id];
+    fs.writeFileSync('./db/exams.json', newJson);
+    return response;
   }
-  else return [400,null];
+  else {
+		response.status = 400;
+		return response;
+	}
 }
 
 module.exports.get = get;
