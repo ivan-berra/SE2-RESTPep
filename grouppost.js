@@ -48,9 +48,9 @@ function grouppost(nomeGruppo, listaMembri){
 					let index=exported.lastIndexOf("[");
 					exported=exported.substring(0,index)+JSON.stringify(strtmp)+'}'+exported.substring(index+1, exported.length-2);
 					fs.writeFileSync('./groups.json', exported);
-					return return {"status": 200, "id": idDaAssegnare};
+					return {"status": 200, "id": idDaAssegnare};
 				}
-				else return return {"status": 400, "id": null};
+				else return {"status": 400, "id": null};
 			}
 			else return {"status": 400, "id": null};
 		}
