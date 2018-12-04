@@ -4,7 +4,7 @@
   "description": "Progetto del gruppo REST In Pepperoni",
   "main": "api.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --detectOpenHandles --coverage"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,12 @@
   "homepage": "https://github.com/ivan-berra/SE2-RESTPep#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "request": "^2.88.0"
+  },
+  "jest": {
+    "verbose": true,
+    "collectCoverage": true
   },
   "jest": {
     "verbose": true,

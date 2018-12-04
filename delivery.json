@@ -1,0 +1,20 @@
+
+{
+  "tested-id": 1,
+  "reviewed-id": 2,
+  "examples":
+  [
+    {
+      "id": 1,
+      "soluzione": "false"
+    },
+    {
+      "id": 2,
+      "soluzione": "false"
+    },
+    {
+      "id": 3,
+      "soluzione": "true"
+    }
+  ]
+}
