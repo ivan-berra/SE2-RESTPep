@@ -42,23 +42,23 @@ function grouppost(nomeGruppo, listaMembri){
 					gruppi.nextId=idDaAssegnare+1;
 
 
-					//gruppi['groups'].push({"groupId":iddaassegnare,"groupName":nomegruppo,"userList":[strtmp]});
+					//gruppi['groups'].push({"groupId":idDaAssegnare,"groupName":nomegruppo,"userList":[strtmp]});
 					gruppi['groups'].push({"groupId":idDaAssegnare,"groupName":nomeGruppo,"userList":[]});
 					let exported=JSON.stringify(gruppi);
 					let index=exported.lastIndexOf("[");
 					exported=exported.substring(0,index)+JSON.stringify(strtmp)+'}'+exported.substring(index+1, exported.length-2);
 					fs.writeFileSync('./groups.json', exported);
-					return 200;
+					return return {"status": 200, "id": idDaAssegnare};
 				}
-				else return 400;
+				else return return {"status": 400, "id": null};
 			}
-			else return 400;
+			else return {"status": 400, "id": null};
 		}
-		else return 400;
+		else return {"status": 400, "id": null};
 	}
 	else
 	{
-		return 400;
+		return {"status": 400, "id": null};
 	}
 }
 
@@ -74,9 +74,10 @@ function esisteUser(idUser)
 	var utenti=JSON.parse(imported.toString().replace(re, ""));*/
 	let utenti = JSON.parse(imported);
 	var lookingAt=idUser;
+	let tmp=utenti.users[lookingAt];
 	if(utenti.nextId<=idUser)
 		return false;
-	else if (utenti.users[lookingAt]!=null && utenti.users[lookingAt]!=undefined && utenti.users[lookingAt].id==idUser)
+	else if (tmp!=null && tmp!=undefined && tmp.id==idUser)
 		return true;
 	else {
 		let beginSearch=0;
@@ -84,7 +85,8 @@ function esisteUser(idUser)
 		lookingAt=((beginSearch+endSearch)/2);
 		do{
 			lookingAt=((beginSearch+endSearch)/2);
-			if(utenti.users[lookingAt]==null)
+			tmp=utenti.users[lookingAt];
+			if(tmp==null)
 			{
 				let indice=lookingAt-1;
 				while(indice>=beginSearch && utenti.users[indice]==null)
@@ -98,29 +100,31 @@ function esisteUser(idUser)
 						return false;
 					else
 					{
-						if(utenti.users[indice]<idUser)
+						tmp=utenti.users[indice];
+						if(tmp.id<idUser)
 							beginSearch=indice+1;
-						else if (utenti.users[indice]>idUser)
+						else if (tmp.id>idUser)
 							endSearch=indice-1;
-						else if(utenti.users[indice]==idUser)
+						else if(tmp.id==idUser)
 							return true;
 					}
 				}
 				else
 				{
-					if(utenti.users[indice]<idUser)
+					tmp=utenti.users[indice];
+					if(tmp.id<idUser)
 						beginSearch=indice+1;
-					else if (utenti.users[indice]>idUser)
+					else if (tmp.id>idUser)
 						endSearch=indice-1;
-					else if(utenti.users[indice]==idUser)
+					else if(tmp.id==idUser)
 						return true;
 				}
 			}
-			else if(utenti.users[lookingAt]<idUser)
+			else if(tmp.id<idUser)
 				beginSearch=lookingAt+1;
-			else if (utenti.users[lookingAt]>idUser)
+			else if (tmp.id>idUser)
 				endSearch=lookingAt-1;
-			else if(utenti.users[lookingAt]==idUser)
+			else if(tmp.id==idUser)
 				return true;
 		}while(beginSearch<=endSearch)
 		return false;

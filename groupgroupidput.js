@@ -131,9 +131,10 @@ function esisteUser(idUser)
 	var utenti=JSON.parse(imported.toString().replace(re, ""));*/
 	let utenti = JSON.parse(imported);
 	var lookingAt=idUser;
+	let tmp=utenti.users[lookingAt];
 	if(utenti.nextId<=idUser)
 		return false;
-	else if (utenti.users[lookingAt]!=null && utenti.users[lookingAt]!=undefined && utenti.users[lookingAt].id==idUser)
+	else if (tmp!=null && tmp!=undefined && tmp.id==idUser)
 		return true;
 	else {
 		let beginSearch=0;
@@ -141,7 +142,8 @@ function esisteUser(idUser)
 		lookingAt=((beginSearch+endSearch)/2);
 		do{
 			lookingAt=((beginSearch+endSearch)/2);
-			if(utenti.users[lookingAt]==null)
+			tmp=utenti.users[lookingAt];
+			if(tmp==null)
 			{
 				let indice=lookingAt-1;
 				while(indice>=beginSearch && utenti.users[indice]==null)
@@ -155,29 +157,31 @@ function esisteUser(idUser)
 						return false;
 					else
 					{
-						if(utenti.users[indice]<idUser)
+						tmp=utenti.users[indice];
+						if(tmp.id<idUser)
 							beginSearch=indice+1;
-						else if (utenti.users[indice]>idUser)
+						else if (tmp.id>idUser)
 							endSearch=indice-1;
-						else if(utenti.users[indice]==idUser)
+						else if(tmp.id==idUser)
 							return true;
 					}
 				}
 				else
 				{
-					if(utenti.users[indice]<idUser)
+					tmp=utenti.users[indice];
+					if(tmp.id<idUser)
 						beginSearch=indice+1;
-					else if (utenti.users[indice]>idUser)
+					else if (tmp.id>idUser)
 						endSearch=indice-1;
-					else if(utenti.users[indice]==idUser)
+					else if(tmp.id==idUser)
 						return true;
 				}
 			}
-			else if(utenti.users[lookingAt]<idUser)
+			else if(tmp.id<idUser)
 				beginSearch=lookingAt+1;
-			else if (utenti.users[lookingAt]>idUser)
+			else if (tmp.id>idUser)
 				endSearch=lookingAt-1;
-			else if(utenti.users[lookingAt]==idUser)
+			else if(tmp.id==idUser)
 				return true;
 		}while(beginSearch<=endSearch)
 		return false;
