@@ -4,9 +4,7 @@ test('Test valido', () => {
 
     var received = userpost(197621, "prova@prova.com", false); 
 
-    expect(received.jsonData.mat).toBe(197621);
-    expect(received.jsonData.email).toBe("prova@prova.com");
-    expect(received.jsonData.isTeacher).toBe(false);
+    expect(received.status).toBe(200);
 
 });
 

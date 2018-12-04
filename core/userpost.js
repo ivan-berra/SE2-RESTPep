@@ -22,7 +22,7 @@ function userpost(matricola, email, isTeacher){
         
         return {
             "status": 200, 
-            "jsonData": {"id":idUtente,"mat":matricola,"email":email,"isTeacher":isTeacher}
+            "jsonData": {"id":idUtente}
         };	
             
 	}
