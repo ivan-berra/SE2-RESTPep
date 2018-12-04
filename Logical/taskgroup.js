@@ -3,28 +3,32 @@
 var fs = require('fs');
 
 
-function Tgrouppost(id_Tgroup, tasklist){
-	if(typeof id_Tgroup === "number" && Number.isInteger(id_Tgroup))
-	{
+function Tgrouppost(tasklist){
 		if(typeof tasklist === "object" && tasklist !=null)
 		{
+			let imported = fs.readFileSync('db/taskgroup.json', 'utf8');
+			let taskgroup=JSON.parse(imported);
+			let nextTgroup=taskgroup.nextId;
+			taskgroup.nextId=nextTgroup+1;
+			taskgroup['TGroups'].push({"id_Tgroup": nextTgroup, "tasks": tasklist});
+			let exported=JSON.stringify(delivery);
+	  	fs.writeFileSync('db/taskgroup.json', exported);
 			return {
 				"status": 200, 
-				"jsonData": {"id":iddelivery}
+				"jsonData": {"id":nextTgroup}
 			  }; 
 		}
 		return {
 			"status": 400, 
 			"jsonData": null
 		  }; 
-	}
-	return {
-		"status": 400, 
-		"jsonData": null
-	  }; 
+	
+
 }
 
-function Tgroupgetid(){
+
+//not now
+/*function Tgroupgetid(){
 	let imported = fs.readFileSync('./Logical/taskgroup.json', 'utf8', function (err, data) {
         if (err) throw err;
         var obj = JSON.parse(data);
@@ -36,7 +40,7 @@ function Tgroupgetid(){
 		"status": 200, 
 		"jsonData": {"id":iddelivery}
 	  }; 
-}
+}*/
 
 
 function Tgroupget(){
@@ -45,15 +49,13 @@ function Tgroupget(){
         var obj = JSON.parse(data);
 	});
 	
-
     return {
 		"status": 200, 
-		"jsonData": {"id":imported.id_Tgroup}
+		"jsonData": {"Gruppi":imported.Tgroups}
 	  }; 
 }
 
 module.exports = {
 	Tgrouppost,
 	Tgroupget,
-	Tgroupgetid
 };
