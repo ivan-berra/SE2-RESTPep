@@ -4,7 +4,7 @@
   "description": "Progetto del gruppo REST In Pepperoni",
   "main": "api.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --detectOpenHandles --coverage"
   },
   "repository": {
     "type": "git",
