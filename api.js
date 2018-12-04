@@ -284,3 +284,60 @@ app.get('/tasks/:id', (req, res) => {
 });
 
 */
+
+const GETtasks = require('./core/GETtasks');
+const POSTtasks = require('./core/POSTtasks');
+const GETtasksId = require('./core/GETtasksId');
+const DELETEtasksId = require('./core/DELETEtasksId');
+const PUTtasksId = require('./core/PUTtasksId');
+
+app.get('/tasks', (req, res) => {
+
+	let toSend = GETtasks();
+	res.setHeader('Content-Type', 'application/json');
+	res.status(toSend.status);
+	res.send(toSend.jsonData);
+
+})
+
+app.get('/tasks/:id', (req, res) => {
+
+	let toSend = GETtasksId(parseInt(req.params.id));
+	res.status(toSend.status);
+	if(toSend.status == 200){
+		res.send(toSend.jsonData);
+	}
+
+})
+
+app.post('/tasks', (req, res) => {
+
+	let toSend = POSTtasks(req.body);
+	res.status(toSend.status);
+	if(toSend.status == 201){
+		res.send(toSend.id.toString());
+	} 
+
+})
+
+app.put('/tasks/:id', (req, res) => {
+	
+	let toSend = PUTtasksId(req.body, req.params.id);
+	res.status(toSend);
+	res.send(toSend.toString());
+})
+
+app.delete('/tasks/:id', (req, res) => {
+
+	let toSend = DELETEtasksId(req.params.id);
+	res.status(toSend);
+	res.send(toSend.toString());
+
+})
+
+
+
+
+
+
+

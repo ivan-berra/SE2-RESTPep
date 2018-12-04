@@ -29,14 +29,10 @@
     "verbose": true,
     "collectCoverage": true
   },
-  "jest": {
-    "verbose": true,
-    "collectCoverage": true
-  },
   "devDependencies": {
     "jest": "^23.6.0"
   },
   "engines": {
-   "node": "8.10.0"
+    "node": "8.10.0"
   }
 }
