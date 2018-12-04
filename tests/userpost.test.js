@@ -1,4 +1,4 @@
-const userpost = require('./userpost');
+const userpost = require('../core/userpost');
 
 test('Test valido', () => {
 

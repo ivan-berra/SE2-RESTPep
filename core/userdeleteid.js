@@ -11,7 +11,7 @@ function userdeleteid(searchedId){
             return {"status": 404, "jsonData": null};
         else {
 
-            let imported = fs.readFileSync('./users.json', 'utf8');
+            let imported = fs.readFileSync('db/users.json', 'utf8');
 	    
             let utenti=JSON.parse(imported);
             
@@ -19,7 +19,7 @@ function userdeleteid(searchedId){
             
             let exported=JSON.stringify(utenti);
 	    
-	        fs.writeFileSync('./users.json', exported);
+	        fs.writeFileSync('db/users.json', exported);
             
                 return {"status": 204, "jsonData": null};
         }

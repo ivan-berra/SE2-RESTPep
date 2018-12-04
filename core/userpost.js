@@ -9,7 +9,7 @@ function userpost(matricola, email, isTeacher){
 	    
 	{
 
-	    let imported = fs.readFileSync('./users.json', 'utf8');
+	    let imported = fs.readFileSync('db/users.json', 'utf8');
 	    
             let utenti=JSON.parse(imported);
             let idUtente=utenti.nextId;
@@ -18,7 +18,7 @@ function userpost(matricola, email, isTeacher){
             utenti['users'].push({"id":idUtente,"mat":matricola,"email":email,"isTeacher":isTeacher});
             let exported=JSON.stringify(utenti);
 	    
-	    fs.writeFileSync('./users.json', exported);
+	    fs.writeFileSync('db/users.json', exported);
         
         return {
             "status": 200, 

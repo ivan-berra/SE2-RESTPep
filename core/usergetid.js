@@ -10,7 +10,7 @@ function usergetid(searchedId){
         if (!searchedUser)
             return {"status": 404, "jsonData": null};
         else {
-            let imported = fs.readFileSync('./users.json', 'utf8');
+            let imported = fs.readFileSync('db/users.json', 'utf8');
 	    
             let utenti=JSON.parse(imported);
             

@@ -38,7 +38,7 @@ function userput(searchedId, matricola, email, isTeacher){
         
         if(validMatricola && validEmail && validTeacher && (newMatricola || newEmail || newTeacher))
         {	    
-                let imported = fs.readFileSync('./users.json', 'utf8');
+                let imported = fs.readFileSync('db/users.json', 'utf8');
                 
                     let utenti=JSON.parse(imported);
                 
@@ -53,7 +53,7 @@ function userput(searchedId, matricola, email, isTeacher){
 
                     let exported=JSON.stringify(utenti);
                 
-                fs.writeFileSync('./users.json', exported);
+                fs.writeFileSync('db/users.json', exported);
                 
                 return {"status": 200, "jsonData": null};;	     
                 

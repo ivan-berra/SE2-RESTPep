@@ -2,7 +2,7 @@ var fs = require("fs");
 
 function esisteUser(idUser)
 {
-	let imported = fs.readFileSync('./users.json', 'utf8')
+	let imported = fs.readFileSync('db/users.json', 'utf8')
 
 	let utenti = JSON.parse(imported);
 	var lookingAt=idUser;

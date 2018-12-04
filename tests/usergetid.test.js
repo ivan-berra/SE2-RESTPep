@@ -1,4 +1,4 @@
-const usergetid = require('./usergetid');
+const usergetid = require('../core/usergetid');
 
 test('Test valido', () => {
 

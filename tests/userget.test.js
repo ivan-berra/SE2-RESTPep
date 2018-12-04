@@ -1,4 +1,4 @@
-const userget = require('./userget');
+const userget = require('../core/userget');
 
 test('Test valido', () => {
 
