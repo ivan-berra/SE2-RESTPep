@@ -11,7 +11,7 @@ function Tgrouppost(tasklist){
 			let nextTgroup=taskgroup.nextId;
 			taskgroup.nextId=nextTgroup+1;
 			taskgroup['TGroups'].push({"id_Tgroup": nextTgroup, "tasks": tasklist});
-			let exported=JSON.stringify(delivery);
+			let exported=JSON.stringify(taskgroup);
 	  	fs.writeFileSync('db/taskgroup.json', exported);
 			return {
 				"status": 200, 
@@ -44,7 +44,7 @@ function Tgrouppost(tasklist){
 
 
 function Tgroupget(){
-	let imported = fs.readFileSync('./Logical/taskgroup.json', 'utf8', function (err, data) {
+	let imported = fs.readFileSync('db/taskgroup.json', 'utf8', function (err, data) {
         if (err) throw err;
         var obj = JSON.parse(data);
 	});
