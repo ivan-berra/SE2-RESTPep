@@ -1,0 +1,4 @@
+
+test('null', () => {
+	expect("").toBe("");
+});
