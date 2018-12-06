@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const Exam = require('./core/Exam');
 const ExamId = require('./core/ExamId');
 const fs = require('fs');
-const taskpost = require('./taskpost');
 
 const app = express()
 const PORT = process.env.PORT || 3000
