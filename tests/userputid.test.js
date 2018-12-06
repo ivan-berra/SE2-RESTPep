@@ -1,5 +1,21 @@
 const userput = require('../core/userputid');
 
+const retreiveBackup = require('../core/retreiveBackup');
+const resetJSON = require('../core/resetJSON');
+
+const file = 'db/users.json';
+
+let fileBackup = null
+
+beforeAll(() => {
+    fileBackup = retreiveBackup(file);
+})
+
+afterEach(() => {
+    resetJSON(file, fileBackup);
+})
+
+
 test('Test valido', () => {
 
     expect(userput(1, 197621, "prova@prova.com", false).status).toBe(200);
@@ -116,8 +132,3 @@ test('Test non valido: isTeacher è una stringa', () => {
     expect(userput(1, 197621, "prova@prova.com", "forse").status).toBe(400);
 
 });
-
-
-
-
-
