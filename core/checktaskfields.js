@@ -46,7 +46,6 @@ function checkConsegnaCrocette(consegna){
 
 //controlla se la formattazione della risoluzione delle crocette è corretta
 //le risposte indicate sono indicate da numeri. 1 per la prima opzione ecc... se ci sono piu risposte sono separate da ' | ' 
-//i numeri delle risposte non possono essere ripetuti e vanno messi in ordine crescente (??non so se serve, ma farebbe comodo se c'è da fare la correzione automatica??)
 //es: 1 | 2 | 3 => OK
 function checkRisoluzioneCrocette(risoluzione){
 	let array = risoluzione.split('|');

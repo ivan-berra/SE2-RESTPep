@@ -4,6 +4,11 @@ const fs = require('fs');
  
 function PUTtasksId (newtask, inputId){
 	let res = null;
+
+	if(newtask == null || inputId == null){
+		return 400;
+	}
+
 	inputId = parseInt(inputId);
 	let checkField = checktaskfields(newtask.aperta, newtask.consegna, newtask.risoluzione, newtask.punteggiomax);
 	let checkId = checktaskid(inputId);
@@ -20,7 +25,7 @@ function PUTtasksId (newtask, inputId){
 				obj.tasks[index].risoluzione=newtask.risoluzione;
 				obj.tasks[index].punteggiomax=newtask.punteggiomax;
 				json = JSON.stringify(obj); //reconvert to JSON
-				fs.writeFile('db/tasks.json',json, (err) => {
+				fs.writeFileSync('db/tasks.json',json, (err) => {
 					if (err) throw err;
 				});
 				res = 200;
@@ -31,7 +36,7 @@ function PUTtasksId (newtask, inputId){
 
 		}
 		else{
-			res = 500;
+			res = checkField;
 		}
 	}
 	else if(checkId==400){
