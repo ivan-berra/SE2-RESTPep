@@ -59,7 +59,7 @@ test('unvalid5: ID non esiste', () => {
 });
 
 
-//EXAMS/{EXAMSID} -> IDGET (TEST ID PASSANO PER IDFOUND)
+//EXAMS/{EXAMSID} -> IDGET (TEST FORMATO ID PASSANO PER IDFOUND)
 test('valid', () => {
 	expect(idGet(1)).toEqual({"status": 200, "jsonData": exams.exams[0]});
 });
@@ -81,7 +81,7 @@ test('unvalid2: ID non esiste', () => {
 	expect(idGet([101,1])).toEqual(notfoundRes);
 });
 
-//EXAMS/{EXAMSID} -> IDDELETE (TEST ID PASSANO PER IDFOUND)
+//EXAMS/{EXAMSID} -> IDDELETE (TEST FORMATO ID PASSANO PER IDFOUND)
 test('valid', () => {
 	expect(idDelete(1)).toBe(204);
 });
@@ -94,7 +94,7 @@ test('unvalid2: ID non esiste', () => {
 	expect(idDelete(1010101010)).toBe(404);
 });
 
-//EXAMS/{EXAMSID} -> IDPUT (TEST PER ID PASSANO PER IDFOUND)
+//EXAMS/{EXAMSID} -> IDPUT (TEST FORMATO ID PASSANO PER IDFOUND, TEST FORMATO ESAMI PASSANO PER EXAM.VALID)
 test('valid', () => {
 	expect(idPut(testExam,2)).toBe(202);
 });

@@ -1,4 +1,3 @@
-const fs = require('fs');
 const delivery = require('./delivery');
 
 function idFound(id){
@@ -18,15 +17,17 @@ function idFound(id){
 }
 
 function idGet(deliveryID){
+  let response = {"status": null, "jsonData": null};
   let deliveryIndex = idFound(deliveryID);
   if(deliveryIndex > -1){
     let deliveryJSON = fs.readFileSync('./db/deliveries.json', 'utf8');
     var deliveries = JSON.parse(deliveryJSON);
 //    console.log("delivery taken at deliveryIndex: ", deliveryIndex);
-    return deliveries.deliveries[deliveryIndex];
+    response.jsonData deliveries.deliveries[deliveryIndex];
+    return response;
   }
-  else if(deliveryIndex == -1) return 400;
-  else if(deliveryIndex == -2) return 404;
+  else if(examIndex == -1) {response.status = 400; return response;}
+  else if(examIndex == -2) {response.status = 404; return response;}
 }
 
 function idDelete(deliveryID){
