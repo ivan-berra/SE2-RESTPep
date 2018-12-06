@@ -1,4 +1,4 @@
-const Tgroup = require('./taskgroup');
+const Tgroup = require('../core/taskgroup');
 //il metodo per il test è pensato per restituire il valore di http status
 
 test('valid', () => {
