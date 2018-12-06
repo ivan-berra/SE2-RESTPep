@@ -1,6 +1,4 @@
 const DELETEtasksId = require('../core/DELETEtasksId');
-const fs = require('fs');
-
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');
 
@@ -50,5 +48,17 @@ test('Test non valido: id null', () => {
 
 test('Test non valido: id undefined', () => {
     expect(DELETEtasksId(undefined)).toBe(400);
+
+});
+
+
+test('Test invalido: id not found', () => {
+	let received = DELETEtasksId(4);
+	expect(received).toEqual(404);
+});
+
+test('Test invalido: error during reading db/tasks', () => {
+	require('fs').writeFileSync(file, "not json");
+	expect(DELETEtasksId(1)).toBe(500);
 
 });

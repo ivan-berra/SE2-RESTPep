@@ -1,6 +1,4 @@
 const PUTtasksId = require('../core/PUTtasksId');
-const fs = require('fs');
-
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');
 
@@ -26,7 +24,8 @@ let taskInvalida1 = { aperta: "error", consegna: "test post | opzione 1 | opzion
 let taskInvalida2 = { aperta: false, consegna: "test post ", risoluzione: "1", punteggiomax: 10};
 let taskInvalida3 = { aperta: true, consegna: "test post | opzione 1 | opzione 2", risoluzione: 1, punteggiomax: 10};
 let taskInvalida4 = { aperta: false, consegna: "test post | opzione 1 | opzione 2", risoluzione: "1", punteggiomax: "error"};
-
+let taskInvalida5 = { aperta: false, consegna: "test post | opzione 1 | opzione 2", risoluzione: "A | B", punteggiomax: 10};
+let taskInvalida6 = { aperta: true, consegna: null, risoluzione: "risposta...", punteggiomax: 10};
 
 
 test('Test valido: domanda aperta', () => {
@@ -53,10 +52,22 @@ test('Test invalido: bad formatting in risoluzione', () => {
 	let received = PUTtasksId(taskInvalida3, 1);
 	expect(received).toEqual(400);
 });
+
 test('Test invalido: bad formatting in punteggio', () => {
 	let received = PUTtasksId(taskInvalida4, 1);
 	expect(received).toEqual(400);
 });
+
+test('Test invalido: bad formatting in risoluzione crocette', () => {
+	let received = PUTtasksId(taskInvalida5, 1);
+	expect(received).toEqual(400);
+});
+
+test('Test invalido: bad formatting consegna null', () => {
+	let received = PUTtasksId(taskInvalida6, 1);
+	expect(received).toEqual(400);
+});
+
 test('Test invalido: null object', () => {
 	let received = PUTtasksId(null, 1);
 	expect(received).toEqual(400);
@@ -71,6 +82,27 @@ test('Test invalido: undefined object', () => {
 test('Test invalido: id null', () => {
 	let received = PUTtasksId(taskValida1, null);
 	expect(received).toEqual(400);
+});
+
+test('Test invalido: id not found', () => {
+	let received = PUTtasksId(taskValida1, 4);
+	expect(received).toEqual(404);
+});
+
+
+test('Test invalido: id not found', () => {
+	let received = PUTtasksId(taskValida1, 999);
+	expect(received).toEqual(404);
+});
+
+test('Test invalido: id bad format', () => {
+	let received = PUTtasksId(taskValida1, -1);
+	expect(received).toEqual(400);
+});
+
+test('Test invalido: error during reading db/tasks', () => {
+	require('fs').writeFileSync(file, "not json");
+	expect(PUTtasksId(taskValida1, 1)).toBe(500);
 });
 
 
