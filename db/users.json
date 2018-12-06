@@ -1,30 +1,10 @@
 {
-  "nextId": 4,
-  "users":
-  [
-    {
-      "id": 0,
-      "mat": 783280,
-      "email": "emailuser0@legitmail.com",
-      "isTeacher": false
-    },
-    {
-      "id": 1,
-      "mat": 783290,
-      "email": "emailuser1@legitmail.com",
-      "isTeacher": false
-    },
-    {
-      "id": 2,
-      "mat": 137846,
-      "email": "emailuser2@legitmail.com",
-      "isTeacher": false
-    },
-    {
-      "id": 3,
-      "mat": 788350,
-      "email": "emailuser3@legitmail.com",
-      "isTeacher": true
-    }
-  ]
+    "nextId": 5,
+    "users": [
+        { "id": 0, "mat": 123123, "email": "emailuser0@legitmail.com", "isTeacher": true },
+        { "id": 1, "mat": 197621, "email": "emailuser1@legitmail.com", "isTeacher": false },
+        { "id": 2, "mat": 137846, "email": "emailuser2@legitmail.com", "isTeacher": false },
+        { "id": 3, "mat": 788350, "email": "emailuser3@legitmail.com", "isTeacher": true },
+        { "id": 4, "mat": 342311, "email": "emailuser4@legitmail.com", "isTeacher": false }
+    ]
 }
