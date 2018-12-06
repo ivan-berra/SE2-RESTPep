@@ -24,17 +24,18 @@ function idGet(deliveryID){
     let deliveryJSON = fs.readFileSync('./db/deliveries.json', 'utf8');
     var deliveries = JSON.parse(deliveryJSON);
 //    console.log("delivery taken at deliveryIndex: ", deliveryIndex);
-    response.jsonData deliveries.deliveries[deliveryIndex];
+    response.jsonData = deliveries.deliveries[deliveryIndex];
+    response.status = 200;
     return response;
   }
-  else if(examIndex == -1) {response.status = 400; return response;}
-  else if(examIndex == -2) {response.status = 404; return response;}
+  else if(deliveryIndex == -1) {response.status = 400; return response;}
+  else if(deliveryIndex == -2) {response.status = 404; return response;}
 }
 
 function idDelete(deliveryID){
   let deliveryIndex = idFound(deliveryID);
   if(deliveryIndex > -1){
-    let deliveryJSON = fs.readFileSync('./sv/deliveries.json', 'utf8');
+    let deliveryJSON = fs.readFileSync('./db/deliveries.json', 'utf8');
     var deliveries = JSON.parse(deliveryJSON);
     deliveries.deliveries.splice(deliveryIndex, 1);
     let newJson = JSON.stringify(deliveries);

@@ -9,9 +9,14 @@ var deliveries = JSON.parse(deliveryJSON);
 var errorRes = {"jsonData": null, "status": 400};
 var notfoundRes = {"jsonData": null, "status": 404};
 
+afterAll(() => {
+	let newJson = JSON.stringify(deliveries);
+	fs.writeFileSync('./db/deliveries.json', newJson);
+})
+
 // DELIVERIES/{EXAMSID} -> IDFOUND
 test('valid', () => {
-	expect(idFound(1)).toBe(0);
+	expect(idFound(3)).toBe(0);
 });
 
 test('unvalid1: formato ID erroneo', () => {
@@ -36,7 +41,7 @@ test('unvalid5: ID non esiste', () => {
 
 //DELIVERIES/{EXAMSID} -> IDGET (TEST FORMATO ID PASSANO PER IDFOUND)
 test('valid', () => {
-	expect(idGet(1)).toEqual({"status": 200, "jsonData": deliveries.deliveries[0]});
+	expect(idGet(3)).toEqual({"status": 200, "jsonData": deliveries.deliveries[0]});
 });
 
 test('unvalid1: formato ID erroneo', () => {
@@ -58,7 +63,7 @@ test('unvalid2: ID non esiste', () => {
 
 //DELIVERIES/{EXAMSID} -> IDDELETE (TEST FORMATO ID PASSANO PER IDFOUND)
 test('valid', () => {
-	expect(idDelete(1)).toBe(204);
+	expect(idDelete(3)).toBe(204);
 });
 
 test('unvalid1: formato ID erroneo', () => {
