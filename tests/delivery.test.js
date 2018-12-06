@@ -1,7 +1,11 @@
 const delivery = require('../core/delivery');
-
+var examples = {
+	"id":1,
+    "soluzione":"false",
+    "punteggio":1
+}
 test('valid open question', () => {
-	var received = delivery.postdelivery(1,1,3,[7,"false", 44]); 
+	var received = delivery.postdelivery(1,1,3,examples); 
 	expect(received.status).toBe(200);
 });
 

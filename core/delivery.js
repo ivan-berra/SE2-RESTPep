@@ -5,11 +5,11 @@ var fs = require('fs');
 
 function postdelivery(exam_id,id_tested,id_reviewed,examples){
   if(Number.isInteger(id_tested) && Number.isInteger(id_reviewed)
-    && Number.isInteger(exam_id) && Array.isArray(examples)){
+    && Number.isInteger(exam_id) ){
     let imported = fs.readFileSync('db/deliveries.json', 'utf8');
     let delivery=JSON.parse(imported);
-    let iddelivery=delivery.nextId;
-    delivery.nextId=iddelivery+1;
+    let iddelivery=delivery.nextid;
+    delivery.nextid=iddelivery+1;
 		delivery['deliveries'].push({"id":iddelivery,"exam-id":exam_id,"tested-id":id_tested,
 			"reviewed-id":id_reviewed,"examples":examples});
     let exported=JSON.stringify(delivery);
@@ -20,6 +20,15 @@ function postdelivery(exam_id,id_tested,id_reviewed,examples){
     }; 
   }
   else return {"status":400, "jsonData": null};
+}
+
+function isJson(str) {
+	try {
+			JSON.parse(str);
+	} catch (e) {
+			return false;
+	}
+	return true;
 }
 
 /*function getdeliveryid(sid){
