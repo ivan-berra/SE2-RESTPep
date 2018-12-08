@@ -15,9 +15,9 @@ function postdelivery(exam_id,id_tested,id_reviewed,examples){
     let exported=JSON.stringify(delivery);
 	  fs.writeFileSync('db/deliveries.json', exported);
     return {
-      "status": 200, 
+      "status": 200,
       "jsonData": {"id":iddelivery}
-    }; 
+    };
   }
   else return {"status":400, "jsonData": null};
 }
@@ -27,9 +27,9 @@ function postdelivery(exam_id,id_tested,id_reviewed,examples){
     let res = searchid(sid);
     if(res >= 0 || sid == -1){
       let imported = fs.readFileSync('db/users.json', 'utf8');
-	    
+
       let delivery=JSON.parse(imported);
-            
+
       return {
         "status": 200,
         "jsonData": {"id":delivery['id'][res].id,"mat":delivery['users'][res].mat,
@@ -58,7 +58,7 @@ module.exports = {
 	postdelivery,
   //getdeliveryid,
   getdelivery
-  
+
 };
 
 function searchid (id){
@@ -66,23 +66,22 @@ function searchid (id){
 
 	let list = JSON.parse(imported);
 	var lookingAt=id;
-	if(list.nextId<=id)
-		return -1;
-		
-	else if ( 
-				(list.deliveries[lookingAt]!=null 
-				&& list.deliveries[lookingAt]!=undefined 
-				&& list.deliveries[lookingAt].id==id)
-			)
-		return lookingAt;
+  let tmp=list.deliveries[lookingAt];
 
-	else {
+	if(list.nextId<=id) {
+		return -1;
+  }
+  else if (tmp!=null && tmp!=undefined && tmp.id==id) {
+		return lookingAt;
+  }
+  else {
 		let beginSearch=0;
 		let endSearch=list.deliveries.length-1;
 		lookingAt=((beginSearch+endSearch)/2);
 		do{
 			lookingAt=((beginSearch+endSearch)/2);
-			if(list.deliveries[lookingAt]==null)
+      tmp=list.deliveries[lookingAt];
+			if(tmp==null)
 			{
 				let indice=lookingAt-1;
 				while(indice>=beginSearch && list.deliveries[indice]==null)
@@ -96,29 +95,31 @@ function searchid (id){
 						return -1;
 					else
 					{
-						if(list.deliveries[indice]<id)
+            tmp=list.deliveries[indice];
+						if(tmp.id<id)
 							beginSearch=indice+1;
-						else if (list.deliveries[indice]>id)
+						else if (tmp.id>id)
 							endSearch=indice-1;
-						else if(list.deliveries[indice]==id)
-							return lookingAt;
+						else if(tmp.id==id)
+							return indice;
 					}
 				}
 				else
 				{
-					if(list.deliveries[indice]<id)
+          tmp=list.deliveries[indice];
+					if(tmp.id<id)
 						beginSearch=indice+1;
-					else if (list.deliveries[indice]>id)
+					else if (tmp.id>id)
 						endSearch=indice-1;
-					else if(list.deliveries[indice]==id)
-						return lookingAt;
+					else if(tmp.id==id)
+						return indice;
 				}
 			}
-			else if(list.deliveries[lookingAt]<id)
+			else if(tmp.id<id)
 				beginSearch=lookingAt+1;
-			else if (list.deliveries[lookingAt]>id)
+			else if (tmp.id>id)
 				endSearch=lookingAt-1;
-			else if(list.deliveries[lookingAt]==id)
+			else if(tmp.id==id)
 				return lookingAt;
 		}while(beginSearch<=endSearch)
 		return -1;
