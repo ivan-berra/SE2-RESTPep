@@ -4,11 +4,12 @@
 var fs = require('fs');
 
 function postdelivery(exam_id,id_tested,id_reviewed,examples){
+	let test=JSON.stringify(examples);
   if(Number.isInteger(id_tested) && Number.isInteger(id_reviewed)
-    && Number.isInteger(exam_id) ){
+    && Number.isInteger(exam_id) && isJson(test)){
     let imported = fs.readFileSync('db/deliveries.json', 'utf8');
     let delivery=JSON.parse(imported);
-    let iddelivery=delivery.nextid;
+    let iddelivery=delivery.nextid;true
     delivery.nextid=iddelivery+1;
 		delivery['deliveries'].push({"id":iddelivery,"exam-id":exam_id,"tested-id":id_tested,
 			"reviewed-id":id_reviewed,"examples":examples});
@@ -66,70 +67,10 @@ function getdelivery(){
 module.exports = {
 	postdelivery,
   //getdeliveryid,
-  getdelivery
+	getdelivery,
+	isJson
   
 };
 
 function searchid (id){
-  let imported = fs.readFileSync('db/deliveries.json', 'utf8')
-
-	let list = JSON.parse(imported);
-	var lookingAt=id;
-	if(list.nextId<=id)
-		return -1;
-		
-	else if ( 
-				(list.deliveries[lookingAt]!=null 
-				&& list.deliveries[lookingAt]!=undefined 
-				&& list.deliveries[lookingAt].id==id)
-			)
-		return lookingAt;
-
-	else {
-		let beginSearch=0;
-		let endSearch=list.deliveries.length-1;
-		lookingAt=((beginSearch+endSearch)/2);
-		do{
-			lookingAt=((beginSearch+endSearch)/2);
-			if(list.deliveries[lookingAt]==null)
-			{
-				let indice=lookingAt-1;
-				while(indice>=beginSearch && list.deliveries[indice]==null)
-					indice--;
-				if(indice<beginSearch)
-				{
-					indice=lookingAt+1;
-					while(indice<=endSearch && list.deliveries[indice]==null)
-						indice++;
-					if(indice>endSearch)
-						return -1;
-					else
-					{
-						if(list.deliveries[indice]<id)
-							beginSearch=indice+1;
-						else if (list.deliveries[indice]>id)
-							endSearch=indice-1;
-						else if(list.deliveries[indice]==id)
-							return lookingAt;
-					}
-				}
-				else
-				{
-					if(list.deliveries[indice]<id)
-						beginSearch=indice+1;
-					else if (list.deliveries[indice]>id)
-						endSearch=indice-1;
-					else if(list.deliveries[indice]==id)
-						return lookingAt;
-				}
-			}
-			else if(list.deliveries[lookingAt]<id)
-				beginSearch=lookingAt+1;
-			else if (list.deliveries[lookingAt]>id)
-				endSearch=lookingAt-1;
-			else if(list.deliveries[lookingAt]==id)
-				return lookingAt;
-		}while(beginSearch<=endSearch)
-		return -1;
-}
 }

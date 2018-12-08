@@ -4,6 +4,7 @@ var examples = {
     "soluzione":"false",
     "punteggio":1
 }
+let examples_String=JSON.stringify(examples);
 test('valid open question', () => {
 	var received = delivery.postdelivery(1,1,3,examples); 
 	expect(received.status).toBe(200);
@@ -19,8 +20,15 @@ test('valid open question', () => {
 	expect(received.status).toBe(200);
 });
 
+test('It is a Json', () =>{
+	expect(delivery.isJson(examples_String)).toBe(true);
+})
 
 //UNVALID
+
+test('It is a Json', () =>{
+	expect(delivery.isJson("sasfaf")).toBe(false);
+})
 
 test('unvalid field exam_ID', () => {
 	var received = delivery.postdelivery('ciao',45,54,[7,"false", 44]);
