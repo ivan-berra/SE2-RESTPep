@@ -10,7 +10,7 @@ function postdelivery(exam_id,id_tested,id_reviewed,examples){
     let delivery=JSON.parse(imported);
     let iddelivery=delivery.nextId;
     delivery.nextId=iddelivery+1;
-		delivery['deliveries'].push({"id":iddelivery,"exam-id":exam_id,"tested-id":id_tested,
+		delivery['deliveries'].push({"id":iddelivery,"examId":exam_id,"tested-id":id_tested,
 			"reviewed-id":id_reviewed,"examples":examples});
     let exported=JSON.stringify(delivery);
 	  fs.writeFileSync('db/deliveries.json', exported);
