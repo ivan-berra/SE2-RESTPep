@@ -34,8 +34,5 @@ function GETdeliveryId(id) {
 
 }
 
-console.log(GETdeliveryId(1));
-
-
 module.exports = GETdeliveryId;
 

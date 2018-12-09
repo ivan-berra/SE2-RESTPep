@@ -21,7 +21,7 @@ function idFoundDelivery(id){
   let deliveryID = parseInt(id);
 //  console.log("idFound received ID: ", deliveryID);
 //  console.log("is it a number? ",Number.isInteger(deliveryID));
-  if(typeof deliveryID === "number" && Number.isInteger(deliveryID)){
+  if(typeof deliveryID === "number" && Number.isInteger(deliveryID) && deliveryID>=0){
     let deliveryJSON = fs.readFileSync('./db/deliveries.json', 'utf8');
     var deliveries = JSON.parse(deliveryJSON);
     const deliveryIndex = deliveries.deliveries.findIndex(obj => obj.id == deliveryID);
