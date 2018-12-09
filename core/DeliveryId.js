@@ -30,18 +30,23 @@ function idGet(deliveryID){
 }
 
 function idDelete(deliveryID){
-  let deliveryIndex = idFound(deliveryID);
-  if(deliveryIndex > -1){
-    let deliveryJSON = fs.readFileSync('./sv/deliveries.json', 'utf8');
-    var deliveries = JSON.parse(deliveryJSON);
-    deliveries.deliveries.splice(deliveryIndex, 1);
-    let newJson = JSON.stringify(deliveries);
-    fs.writeFileSync('./db/deliveries.json', newJson);
-//    console.log("delivery deleted at deliveryIndex: ", deliveryIndex);
-    return 204;
+  if(arguments.length==1 && typeof deliveryID === "number" && Number.isInteger(deliveryID) && deliveryID>=0) {
+    let deliveryIndex = idFound(deliveryID);
+    if(deliveryIndex > -1){
+      let deliveryJSON = fs.readFileSync('./sv/deliveries.json', 'utf8');
+      var deliveries = JSON.parse(deliveryJSON);
+      deliveries.deliveries.splice(deliveryIndex, 1);
+      let newJson = JSON.stringify(deliveries);
+      fs.writeFileSync('./db/deliveries.json', newJson);
+  //    console.log("delivery deleted at deliveryIndex: ", deliveryIndex);
+      return 204;
+    }
+    else if(deliveryIndex == -1) return 400;
+    else if(deliveryIndex == -2) return 404;
   }
-  else if(deliveryIndex == -1) return 400;
-  else if(deliveryIndex == -2) return 404;
+  else {
+    return 400;
+  }
 }
 
 
