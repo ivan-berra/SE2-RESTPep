@@ -1,43 +1,44 @@
 const express = require('express');
 const app = express();
-const DeliveryId = require('./core/DeliveryId');
+const getDeliveryExamId = require('./core/getDeliveryExamId').getDeliveryExamId;
+const deleteDeliveryExamId = require('./core/deleteDeliveryExamId');
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
 app.listen(PORT, () => console.log('Example app listening on port ' + PORT))
 
-app.get('/deliveries/e/:deliveryID', (req, res) => {
-	res.contentType('application/json');
+app.get('/deliveries/e/:examID', (req, res) => {
 	try{
-		let deliveryJson = DeliveryId.idGet(req.params.deliveryID);
-		if(deliveryJson == 400){
+		let deliveryJson = getDeliveryExamId(req.params.examID);
+		if(deliveryJson.status == 400){
 			res.status(400);
 			res.send("400 BAD REQUEST");
 		}
-		if(deliveryJson == 404){
+		else if(deliveryJson.status == 404){
 			res.status(404);
 			res.send("404 ID NOT FOUND");
 		}
-		else{
+		else if(deliveryJson.status == 200){
+			res.contentType('application/json');
 			res.status(200);
-			res.json(deliveryJson);
+			res.json(deliveryJson.jsonData);
 		}
 	}catch(error){console.log(error);}
 })
 
-app.delete('/deliveries/e/:deliveryID', (req, res) => {
+app.delete('/deliveries/e/:examID', (req, res) => {
 	try{
-		let check = DeliveryId.idDelete(req.params.deliveryID);
-		if(check == 204){
+		let response = deleteDeliveryExamId(req.params.examID);
+		if(response.status == 204){
 			res.status(200); //per qualche motivo mettendo 204 non manda la stringa "204 DELIVERY DELETED"
 			res.send("204 DELIVERY DELETED");
 		}
-		else if(check == 400){
+		else if(response.status == 400){
 			res.status(400);
 			res.send("400 BAD REQUEST");
 		}
-		else if(check == 404){
+		else if(response.status == 404){
 			res.status(404);
 			res.send("404 ID NOT FOUND");
 		}
