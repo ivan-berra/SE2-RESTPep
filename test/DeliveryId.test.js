@@ -4,7 +4,6 @@ let deliveryJSONbackup = fs.readFileSync('./db/deliveries.json', 'utf8');
 
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');
-
 const file = 'db/deliveries.json';
 
 let fileBackup = null
@@ -19,10 +18,6 @@ afterEach(() => {
 
 test('valid delete', () => {
 	expect(delivery.idDelete(1)).toBe(204);
-});
-
-test('unvalid delete', () => {
-	expect(delivery.idDelete(1)).toBe(404);
 });
 
 test('unvalid delete', () => {
