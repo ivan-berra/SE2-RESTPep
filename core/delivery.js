@@ -77,9 +77,9 @@ function searchid (id){
   else {
 		let beginSearch=0;
 		let endSearch=list.deliveries.length-1;
-		lookingAt=((beginSearch+endSearch)/2);
+		lookingAt=Math.floor(((beginSearch+endSearch)/2));
 		do{
-			lookingAt=((beginSearch+endSearch)/2);
+			lookingAt=Math.floor(((beginSearch+endSearch)/2));
       tmp=list.deliveries[lookingAt];
 			if(tmp==null)
 			{
