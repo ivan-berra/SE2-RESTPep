@@ -1,7 +1,7 @@
 const fs = require('fs');
 const delivery = require('./delivery');
 
-function idFound(id){
+function idFoundExam(id){
   let deliveryID = parseInt(id);
 //  console.log("idFound received ID: ", deliveryID);
 //  console.log("is it a number? ",Number.isInteger(deliveryID));
@@ -17,8 +17,24 @@ function idFound(id){
   else return -1;
 }
 
+function idFoundDelivery(id){
+  let deliveryID = parseInt(id);
+//  console.log("idFound received ID: ", deliveryID);
+//  console.log("is it a number? ",Number.isInteger(deliveryID));
+  if(typeof deliveryID === "number" && Number.isInteger(deliveryID)){
+    let deliveryJSON = fs.readFileSync('./db/deliveries.json', 'utf8');
+    var deliveries = JSON.parse(deliveryJSON);
+    const deliveryIndex = deliveries.deliveries.findIndex(obj => obj.id == deliveryID);
+    if(deliveryIndex != -1){
+      return deliveryIndex;
+    }
+    else return -2;
+  }
+  else return -1;
+}
+
 function idGet(deliveryID){
-  let deliveryIndex = idFound(deliveryID);
+  let deliveryIndex = idFoundDelivery(deliveryID);
   if(deliveryIndex > -1){
     let deliveryJSON = fs.readFileSync('./db/deliveries.json', 'utf8');
     var deliveries = JSON.parse(deliveryJSON);
@@ -31,7 +47,7 @@ function idGet(deliveryID){
 
 function idDelete(deliveryID){
   if(arguments.length==1 && typeof deliveryID === "number" && Number.isInteger(deliveryID) && deliveryID>=0) {
-    let deliveryIndex = idFound(deliveryID);
+    let deliveryIndex = idFoundDelivery(deliveryID);
     if(deliveryIndex > -1){
       let deliveryJSON = fs.readFileSync('./sv/deliveries.json', 'utf8');
       var deliveries = JSON.parse(deliveryJSON);
