@@ -49,7 +49,7 @@ function idDelete(deliveryID){
   if(arguments.length==1 && typeof deliveryID === "number" && Number.isInteger(deliveryID) && deliveryID>=0) {
     let deliveryIndex = idFoundDelivery(deliveryID);
     if(deliveryIndex > -1){
-      let deliveryJSON = fs.readFileSync('./sv/deliveries.json', 'utf8');
+      let deliveryJSON = fs.readFileSync('./db/deliveries.json', 'utf8');
       var deliveries = JSON.parse(deliveryJSON);
       deliveries.deliveries.splice(deliveryIndex, 1);
       let newJson = JSON.stringify(deliveries);
@@ -66,6 +66,6 @@ function idDelete(deliveryID){
 }
 
 
-module.exports.idFound = idFound;
+module.exports.idFoundDelivery = idFoundDelivery;
 module.exports.idGet = idGet;
 module.exports.idDelete = idDelete;
