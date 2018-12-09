@@ -21,10 +21,10 @@ function groupgroupiddelete(idGruppoDaCancellare)
         //trovare il gruppogiainserito
         let beginSearch=0;
         let endSearch=gruppiJson.groups.length-1;
-        let lookingAt=((beginSearch+endSearch)/2);
+        let lookingAt=Math.floor(((beginSearch+endSearch)/2));
         let trovato=false;
         do {
-          lookingAt=((beginSearch+endSearch)/2);
+          lookingAt=Math.floor(((beginSearch+endSearch)/2));
           let tmp=gruppiJson.groups[lookingAt];
           if(tmp==null)
           {
