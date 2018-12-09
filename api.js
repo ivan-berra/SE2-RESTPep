@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const DeliveryId = require('./Logical/DeliveryId');
+const DeliveryId = require('./core/DeliveryId');
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => res.send('Hello World!'))
