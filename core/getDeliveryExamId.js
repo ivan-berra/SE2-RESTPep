@@ -14,7 +14,6 @@ function getDeliveryExamId(examId){
   if (examID >= 0 && typeof examID === "number") {
     let deliveryIndex = esisteDeliveryExamId(examID);
     if(deliveryIndex > -1){
-      let fileBackup = retreiveBackup(file);
       let deliveryJSON = fs.readFileSync(file, 'utf8');
       var deliveries = JSON.parse(deliveryJSON);
       //CICLO PRINCIPALE CHE RIEMPIE RESPONSE CON TUTTE LE DELIVERY RICHIESTE
@@ -22,10 +21,9 @@ function getDeliveryExamId(examId){
     //    console.log("delivery taken at deliveryIndex: ", deliveryIndex);
         response.jsonData.push(deliveries.deliveries[deliveryIndex]);
         deliveries.deliveries.splice(deliveryIndex, 1);
-        deliveryIndex = esisteDeliveryExamId(examID);
+        deliveryIndex = deliveries.deliveries.findIndex(obj => obj.examId == examID);
       }while(deliveryIndex != -1);
 
-      resetJSON(file, fileBackup);
       response.status = 200;
       return response;
     }
