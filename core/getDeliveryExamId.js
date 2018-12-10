@@ -5,6 +5,8 @@ const resetJSON = require('../core/resetJSON');
 
 const file = './db/deliveries.json';
 
+
+//RITORNA TUTIT LE DELIVERIES AVENTI LO STESSO EXAMID
 function getDeliveryExamId(examId){
   let examID = parseInt(examId);
   let response = {"status": null, "jsonData": []};
@@ -13,14 +15,13 @@ function getDeliveryExamId(examId){
     let deliveryIndex = esisteDeliveryExamId(examID);
     if(deliveryIndex > -1){
       let fileBackup = retreiveBackup(file);
+      let deliveryJSON = fs.readFileSync(file, 'utf8');
+      var deliveries = JSON.parse(deliveryJSON);
+      //CICLO PRINCIPALE CHE RIEMPIE RESPONSE CON TUTTE LE DELIVERY RICHIESTE
       do{
-        let deliveryJSON = fs.readFileSync(file, 'utf8');
-        var deliveries = JSON.parse(deliveryJSON);
     //    console.log("delivery taken at deliveryIndex: ", deliveryIndex);
         response.jsonData.push(deliveries.deliveries[deliveryIndex]);
         deliveries.deliveries.splice(deliveryIndex, 1);
-        let newJson = JSON.stringify(deliveries);
-        fs.writeFileSync(file, newJson);
         deliveryIndex = esisteDeliveryExamId(examID);
       }while(deliveryIndex != -1);
 
