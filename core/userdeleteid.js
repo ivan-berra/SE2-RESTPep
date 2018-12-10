@@ -14,7 +14,8 @@ function userdeleteid(searchedId) {
 
             let utenti = JSON.parse(imported);
 
-            delete utenti['users'][searchedUser];
+            utenti['users'][searchedUser];
+            utenti.users.splice(searchedUser, 1);
 
             let exported = JSON.stringify(utenti);
 

@@ -1,102 +1,99 @@
 const express = require('express')
-const app = express()
+const userGet = require('./core/userget');
+const userGetId = require('./core/usergetid');
+const userDeleteId = require('./core/userdeleteid');
+const userPutId = require('./core/userputid');
+const userPost = require('./core/userpost');
+const bodyParser = require('body-parser');
+
+const url = 'http://localhost:3000/';
+
+const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 const PORT = process.env.PORT || 3000
 
-app.get('/', (req, res) => res.send('Hello World!'))
-
-app.listen(PORT, () => console.log('Example app listening on port ' + PORT))
-/*
-var users = [];
-
-app.post('/api/users', function (req, res) {
-	
-	var user = req.body;
-
-	if(typeof user != 'undefined'         || 
-	   typeof user.matricola != undefined ||
-           typeof user.email != undefined     ||
-           typeof user.isTeacher != undefined)
-	{
-		user.id = users.length + 1;
-
-		users.push(req.body);
-
-		res.status(201);
-
-		res.send(users[users.length - 1]);
-	}
-	else
-	{
-		console.log("I dati ricevuti sono incompleti per creare un 
-utente.");
-		res.status(400).send();
-	};
-});
-
-app.get('/api/users', function (req, res) {
-
-	res.contentType('application/json');
-
-	var result = users;
-
-	process.on('uncaughtException', function (err) {
-		console.error((new Date).toUTCString() + 'UncaughtException:', 
-err.message);
-		console.error(err.stack);
-		res.status(500).send();
-		process.exit(1);
-	})
-
-	res.status(200);
-	res.send(result);
+app.get('/', (req, res) => {
+    res.status(200);
+    res.send('Hello World!');
 })
 
-app.get('/api/users/:userId', function (req, res) {
-	
-	var searchedId = req.params.userId;
+app.listen(PORT, () => console.log('Example app listening on port ' + PORT))
 
-	if (searchedId < 1 || isNaN(searchedId))
-	{
-		res.status(400).send();
-		return;
-	}
 
-	for (var i = 0; i < users.length; i++)
-	{
-		if(users[i].id == searchedId)
-		{
-			res.status(200);
-			res.send(users[searchedId - 1]);
-			return;
-		}
-	}
+app.post('/api/users', function(req, res) {
 
-	res.status(404).send();
+    var user = req.body;
+
+    var result = userPost(user.matricola, user.email, user.isTeacher);
+
+    res.status(result.status);
+
+    if (result.jsonData == null)
+        res.send("Error: " + result.status);
+    else
+        res.send({ 'url': url + "api/users/" + result.jsonData.id });
 
 });
 
-app.delete('/api/users/:userId', function (req, res) {
-	
-	var searchedId = req.params.userId;
+app.get('/api/users', function(req, res) {
 
-	if (searchedId < 1 || isNaN(searchedId))
-	{
-		res.status(400).send();
-		return;
-	}
+    res.contentType('application/json');
+    var result = userGet();
+    res.status(200);
+    res.send(result.jsonData);
+})
 
-	for (var i = 0; i < users.length; i++)
-	{
-		if(users[i].id == searchedId)
-		{
-			res.status(204);
-			delete users[searchedId - 1];
-			res.send();
-			return;
-		}
-	}
+app.get('/api/users/:userId', function(req, res) {
 
-	res.status(404).send();
+    var searchedId = req.params.userId;
+
+    res.contentType('application/json');
+
+    var result = userGetId(Number.parseInt(searchedId));
+
+    res.status(result.status);
+
+    if (result.jsonData == null)
+        res.send({ "message": "Error: " + result.status });
+    else
+        res.send(result.jsonData);
 
 });
-*/
+
+app.delete('/api/users/:userId', function(req, res) {
+
+    var searchedId = req.params.userId;
+
+    res.contentType('application/json');
+
+    var result = userDeleteId(Number.parseInt(searchedId));
+
+    res.status(result.status);
+
+    if (result.status != 204)
+        res.send({ "message": "Error: " + result.status });
+    else
+        res.send({ "message": "User deleted" });
+
+});
+
+app.put('/api/users/:userId', function(req, res) {
+
+    var user = req.body;
+
+    var searchedId = req.params.userId;
+
+    res.contentType('application/json');
+
+    var result = userPutId(Number.parseInt(searchedId), user.matricola, user.email, user.isTeacher);
+
+    res.status(result.status);
+
+    if (result.status != 200)
+        res.send({ "message": "Error: " + result.status });
+    else
+        res.send({ "message": "User modified" });
+
+});
