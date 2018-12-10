@@ -13,9 +13,9 @@ afterEach(() => {
     resetJSON(file, fileBackup);
 })
 
-//const url = 'https://se2-restpep-dev.herokuapp.com/';
+const url = 'https://se2-restpep-dev.herokuapp.com';
 
-const url = 'http://localhost:3000/';
+//const url = 'http://localhost:3000/';
 
 //const port = process.env.PORT || 3000;
 
