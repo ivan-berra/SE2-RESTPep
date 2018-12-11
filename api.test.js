@@ -36,3 +36,18 @@ test('GET deliveries test', () => {
         });
 
 });
+
+
+test('POST deliveries test', () => {
+
+    var status;
+    fetch(url + '/deliveries')
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then(function() {
+            expect(status).toEqual(200);
+        });
+
+});
