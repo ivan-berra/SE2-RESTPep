@@ -37,17 +37,27 @@ test('GET deliveries test', () => {
 
 });
 
+var examples = {
+	"id":1,
+    "soluzione":"false",
+    "punteggio":1
+}
 
 test('POST deliveries test', () => {
 
     var status;
-    fetch(url + '/deliveries')
+    fetch(url + '/deliveries',{
+		method: 'post',
+
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+
+		body: JSON.stringify(examples)
+	})
         .then((res) => {
             status = res.status;
-            return res.json();
-        })
-        .then(function() {
             expect(status).toEqual(200);
-        });
-
+        })
 });

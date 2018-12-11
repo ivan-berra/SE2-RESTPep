@@ -84,7 +84,7 @@ function deliverydeliveryiddelete(idDeliveryDaCancellare)
         {
           //cancellazione
           deliveryJson.deliveries.splice(lookingAt,1);
-          fs.writeFileSync('./deliveries.json', JSON.stringify(deliveryJson));
+          fs.writeFileSync('./db/deliveries.json', JSON.stringify(deliveryJson));
           return 204;
         }
       }
