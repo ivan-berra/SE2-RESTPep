@@ -28,22 +28,6 @@ app.get('/deliveries/e/:examID', (req, res) => {
 	}catch(error){console.log(error);}
 })
 
-
-app.post('/api/users', function(req, res) {
-
-    var user = req.body;
-
-    var result = userPost(user.matricola, user.email, user.isTeacher);
-
-    res.status(result.status);
-
-    if (result.jsonData == null)
-        res.send("Error: " + result.status);
-    else
-        res.send({ 'url': url + "api/users/" + result.jsonData.id });
-
-});
-
 app.post('/deliveries', function (req, res) {
 
 	var deli = req.body;

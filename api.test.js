@@ -12,3 +12,25 @@ test('Tries to connect to  the server', () => {
 	});
 
 });
+
+const deli = require('../core/GET&POSTdelivery');
+
+const file = 'db/deliveries.json'
+
+const url = 'https://se2-restpep-dev.herokuapp.com';
+
+//const url = 'http://localhost:3000/';
+
+test('GET deliveries test', () => {
+
+    var status;
+    fetch(url + '/deliveries')
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then(function() {
+            expect(status).toEqual(200);
+        });
+
+});
