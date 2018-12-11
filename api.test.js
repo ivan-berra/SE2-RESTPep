@@ -59,5 +59,6 @@ test('POST deliveries test', () => {
         .then((res) => {
             status = res.status;
             expect(status).toEqual(200);
+            return res.json();
         })
 });
