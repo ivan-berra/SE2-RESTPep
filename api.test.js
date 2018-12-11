@@ -17,6 +17,8 @@ const deli = require('./core/GET&POSTdelivery');
 
 const file = 'db/deliveries.json'
 
+var fetch = require('node-fetch');
+
 const url = 'https://se2-restpep-dev.herokuapp.com';
 
 //const url = 'http://localhost:3000/';
