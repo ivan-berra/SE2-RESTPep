@@ -47,7 +47,7 @@ function grouppost(nomeGruppo, listaMembri){
 					let exported=JSON.stringify(gruppi);
 					let index=exported.lastIndexOf("[");
 					exported=exported.substring(0,index)+JSON.stringify(strtmp)+'}'+exported.substring(index+1, exported.length-2);
-					fs.writeFileSync('./groups.json', exported);
+					fs.writeFileSync('db/groups.json', exported);
 					return {"status": 200, "id": idDaAssegnare};
 				}
 				else return {"status": 400, "id": null};
@@ -82,9 +82,9 @@ function esisteUser(idUser)
 	else {
 		let beginSearch=0;
 		let endSearch=utenti.users.length-1;
-		lookingAt=((beginSearch+endSearch)/2);
+		lookingAt=Math.floor(((beginSearch+endSearch)/2));
 		do{
-			lookingAt=((beginSearch+endSearch)/2);
+			lookingAt=Math.floor(((beginSearch+endSearch)/2));
 			tmp=utenti.users[lookingAt];
 			if(tmp==null)
 			{

@@ -15,9 +15,9 @@ function postdelivery(exam_id,id_tested,id_reviewed,examples){
     let exported=JSON.stringify(delivery);
 	  fs.writeFileSync('db/deliveries.json', exported);
     return {
-      "status": 200, 
+      "status": 200,
       "jsonData": {"id":iddelivery}
-    }; 
+    };
   }
   else return {"status":400, "jsonData": null};
 }
@@ -36,9 +36,9 @@ function isJson(str) {
     let res = searchid(sid);
     if(res >= 0 || sid == -1){
       let imported = fs.readFileSync('db/users.json', 'utf8');
-	    
+
       let delivery=JSON.parse(imported);
-            
+
       return {
         "status": 200,
         "jsonData": {"id":delivery['id'][res].id,"mat":delivery['users'][res].mat,
@@ -67,7 +67,7 @@ module.exports = {
 	postdelivery,
   //getdeliveryid,
   getdelivery
-  
+
 };
 
 function searchid (id){
@@ -77,10 +77,10 @@ function searchid (id){
 	var lookingAt=id;
 	if(list.nextId<=id)
 		return -1;
-		
-	else if ( 
-				(list.deliveries[lookingAt]!=null 
-				&& list.deliveries[lookingAt]!=undefined 
+
+	else if (
+				(list.deliveries[lookingAt]!=null
+				&& list.deliveries[lookingAt]!=undefined
 				&& list.deliveries[lookingAt].id==id)
 			)
 		return lookingAt;
@@ -88,9 +88,9 @@ function searchid (id){
 	else {
 		let beginSearch=0;
 		let endSearch=list.deliveries.length-1;
-		lookingAt=((beginSearch+endSearch)/2);
+		lookingAt=Math.floor(((beginSearch+endSearch)/2));
 		do{
-			lookingAt=((beginSearch+endSearch)/2);
+			lookingAt=Math.floor(((beginSearch+endSearch)/2));
 			if(list.deliveries[lookingAt]==null)
 			{
 				let indice=lookingAt-1;

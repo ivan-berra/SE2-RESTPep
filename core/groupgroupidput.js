@@ -21,10 +21,10 @@ function groupgroupidput(idgruppo, nuovoNome, nuovalistaMembri){
 			else {
 				let beginSearch=0;
 				let endSearch=gruppiJson.groups.length-1;
-				lookingAt=((beginSearch+endSearch)/2);
+				lookingAt=Math.floor(((beginSearch+endSearch)/2));
 				let finisciclo=false;
 				do{
-					lookingAt=((beginSearch+endSearch)/2);
+					lookingAt=Math.floor(((beginSearch+endSearch)/2));
 					let tmp=gruppiJson.groups[lookingAt];
 					if(tmp==null)
 					{
@@ -139,9 +139,9 @@ function esisteUser(idUser)
 	else {
 		let beginSearch=0;
 		let endSearch=utenti.users.length-1;
-		lookingAt=((beginSearch+endSearch)/2);
+		lookingAt=Math.floor(((beginSearch+endSearch)/2));
 		do{
-			lookingAt=((beginSearch+endSearch)/2);
+			lookingAt=Math.floor(((beginSearch+endSearch)/2));
 			tmp=utenti.users[lookingAt];
 			if(tmp==null)
 			{

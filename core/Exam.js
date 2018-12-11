@@ -54,11 +54,11 @@ function write(newExam){
   if(valid(newExam) == 200){
 		let examJSON = fs.readFileSync('./db/exams.json', 'utf8');
 		var exams = JSON.parse(examJSON);
-    newExam.id = exams.nextid;
+    newExam.id = exams.nextId;
 		response.examId = newExam.id;
 		response.status = 201;
     exams.exams.push(newExam);
-    exams.nextid ++;
+    exams.nextId ++;
     let newJson = JSON.stringify(exams);
     fs.writeFileSync('./db/exams.json', newJson);
     return response;
