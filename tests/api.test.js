@@ -13,12 +13,12 @@ let fileBackupTasks = null;
 
 beforeAll(() => {
     fileBackupUser = retreiveBackup(fileUser);
-    fileBackupUser = retreiveBackup(fileTasks);
+    fileBackupTasks = retreiveBackup(fileTasks);
 })
 
 afterEach(() => {
-    resetJSON(file, fileBackupUser);
-    resetJSON(file, fileBackupTasks);
+    resetJSON(fileUser, fileBackupUser);
+    resetJSON(fileTasks, fileBackupTasks);
 })
 
 
@@ -178,7 +178,7 @@ test('GET tasks test', () => {
 
 });
 
-test('GETtasks(id) test', () => {
+test('GET tasks(id) test', () => {
 
     expect.assertions(1);
 
@@ -189,8 +189,8 @@ test('GETtasks(id) test', () => {
             return res.json();
         })
         .then((jsonData) => {
-            console.log(jsonData);
-            console.log(status);
+           // console.log(jsonData);
+           // console.log(status);
         })
         .then(function() {
             expect(status).toEqual(200);
@@ -199,7 +199,7 @@ test('GETtasks(id) test', () => {
 });
 
 
-test('POSTtasks test', () => {
+test('POST tasks test', () => {
 
     expect.assertions(1);
 
@@ -216,13 +216,13 @@ test('POSTtasks test', () => {
         })
         .then((res) => {
             status = res.status;
-            expect(status).toEqual(200)
+            expect(status).toEqual(201)
         })
 
 });
 
 
-test('PUT(id) test', () => {
+test('PUT tasks(id) test', () => {
 
     expect.assertions(1);
 
@@ -246,8 +246,8 @@ test('PUT(id) test', () => {
             return res.json();
         })
         .then((jsonData) => {
-            console.log(jsonData);
-            console.log(status);
+            //console.log(jsonData);
+            //console.log(status);
             expect(status).toEqual(200);
         })
         .catch((err) => {
@@ -256,7 +256,7 @@ test('PUT(id) test', () => {
 
 });
 
-test('DELETE(id) test', () => {
+test('DELETE tasks(id) test', () => {
 
     expect.assertions(1);
 
@@ -268,7 +268,7 @@ test('DELETE(id) test', () => {
 
         })
         .then((res) => {
-            status = res.status;
+	    status = res.status;
             expect(status).toEqual(204);
         })
         .catch((err) => {

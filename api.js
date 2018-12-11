@@ -254,5 +254,5 @@ app.delete('/api/tasks/:id', (req, res) => {
 
     let toSend = DELETEtasksId(req.params.id);
     res.status(toSend);
-
+    res.send();
 })
