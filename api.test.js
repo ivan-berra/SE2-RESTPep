@@ -19,20 +19,23 @@ const file = 'db/deliveries.json'
 
 var fetch = require('node-fetch');
 
-const url = 'https://se2-restpep-dev.herokuapp.com';
+const url = 'https://se2-restpep-dev.herokuapp.com/';
 
 //const url = 'http://localhost:3000/';
 
 test('GET deliveries test', () => {
 
-    var status;
-    fetch(url + '/deliveries')
+expect.assertions(1);
+
+    let status;
+    return fetch(url + 'api/deliveries')
         .then((res) => {
             status = res.status;
-            return res.json();
-        })
-        .then(function() {
             expect(status).toEqual(200);
+        })
+        .catch((err) => {
+            expect(status).toEqual(404);
+            console.log(err);
         });
 
 });
@@ -43,7 +46,7 @@ var examples = {
     "punteggio":1
 }
 
-test('POST deliveries test', () => {
+/*test('POST deliveries test', () => {
 
     var status;
     fetch(url + '/deliveries',{
@@ -61,4 +64,4 @@ test('POST deliveries test', () => {
             expect(status).toEqual(200);
             return res.json();
         })
-});
+});*/
