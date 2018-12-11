@@ -6,4 +6,5 @@ install:
   - npm install
 
 script:
-- npm test --detectOpenHandles
+- npm start
+- npm test

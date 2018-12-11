@@ -1,4 +1,4 @@
-const url = 'https://se2-restpep-dev.herokuapp.com';
+const url = 'http://localhost:3000';
 
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');
@@ -28,7 +28,7 @@ test('Prova di connessione', () => {
 
     var status;
 
-    return fetch(url)
+    return fetch(url + '/')
         .then((res) => {
             status = res.status;
             expect(status).toEqual(200);
@@ -41,7 +41,7 @@ test('GET test', () => {
     expect.assertions(1);
 
     var status;
-    return fetch(url + 'api/users')
+    return fetch(url + '/api/users')
         .then((res) => {
             status = res.status;
             return res.json();
@@ -57,7 +57,7 @@ test('GET(id) test', () => {
     expect.assertions(1);
 
     var status;
-    return fetch(url + 'api/users/0')
+    return fetch(url + '/api/users/0')
         .then((res) => {
             status = res.status;
             return res.json();
@@ -80,7 +80,7 @@ test('POST test', () => {
     let status;
     let jsonData;
 
-    return fetch(url + 'api/users', {
+    return fetch(url + '/api/users', {
 
             method: 'post',
 
@@ -107,7 +107,7 @@ test('PUT(id) test', () => {
     let status;
     let jsonData;
 
-    return fetch(url + 'api/users/0', {
+    return fetch(url + '/api/users/0', {
 
             method: 'put',
 
@@ -140,7 +140,7 @@ test('DELETE(id) test', () => {
 
     let status;
 
-    return fetch(url + 'api/users/0', {
+    return fetch(url + '/api/users/0', {
 
             method: 'delete',
 
