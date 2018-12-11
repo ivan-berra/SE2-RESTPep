@@ -4,7 +4,7 @@
 function checktaskfield(aperta, consegna, risoluzione, punteggio){
 	if(typeof aperta === "boolean" &&  aperta != null){
 		if(typeof consegna === "string" && consegna != null){
-			if(typeof risoluzione === "string" || typeof risoluzione === 'null' || typeof risoluzione === 'undefined'){
+			if(typeof risoluzione === "string" || risoluzione == 'null'){
 				//controllo se le crocette sono formattate bene
 				if(aperta == false){
 					if(!(checkConsegnaCrocette(consegna) && checkRisoluzioneCrocette(risoluzione))){

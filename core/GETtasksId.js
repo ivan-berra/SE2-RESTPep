@@ -25,7 +25,6 @@ function GETtasksId(id) {
 			return res;
 		}
 
-
 	}catch(error){
 		//console.log(error);
 		res.status = 500;
