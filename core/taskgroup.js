@@ -5,7 +5,7 @@ var fs = require('fs');
 
 function Tgrouppost(tasklist){
 	let test=JSON.stringify(tasklist);
-	if(isJson(test))
+	if(isJson(test) && tasklist != null)
 		{
 			let imported = fs.readFileSync('db/taskgroup.json', 'utf8');
 			let taskgroup=JSON.parse(imported);
