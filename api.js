@@ -26,14 +26,20 @@ app.post('/api/users', function(req, res) {
 
     var user = req.body;
 
+    var message;
+
     var result = userPost(user.matricola, user.email, user.isTeacher);
 
     res.status(result.status);
 
-    if (result.jsonData == null)
-        res.send("Error: " + result.status);
+    if (result.status != 200)
+        message = { "message": "Error: " + result.status };
     else
-        res.send({ 'url': url + "api/users/" + result.jsonData.id });
+        message = { 'url': url + "api/users/" + result.jsonData.id };
+
+    console.log(message);
+
+    res.send(message);
 
 });
 
@@ -42,10 +48,13 @@ app.get('/api/users', function(req, res) {
     res.contentType('application/json');
     var result = userGet();
     res.status(200);
+
     res.send(result.jsonData);
 })
 
 app.get('/api/users/:userId', function(req, res) {
+
+    var message;
 
     var searchedId = req.params.userId;
 
@@ -55,14 +64,20 @@ app.get('/api/users/:userId', function(req, res) {
 
     res.status(result.status);
 
-    if (result.jsonData == null)
-        res.send({ "message": "Error: " + result.status });
+    if (result.status != 200)
+        message = { "message": "Error: " + result.status };
     else
-        res.send(result.jsonData);
+        message = result.jsonData;
+
+    console.log(message);
+
+    res.send(message);
 
 });
 
 app.delete('/api/users/:userId', function(req, res) {
+
+    var message;
 
     var searchedId = req.params.userId;
 
@@ -72,16 +87,24 @@ app.delete('/api/users/:userId', function(req, res) {
 
     res.status(result.status);
 
-    if (result.status != 204)
-        res.send({ "message": "Error: " + result.status });
+    console.log(result.status);
+
+    if (result.status != 200)
+        message = { "message": "Error: " + result.status };
     else
-        res.send({ "message": "User deleted" });
+        message = { "message": "User deleted" };
+
+    console.log(message);
+
+    res.send(message);
 
 });
 
 app.put('/api/users/:userId', function(req, res) {
 
     var user = req.body;
+
+    var message;
 
     var searchedId = req.params.userId;
 
@@ -91,9 +114,12 @@ app.put('/api/users/:userId', function(req, res) {
 
     res.status(result.status);
 
-    if (result.status != 200)
-        res.send({ "message": "Error: " + result.status });
-    else
-        res.send({ "message": "User modified" });
+    if (result.status != 204)
+        message = { "message": "Error: " + result.status };
+
+    console.log(message);
+
+    res.send(message);
+
 
 });

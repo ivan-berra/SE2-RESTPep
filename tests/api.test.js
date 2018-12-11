@@ -27,9 +27,11 @@ const https = require('http');
 
 test('Prova di connessione', () => {
 
+    expect.assertions(1);
+
     var status;
 
-    fetch(url)
+    return fetch(url)
         .then((res) => {
             status = res.status;
             expect(status).toEqual(200);
@@ -39,8 +41,10 @@ test('Prova di connessione', () => {
 
 test('GET test', () => {
 
+    expect.assertions(1);
+
     var status;
-    fetch(url + 'api/users')
+    return fetch(url + 'api/users')
         .then((res) => {
             status = res.status;
             return res.json();
@@ -53,8 +57,10 @@ test('GET test', () => {
 
 test('GET(id) test', () => {
 
+    expect.assertions(1);
+
     var status;
-    fetch(url + 'api/users/0')
+    return fetch(url + 'api/users/0')
         .then((res) => {
             status = res.status;
             return res.json();
@@ -72,10 +78,12 @@ test('GET(id) test', () => {
 
 test('POST test', () => {
 
+    expect.assertions(1);
+
     let status;
     let jsonData;
 
-    fetch(url + 'api/users', {
+    return fetch(url + 'api/users', {
 
             method: 'post',
 
@@ -97,10 +105,12 @@ test('POST test', () => {
 
 test('PUT(id) test', () => {
 
+    expect.assertions(1);
+
     let status;
     let jsonData;
 
-    fetch(url + 'api/users/0', {
+    return fetch(url + 'api/users/0', {
 
             method: 'put',
 
@@ -129,21 +139,17 @@ test('PUT(id) test', () => {
 
 test('DELETE(id) test', () => {
 
-    let status;
-    let jsonData;
+    expect.assertions(1);
 
-    fetch(url + 'api/users/0', {
+    let status;
+
+    return fetch(url + 'api/users/0', {
 
             method: 'delete',
 
         })
         .then((res) => {
             status = res.status;
-            return res.json();
-        })
-        .then((jsonData) => {
-            console.log(jsonData);
-            console.log(status);
             expect(status).toEqual(204);
         })
         .catch((err) => {
