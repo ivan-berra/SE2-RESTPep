@@ -28,25 +28,36 @@ app.get('/deliveries/e/:examID', (req, res) => {
 	}catch(error){console.log(error);}
 })
 
+
+app.post('/api/users', function(req, res) {
+
+    var user = req.body;
+
+    var result = userPost(user.matricola, user.email, user.isTeacher);
+
+    res.status(result.status);
+
+    if (result.jsonData == null)
+        res.send("Error: " + result.status);
+    else
+        res.send({ 'url': url + "api/users/" + result.jsonData.id });
+
+});
+
 app.post('/deliveries', function (req, res) {
 
-	var body = req.body;
-
-	if(typeof body != 'undefined'||typeof body.examID != undefined ||
-           typeof user.tested-id != undefined||typeof user.reviewed-id != undefined)
+	var deli = req.body;
+    var result = postgetDelivery.postdelivery(deli.exam_id, deli.id_tested, deli.id_reviewed, deli.examples);
+    res.status(result.status);
+	if(result.jsonData != null)
 	{
-		user.id = users.length + 1;
+        res.send({ 'url': url + "api/users/" + result.jsonData.id });
 
-		users.push(req.body);
-
-		res.status(201);
-
-		res.send(users[users.length - 1]);
 	}
 	else
 	{
-		console.log("I dati ricevuti sono incompleti per creare un utente.");
-		res.status(400).send();
+		console.log("I dati ricevuti sono incompleti per creare una delivery.");
+		res.send("Error: " + result.status);
 	};
 })
 
