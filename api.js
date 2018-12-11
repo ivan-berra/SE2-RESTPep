@@ -45,14 +45,12 @@ app.post('/deliveries', function (req, res) {
 	};
 })
 
-app.get('/deliveries', (req, res) => {
+app.get('/api/deliveries', (req, res) => {
 	try{
-		let delivery = postgetDelivery.getdelivery;
-		if(delivery.status == 200){
-			res.contentType('application/json');
-			res.status(200);
-			res.json(Deliveries);
-		}
+        let delivery = postgetDelivery.getdelivery();
+        res.contentType('application/json');
+		res.status(200);
+        res.send(delivery.jsonData);
 	}catch(error){console.log(error);}
 })
 
