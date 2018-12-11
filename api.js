@@ -127,8 +127,10 @@ app.put('/api/users/:userId', function(req, res) {
 
     res.status(result.status);
 
-    if (result.status != 204)
+    if (result.status != 200)
         message = { "message": "Error: " + result.status };
+    else
+	message = { "message": "Utente modificato"};
 
     console.log(message);
 
