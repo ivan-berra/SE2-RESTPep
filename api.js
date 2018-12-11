@@ -28,6 +28,28 @@ app.get('/deliveries/e/:examID', (req, res) => {
 	}catch(error){console.log(error);}
 })
 
+app.post('/deliveries', function (req, res) {
+
+	var body = req.body;
+
+	if(typeof body != 'undefined'||typeof body.examID != undefined ||
+           typeof user.tested-id != undefined||typeof user.reviewed-id != undefined)
+	{
+		user.id = users.length + 1;
+
+		users.push(req.body);
+
+		res.status(201);
+
+		res.send(users[users.length - 1]);
+	}
+	else
+	{
+		console.log("I dati ricevuti sono incompleti per creare un utente.");
+		res.status(400).send();
+	};
+})
+
 app.get('/deliveries', (req, res) => {
 	try{
 		let delivery = postgetDelivery.getdelivery;
