@@ -1,123 +1,158 @@
-const url = 'https://exam-feature-api.herokuapp.com/';
+const url = 'http://localhost:3000';
 
-//const url = 'http://localhost';
+const retreiveBackup = require('../core/retreiveBackup');
+const resetJSON = require('../core/resetJSON');
 
-//const port = process.env.PORT || 3000;
+const file = 'db/users.json';
 
-const https = require('https');
+let fileBackup = null
 
-//var testData = JSON.stringify({matricola: 200000,email: 'prova@prova.it',isTeacher: false});
+beforeAll(() => {
+    fileBackup = retreiveBackup(file);
+})
+
+afterEach(() => {
+    resetJSON(file, fileBackup);
+})
 
 
-test('Trying to connect to the server', () => {
+var testData = { matricola: 200000, email: 'prova@prova.it', isTeacher: false };
 
-	https.get(url, (res) => {
+var fetch = require('node-fetch');
 
-	    res.on('data', (d) => {
-			expect(String(d)).toEqual('Hello World!');
-		});
-	});
+const https = require('http');
 
-});
+test('Prova di connessione', () => {
 
-/*
-test('Trying to create a new user through POST', () => {
+    expect.assertions(1);
 
-	var options = {
-		host: 'localhost',
-		port: 3000,
-	    	path: '/api/users',
-	    	method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			'Content-Length': testData.length
-		}
-	};
+    var status;
 
-	console.log(testData);
-
-	var req = https.request(options, function(res) {
-
-		res.on('data', (d) => {
-
-			console.log(JSON.stringify(d));
-
-		  	expect(String((d))).toEqual(String(testData));
-		});
-
-	});
-
-	req.write(testData);
-	req.end();
+    return fetch(url + '/')
+        .then((res) => {
+            status = res.status;
+            expect(status).toEqual(200);
+        })
 
 });
 
+test('GET test', () => {
 
-test('Trying to find the previously created user through GET', () => {
+    expect.assertions(1);
 
+    var status;
+    return fetch(url + '/api/users')
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then(function() {
+            expect(status).toEqual(200);
+        });
 
-	https.get('http://localhost:3000/api/users/1', (res) => {
-
-=======
-var http = require('http');
-var request = require('request');
-
-test('Tries to connect to  the server', () => {
-
-	http.get('http://localhost:3000/', (res) => {
-		res.on('data', (d) => {
->>>>>>> 75d32c9faab9d2d54b75a091523cab7984594f0e
-
-		res.on('data', (d) => {
-
-		        console.log(String(d));
-
-			expect(String(d)).toEqual(String(testData));
-const http = require('http');
-const request = require('request');
-const fs = require('fs');
-const url = 'https://exam-feature-api.herokuapp.com/';
-
-//const url = 'http://localhost';
-
-//const port = process.env.PORT || 3000;
-
-const https = require('https');
-
-test('Trying to connect to the server', () => {
-
-	https.get(url, (res) => {
-
-	    res.on('data', (d) => {
-			expect(String(d)).toEqual('Hello World!');
-		});
-
-	});
 });
 
-test('Trying to delete the previously created user through DELETE', () => {
+test('GET(id) test', () => {
+
+    expect.assertions(1);
+
+    var status;
+    return fetch(url + '/api/users/0')
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then((jsonData) => {
+            console.log(jsonData);
+            console.log(status);
+        })
+        .then(function() {
+            expect(status).toEqual(200);
+        });
+
+});
 
 
-        var options = {
-		host: 'localhost',
-		port: 3000,
-		path: '/api/users/1',
-	    	method: 'DELETE',
-		headers: {
-			'Content-Type': 'application/json',
-		}
-	};
+test('POST test', () => {
 
-	https.request(options, (res) => {
+    expect.assertions(1);
 
-		res.on('data', (d) => {
+    let status;
+    let jsonData;
 
-		        console.log(String(d));
+    return fetch(url + '/api/users', {
 
-			expect(String(d)).toEqual(String(testData));
-		});
+            method: 'post',
 
-	});
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify(testData)
+
+        })
+        .then((res) => {
+            status = res.status;
+            expect(status).toEqual(200)
+        })
+
+});
+
+
+test('PUT(id) test', () => {
+
+    expect.assertions(1);
+
+    let status;
+    let jsonData;
+
+    return fetch(url + '/api/users/0', {
+
+            method: 'put',
+
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify(testData)
+
+        })
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then((jsonData) => {
+            console.log(jsonData);
+            console.log(status);
+            expect(status).toEqual(200);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+});
+
+test('DELETE(id) test', () => {
+
+    expect.assertions(1);
+
+    let status;
+
+    return fetch(url + '/api/users/0', {
+
+            method: 'delete',
+
+        })
+        .then((res) => {
+            status = res.status;
+            expect(status).toEqual(204);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
 });
 
 /*
