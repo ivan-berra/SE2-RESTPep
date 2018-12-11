@@ -13,10 +13,10 @@ function Tgrouppost(tasklist){
 			taskgroup.nextId=idTaskgroup+1;
 			taskgroup['Tgroups'].push({"id":idTaskgroup,"tasks": tasklist});
 			let exported=JSON.stringify(taskgroup);
-			fs.writeFileSync('db/deliveries.json', exported);
+			fs.writeFileSync('db/taskgroup.json', exported);
 			return {
 				"status": 200, 
-				"jsonData": {"id":iddelivery}
+				"jsonData": {"id":idTaskgroup}
 			  };
 		}
 	return {
@@ -67,5 +67,6 @@ function Tgroupget(){
 module.exports = {
 	Tgrouppost,
 	Tgroupget,
-	Tgroupgetid
+	isJson
+	//Tgroupgetid
 };
