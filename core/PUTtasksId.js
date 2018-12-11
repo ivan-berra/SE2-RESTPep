@@ -8,46 +8,39 @@ function PUTtasksId (newtask, inputId){
 	if(newtask == null || inputId == null){
 		return 400;
 	}
-
-	inputId = parseInt(inputId);
-	let checkField = checktaskfields(newtask.aperta, newtask.consegna, newtask.risoluzione, newtask.punteggiomax);
-	let checkId = checktaskid(inputId);
-	if(checkId == 200){
-		if(checkField==200){
-			try{
-				let data = fs.readFileSync('db/tasks.json', 'utf8',  (err, data) =>  { 
-					if (err) throw err;
-				});
-				var obj = JSON.parse(data);
-				let index = obj.tasks.findIndex(task => task.id == inputId);
-				obj.tasks[index].aperta=newtask.aperta;
-				obj.tasks[index].consegna=newtask.consegna;
-				obj.tasks[index].risoluzione=newtask.risoluzione;
-				obj.tasks[index].punteggiomax=newtask.punteggiomax;
-				json = JSON.stringify(obj); //reconvert to JSON
-				fs.writeFileSync('db/tasks.json',json, (err) => {
-					if (err) throw err;
-				});
-				res = 200;
-			}catch(error){
-				console.log(error);
-				res = 500;
+	
+	try{
+		inputId = parseInt(inputId);
+		let checkField = checktaskfields(newtask.aperta, newtask.consegna, newtask.risoluzione, newtask.punteggiomax);
+		let index = checktaskid(inputId);
+		if(index >=0){
+			if(checkField==200){
+					let data = fs.readFileSync('db/tasks.json', 'utf8');
+					var obj = JSON.parse(data);
+					obj.tasks[index].aperta=newtask.aperta;
+					obj.tasks[index].consegna=newtask.consegna;
+					obj.tasks[index].risoluzione=newtask.risoluzione;
+					obj.tasks[index].punteggiomax=newtask.punteggiomax;
+					json = JSON.stringify(obj); //reconvert to JSON
+					fs.writeFileSync('db/tasks.json',json);
+					res = 200;
 			}
-
+			else{
+				res = 400;
+			}
+		}
+		else if(index == "400 BAD FORMAT"){
+			res = 400;
 		}
 		else{
-			res = checkField;
+			res = 404;
 		}
-	}
-	else if(checkId==400){
-		res = 400;
-	}
-	else{
-		res = 404;
-	}
 
-	return res;
-
+		return res;
+	}catch(error){
+		//console.log(error);
+		return 500;
+	}
 }
 
 module.exports = PUTtasksId;

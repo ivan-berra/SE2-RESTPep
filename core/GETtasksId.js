@@ -3,37 +3,34 @@ const fs = require('fs');
 
 function GETtasksId(id) {
 	let res = {status: null, jsonData: null};
-	let check = checktaskid(id);
-	if(check==200){
-		try{
-			let data = fs.readFileSync('db/tasks.json', 'utf8',  (err, data) =>  { 
-				if (err) throw err;
-			});
-	
+	try{
+		if(id == null){
+			res.status = 400;
+			return res;
+		}
+		let index = checktaskid(id);
+		if(index>=0){
+			let data = fs.readFileSync('db/tasks.json', 'utf8');
 			var obj = JSON.parse(data);
-			let index = obj.tasks.findIndex(task => task.id == id);
 			res.status = 200;
 			res.jsonData = obj.tasks[index];
 			return res;
-		
-		}catch(error){
-			console.log(error);	
-			res.status = 500;
-			res.jsonData = "500 INTERNAL SERVER ERROR";
+		}
+		else if(index == "400 BAD FORMAT"){
+			res.status = 400;
 			return res;
 		}
-	}
-	else if(check==400){
-		res.status = 400;
-		res.jsonData = "400 BAD REQUEST";
-		return res;
-	}
-	else{
-		res.status = 404;
-		res.jsonData = "404 NOT FOUND";
-		return res;
-	}
+		else{  
+			res.status = 404;
+			return res;
+		}
 
+
+	}catch(error){
+		//console.log(error);
+		res.status = 500;
+		return res;
+	}
 }
 
 module.exports = GETtasksId;
