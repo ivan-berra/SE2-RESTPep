@@ -16,7 +16,7 @@ function DELETEtasksId (inputId){
 				obj.tasks.splice(index, 1);
 				json = JSON.stringify(obj); //reconvert to JSON
 				fs.writeFileSync('db/tasks.json',json);
-				res = 200;
+				res = 204;
 		}
 		else if(index == "400 BAD FORMAT"){
 			res = 400;

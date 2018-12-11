@@ -17,7 +17,7 @@ afterEach(() => {
 
 test('Test valido', () => {
 
-    expect(DELETEtasksId(0)).toBe(200);
+    expect(DELETEtasksId(0)).toBe(204);
 
 });
 

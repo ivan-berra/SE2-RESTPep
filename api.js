@@ -214,7 +214,7 @@ app.put('/exams/:examID', (req, res) => {
     } catch (error) { console.log(error); }
 })
 
-app.get('/tasks', (req, res) => {
+app.get('/api/tasks', (req, res) => {
 
     let toSend = GETtasks();
     res.setHeader('Content-Type', 'application/json');
@@ -223,7 +223,7 @@ app.get('/tasks', (req, res) => {
 
 })
 
-app.get('/tasks/:id', (req, res) => {
+app.get('/api/tasks/:id', (req, res) => {
 
     let toSend = GETtasksId(parseInt(req.params.id));
     res.status(toSend.status);
@@ -233,7 +233,7 @@ app.get('/tasks/:id', (req, res) => {
 
 })
 
-app.post('/tasks', (req, res) => {
+app.post('/api/tasks', (req, res) => {
 
     let toSend = POSTtasks(req.body);
     res.status(toSend.status);
@@ -243,74 +243,16 @@ app.post('/tasks', (req, res) => {
 
 })
 
-app.put('/tasks/:id', (req, res) => {
+app.put('/api/tasks/:id', (req, res) => {
 
     let toSend = PUTtasksId(req.body, req.params.id);
     res.status(toSend);
     res.send(toSend.toString());
 })
 
-app.delete('/tasks/:id', (req, res) => {
+app.delete('/api/tasks/:id', (req, res) => {
 
     let toSend = DELETEtasksId(req.params.id);
     res.status(toSend);
-    res.send(toSend.toString());
 
 })
-
-
-/*
-
-//tasks tenute in memoria dal server
-var tasks = [{id: 0, aperta: false, consegna: 'Domanda 1 | scelta 1 | scelta 2 | scelta 3 | scelta 4', risoluzione:'1|4', punteggiomax: 10}];
-
-//id della prossima task da inserire
-let taskIdCounter=1;
-
-app.get('/tasks', (req, res) => {
-	try{
-		res.json(tasks);
-	}catch(error){
-		res.status(500);
-		res.send("500 INTERNAL SERVER ERROR");
-	}
-	})
-
-app.post('/tasks', (req, res) => {
-	let newtask = req.body;
-	console.log(newtask);
-	//taskpost guarda se i campi sono formattati bene
-	let check = taskpost(newtask.aperta, newtask.consegna, newtask.risoluzione, newtask.punteggiomax);
-	if(check==200){
-		try{
-			newtask.id=taskIdCounter;
-			tasks.push(newtask);
-		}catch(error){
-			console.log(error);
-			res.status(500);
-			res.send("500 INTERNAL SERVER ERROR");
-		}
-		taskIdCounter++;
-		res.status(201);
-		res.json(newtask);
-	}
-	else{
-		res.status(400);
-		res.send("400 BAD REQUEST");
-	}
-})
-
-app.get('/tasks/:id', (req, res) => {
-
-	let id =  req.params.id;
-	if (id > tasks.length || id < 0 || isNaN(id)) {
-		res.status(404);
-		res.send('404 NOT FOUND');
-		return;
-	}
-	else{
-		res.send(tasks[id-1]);
-	}
-});
-
-*/

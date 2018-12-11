@@ -1,26 +1,31 @@
 const url = 'http://localhost:3000';
+var fetch = require('node-fetch');
+const https = require('http');
 
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');
 
-const file = 'db/users.json';
+const fileUser = 'db/users.json';
+const fileTasks = 'db/tasks.json';
 
-let fileBackup = null
+let fileBackupUser = null;
+let fileBackupTasks = null;
 
 beforeAll(() => {
-    fileBackup = retreiveBackup(file);
+    fileBackupUser = retreiveBackup(fileUser);
+    fileBackupUser = retreiveBackup(fileTasks);
 })
 
 afterEach(() => {
-    resetJSON(file, fileBackup);
+    resetJSON(file, fileBackupUser);
+    resetJSON(file, fileBackupTasks);
 })
 
 
 var testData = { matricola: 200000, email: 'prova@prova.it', isTeacher: false };
+var validTask = { aperta: true, consegna: "test post", risoluzione: "risposta...", punteggiomax: 10};
 
-var fetch = require('node-fetch');
 
-const https = require('http');
 
 test('Prova di connessione', () => {
 
@@ -141,6 +146,123 @@ test('DELETE(id) test', () => {
     let status;
 
     return fetch(url + '/api/users/0', {
+
+            method: 'delete',
+
+        })
+        .then((res) => {
+            status = res.status;
+            expect(status).toEqual(204);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+});
+
+//--------------- TASKS TEST --------------------
+
+test('GET tasks test', () => {
+
+    expect.assertions(1);
+
+    var status;
+    return fetch(url + '/api/tasks')
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then(function() {
+            expect(status).toEqual(200);
+        });
+
+});
+
+test('GETtasks(id) test', () => {
+
+    expect.assertions(1);
+
+    var status;
+    return fetch(url + '/api/tasks/0')
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then((jsonData) => {
+            console.log(jsonData);
+            console.log(status);
+        })
+        .then(function() {
+            expect(status).toEqual(200);
+        });
+
+});
+
+
+test('POSTtasks test', () => {
+
+    expect.assertions(1);
+
+    let status;
+    let jsonData;
+
+    return fetch(url + '/api/tasks', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(validTask)
+        })
+        .then((res) => {
+            status = res.status;
+            expect(status).toEqual(200)
+        })
+
+});
+
+
+test('PUT(id) test', () => {
+
+    expect.assertions(1);
+
+    let status;
+    let jsonData;
+
+    return fetch(url + '/api/tasks/0', {
+
+            method: 'put',
+
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify(validTask)
+
+        })
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then((jsonData) => {
+            console.log(jsonData);
+            console.log(status);
+            expect(status).toEqual(200);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+});
+
+test('DELETE(id) test', () => {
+
+    expect.assertions(1);
+
+    let status;
+
+    return fetch(url + '/api/tasks/0', {
 
             method: 'delete',
 
