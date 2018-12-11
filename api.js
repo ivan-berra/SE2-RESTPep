@@ -103,12 +103,11 @@ app.delete('/api/users/:userId', function(req, res) {
 
     console.log(result.status);
 
-    if (result.status != 200)
+    if (result.status != 204)
         message = { "message": "Error: " + result.status };
-    else
-        message = { "message": "User deleted" };
 
-    console.log(message);
+    console.log(message); //il messaggio è undefined se l'eliminazione è andata a buon fine
+			  //204 indica No Content e non accetta nessun corpo
 
     res.send(message);
 
