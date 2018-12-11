@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const getDeliveryExamId = require('./core/getDeliveryExamId').getDeliveryExamId;
 const deleteDeliveryExamId = require('./core/deleteDeliveryExamId');
+const postgetDelivery = require('./core/GET&POSTdelivery')
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => res.send('Hello World!'))
@@ -23,6 +24,17 @@ app.get('/deliveries/e/:examID', (req, res) => {
 			res.contentType('application/json');
 			res.status(200);
 			res.json(deliveryJson.jsonData);
+		}
+	}catch(error){console.log(error);}
+})
+
+app.get('/deliveries', (req, res) => {
+	try{
+		let delivery = postgetDelivery.getdelivery;
+		if(delivery.status == 200){
+			res.contentType('application/json');
+			res.status(200);
+			res.json(Deliveries);
 		}
 	}catch(error){console.log(error);}
 })
