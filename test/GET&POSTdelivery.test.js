@@ -1,4 +1,4 @@
-const delivery = require('../core/delivery');
+const delivery = require('../core/GET&POSTdelivery');
 var examples = {
 	"id":1,
     "soluzione":"false",
@@ -65,4 +65,3 @@ test('unvalid ID field', () => {
 	expect(received.status).toBe(404);
 });
 */
-

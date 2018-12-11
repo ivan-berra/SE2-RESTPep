@@ -1,5 +1,5 @@
 const fs = require('fs');
-const delivery = require('./delivery');
+const delivery = require('./GET&POSTdelivery');
 
 function idFoundExam(id){
   let deliveryID = parseInt(id);
