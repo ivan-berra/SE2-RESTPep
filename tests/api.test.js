@@ -204,7 +204,7 @@ test('POST tasks test', () => {
     expect.assertions(1);
 
     let status;
-    let jsonData;
+    //let jsonData;
 
     return fetch(url + '/api/tasks', {
             method: 'post',
@@ -227,7 +227,7 @@ test('PUT tasks(id) test', () => {
     expect.assertions(1);
 
     let status;
-    let jsonData;
+    //let jsonData;
 
     return fetch(url + '/api/tasks/0', {
 
@@ -245,7 +245,7 @@ test('PUT tasks(id) test', () => {
             status = res.status;
             return res.json();
         })
-        .then((jsonData) => {
+        .then(() => {
             //console.log(jsonData);
             //console.log(status);
             expect(status).toEqual(200);
