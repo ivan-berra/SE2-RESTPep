@@ -4,7 +4,38 @@ const Tgroup = require('./taskgroup');
 /*test('valid', () => {
 	expect(Tgroup.Tgrouppost('nomegruppo', [1,2,3])).toBe(200);
 });*/
-
+string robe = {
+	[
+        {
+          "id": 0,
+          "aperta": false,
+          "consegna": "domanda a crocette | opzione 1 | opzione 2",
+          "risoluzione": "1",
+          "punteggiomax": 5
+        },
+        {
+          "id": 1,
+          "aperta": true,
+          "consegna": "domanda aperta... ?",
+          "risoluzione": "risposta...",
+          "punteggiomax": 10
+        },
+        {
+          "id": 2,
+          "aperta": false,
+          "consegna": "domanda a crocette | opzione 1 | opzione 2",
+          "risoluzione": "1",
+          "punteggiomax": 5
+        },
+        {
+          "id": 3,
+          "aperta": true,
+          "consegna": "domanda aperta... ?",
+          "risoluzione": "risposta...",
+          "punteggiomax": 10
+		}
+	]
+}
 
 test("unvalid1: due id uguali", () => {
 	expect(Tgroup.Tgrouppost('nomegruppo', [1,2,2])).toBe(400);

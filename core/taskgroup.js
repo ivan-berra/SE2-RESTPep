@@ -3,28 +3,40 @@
 var fs = require('fs');
 
 
-function Tgrouppost(id_Tgroup, tasklist){
-	if(typeof id_Tgroup === "number" && Number.isInteger(id_Tgroup))
-	{
-		if(typeof tasklist === "object" && tasklist !=null)
+function Tgrouppost(tasklist){
+	let test=JSON.stringify(tasklist);
+	if(isJson(test))
 		{
+			let imported = fs.readFileSync('db/taskgroup.json', 'utf8');
+			let taskgroup=JSON.parse(imported);
+			let idTaskgroup=taskgroup.nextId;
+			taskgroup.nextId=idTaskgroup+1;
+			taskgroup['Tgroups'].push({"id":idTaskgroup,"tasks": tasklist});
+			let exported=JSON.stringify(taskgroup);
+			fs.writeFileSync('db/deliveries.json', exported);
 			return {
 				"status": 200, 
 				"jsonData": {"id":iddelivery}
-			  }; 
+			  };
 		}
-		return {
-			"status": 400, 
-			"jsonData": null
-		  }; 
-	}
 	return {
 		"status": 400, 
 		"jsonData": null
 	  }; 
 }
 
-function Tgroupgetid(){
+//funzione che passata una stringa identifica se sia un JSON o meno
+function isJson(str) {
+	try {
+			JSON.parse(str);
+	} catch (e) {
+			return false;
+	}
+	return true;
+}
+
+
+/*function Tgroupgetid(){
 	let imported = fs.readFileSync('./Logical/taskgroup.json', 'utf8', function (err, data) {
         if (err) throw err;
         var obj = JSON.parse(data);
@@ -37,10 +49,10 @@ function Tgroupgetid(){
 		"jsonData": {"id":iddelivery}
 	  }; 
 }
-
+*/
 
 function Tgroupget(){
-	let imported = fs.readFileSync('./Logical/taskgroup.json', 'utf8', function (err, data) {
+	let imported = fs.readFileSync('./db/taskgroup.json', 'utf8', function (err, data) {
         if (err) throw err;
         var obj = JSON.parse(data);
 	});
@@ -48,7 +60,7 @@ function Tgroupget(){
 
     return {
 		"status": 200, 
-		"jsonData": {"id":imported.id_Tgroup}
+		"jsonData": {"id":imported.nextId}
 	  }; 
 }
 
