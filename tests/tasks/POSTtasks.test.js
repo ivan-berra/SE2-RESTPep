@@ -1,6 +1,6 @@
-const POSTtasks = require('../core/tasks/POSTtasks');
-const retreiveBackup = require('../core/retreiveBackup');
-const resetJSON = require('../core/resetJSON');
+const POSTtasks = require('../../core/tasks/POSTtasks');
+const retreiveBackup = require('../utils/retreiveBackup');
+const resetJSON = require('../utils/resetJSON');
 
 const file = 'db/tasks.json';
 

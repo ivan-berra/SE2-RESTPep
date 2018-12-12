@@ -1,6 +1,6 @@
-const PUTtasksId = require('../core/tasks/PUTtasksId');
-const retreiveBackup = require('../core/retreiveBackup');
-const resetJSON = require('../core/resetJSON');
+const PUTtasksId = require('../../core/tasks/PUTtasksId');
+const retreiveBackup = require('../utils/retreiveBackup');
+const resetJSON = require('../utils/resetJSON');
 
 const file = 'db/tasks.json';
 
@@ -104,5 +104,3 @@ test('Test invalido: error during reading db/tasks', () => {
 	require('fs').writeFileSync(file, "not json");
 	expect(PUTtasksId(taskValida1, 1)).toBe(500);
 });
-
-

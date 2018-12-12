@@ -1,7 +1,7 @@
-const PUTgroupId = require('../core/groups/PUTgroupId');
+const PUTgroupId = require('../../core/groups/PUTgroupId');
 
-const retreiveBackup = require('../core/retreiveBackup');
-const resetJSON = require('../core/resetJSON');
+const retreiveBackup = require('../utils/retreiveBackup');
+const resetJSON = require('../utils/resetJSON');
 const file = 'db/groups.json';
 
 let fileBackup = null
