@@ -104,7 +104,7 @@ function PUTgroupId(idgruppo, nuovoNome, nuovalistaMembri){
 					gruppodamodificare.groupName=nuovoNome;
 				}
 				let exported=JSON.stringify(gruppiJson);
-				fs.writeFileSync('./groups.json', exported);
+				fs.writeFileSync('db/groups.json', exported);
 				return 200;
 			}
 		}

@@ -82,7 +82,7 @@ function DELETEgroupId(idGruppoDaCancellare)
         {
           //cancellazione
           gruppiJson.groups.splice(lookingAt,1);
-          fs.writeFileSync('./groups.json', JSON.stringify(gruppiJson));
+          fs.writeFileSync('db/groups.json', JSON.stringify(gruppiJson));
           return 204;
         }
       }
