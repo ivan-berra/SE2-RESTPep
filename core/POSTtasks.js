@@ -5,8 +5,13 @@ function POSTtasks (newtask){
 
 	let res = {status: null, id: null};
 
-	console.log("ricevuta richiesta POST su tasks");
+	//console.log("ricevuta richiesta POST su tasks");
 	
+	if(newtask == null){
+		res.status = 400;
+		return res;
+	}
+
 	let check = checktaskfields(newtask.aperta, newtask.consegna, newtask.risoluzione, newtask.punteggiomax);
 
 	if(check==200){
@@ -19,7 +24,7 @@ function POSTtasks (newtask){
 			obj.nextId++;
 			obj.tasks.push(newtask);
 			json = JSON.stringify(obj); //reconvert to JSON
-			fs.writeFile('db/tasks.json',json, (err) => {
+			fs.writeFileSync('db/tasks.json',json, (err) => {
 				if (err) return console.log(err);
 			});
 			res.status = 201;
@@ -30,7 +35,7 @@ function POSTtasks (newtask){
 		}
 	}
 	else{
-		res.status(400);
+		res.status = 400;
 	}
 
 	return res;

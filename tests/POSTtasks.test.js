@@ -1,56 +1,66 @@
-/*const POSTtasks = require('../core/POSTtasks');
-const fetch = require('node-fetch');
+const POSTtasks = require('../core/POSTtasks');
 const fs = require('fs');
-var url = 'http://localhost:3000/tasks';
 
-var taskValida1 = {aperta:false,consegna:"Di che colore è il mare? | rosso | blu | verde | giallo",risoluzione:"2",punteggiomax:10};
+const retreiveBackup = require('../core/retreiveBackup');
+const resetJSON = require('../core/resetJSON');
 
-let nextId;
+const file = 'db/tasks.json';
 
-function initializeTaskJSON(){
-	let imported = fs.readFileSync('db/tasks.json', 'utf8', function (err, data) {
-                if (err) throw err;
-            });
-        let tasks=JSON.parse(imported);
-	nextId = tasks.nextId;
-}
+let fileBackup = null
 
-
-
-beforeEach(() => {
-   initializeTaskJSON();
-});
-
-
-
-test('test post', () => {
-
-	 fetch(url, {
-		method: 'post',
-		body:    JSON.stringify(taskValida1),
-		headers: { 'Content-Type': 'application/json' },
-	    })
-	    .then(response => {
-		//console.log('response status '+response.status);
-		expect(response.status).toBe(201);
-		const json =  response.json();
-		return json;
-	    })
-	    .then(json => {
-		//console.log('recived object '+json);
-		let temp = taskValida1;
-		temp.id = nextId;
-		expect(json).toEqual(temp);
-	    }).catch((err) => {
-		console.log('There\'s been an error');
-		//console.log(err);
-    	    });
+beforeAll(() => {
+    fileBackup = retreiveBackup(file);
 })
 
-*/
+afterEach(() => {
+    resetJSON(file, fileBackup);
+})
 
 
+// VALID TEST
+let taskValida1 = { aperta: true, consegna: "test post", risoluzione: "risposta...", punteggiomax: 10};
+let taskValida2 = { aperta: false, consegna: "test post | opzione 1 | opzione 2", risoluzione: "1", punteggiomax: 10};
 
-test('Test valido', () => {
-	expect("").toEqual("");
+// UNVALID TEST
+let taskInvalida1 = { aperta: "error", consegna: "test post | opzione 1 | opzione 2", risoluzione: "1", punteggiomax: 10};
+let taskInvalida2 = { aperta: false, consegna: "test post ", risoluzione: "1", punteggiomax: 10};
+let taskInvalida3 = { aperta: true, consegna: "test post | opzione 1 | opzione 2", risoluzione: 1, punteggiomax: 10};
+let taskInvalida4 = { aperta: false, consegna: "test post | opzione 1 | opzione 2", risoluzione: "1", punteggiomax: "error"};
+
+test('Test valido: domanda aperta', () => {
+	let received = POSTtasks(taskValida1);
+	expect(received.status).toEqual(201);
+});
+
+test('Test valido: domanda a crocette', () => {
+	let received = POSTtasks(taskValida2);
+	expect(received.status).toEqual(201);
+});
+
+test('Test invalido: bad formatting in aperta', () => {
+	let received = POSTtasks(taskInvalida1);
+	expect(received.status).toEqual(400);
+});
+
+test('Test invalido: bad formatting in consegna', () => {
+	let received = POSTtasks(taskInvalida2);
+	expect(received.status).toEqual(400);
+});
+
+test('Test invalido: bad formatting in risoluzione', () => {
+	let received = POSTtasks(taskInvalida3);
+	expect(received.status).toEqual(400);
+});
+test('Test invalido: bad formatting in punteggio', () => {
+	let received = POSTtasks(taskInvalida4);
+	expect(received.status).toEqual(400);
+});
+test('Test invalido: null object', () => {
+	let received = POSTtasks(null);
+	expect(received.status).toEqual(400);
+});
+
+test('Test invalido: undefined object', () => {
+	let received = POSTtasks(undefined);
+	expect(received.status).toEqual(400);
 });
