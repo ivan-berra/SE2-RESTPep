@@ -3,7 +3,7 @@
 var fs = require('fs');
 
 
-function Tgrouppost(tasklist){
+/*function Tgrouppost(tasklist){
 	let test=JSON.stringify(tasklist);
 	if(isJson(test) && tasklist != null)
 		{
@@ -51,22 +51,25 @@ function isJson(str) {
 }
 */
 
-function Tgroupget(){
-	let imported = fs.readFileSync('./db/taskgroup.json', 'utf8', function (err, data) {
+function GETtaskgroup(){
+	/*let imported = fs.readFileSync('./db/taskgroup.json', 'utf8', function (err, data) {
         if (err) throw err;
         var obj = JSON.parse(data);
-	});
-	
+	});*/
+	let imported = fs.readFileSync('db/taskgroup.json', 'utf8');
+
+    let obj = JSON.parse(imported);
+
 
     return {
 		"status": 200, 
-		"jsonData": {"id":imported.nextId}
+		"jsonData": obj.Tgroups
 	  }; 
 }
 
 module.exports = {
-	Tgrouppost,
-	Tgroupget,
-	isJson
+	//Tgrouppost,
+	GETtaskgroup
+	//isJson
 	//Tgroupgetid
 };

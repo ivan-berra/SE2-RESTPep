@@ -1,4 +1,4 @@
-const Tgroup = require('../core/taskgroup');
+const GETtaskgroup = require('../core/GETtaskgroup');
 //il metodo per il test è pensato per restituire il valore di http status
 
 var ex = {
@@ -10,7 +10,7 @@ var ex = {
 }
 let ex_String=JSON.stringify(ex);
 
-test('valid', () => {
+/*test('valid', () => {
   var received = Tgroup.Tgrouppost(ex); 
   expect(received.status).toBe(200);
 });
@@ -26,15 +26,14 @@ test("unvalid1: Unvalid JSON", () => {
 });*/
 
 test('valid', () => {
-  var received = Tgroup.Tgroupget(); 
-  expect(received.status).toBe(200);
+  expect(GETtaskgroup().status).toBe(200);
 });
 
-test('It is a Json', () =>{
+/*test('It is a Json', () =>{
 	expect(Tgroup.isJson(ex_String)).toBe(true);
 })
 
 
 test('It is not a Json', () =>{
 	expect(Tgroup.isJson("[22,dadad]")).toBe(false);
-})
+}) */
