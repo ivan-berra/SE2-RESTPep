@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-function groupgroupiddelete(idGruppoDaCancellare)
+function DELETEgroupId(idGruppoDaCancellare)
 {
   //controlli
   if(arguments.length==1)
@@ -98,4 +98,4 @@ function groupgroupiddelete(idGruppoDaCancellare)
   }
 }
 
-module.exports = groupgroupiddelete;
+module.exports = DELETEgroupId;

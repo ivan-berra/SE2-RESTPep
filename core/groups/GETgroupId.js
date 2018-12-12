@@ -1,7 +1,7 @@
 var fs = require('fs');
 
 //aggiungere il return del json
-function groupgroupidget(id){
+function GETgroupId(id){
   if(arguments.length==1)
   {
     if(typeof id === "number" && Number.isInteger(id) && id>=0)
@@ -93,4 +93,4 @@ function groupgroupidget(id){
   }
 }
 
-module.exports = groupgroupidget;
+module.exports = GETgroupId;

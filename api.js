@@ -14,11 +14,11 @@ const GETtasksId = require('./core/tasks/GETtasksId');
 const POSTtasks = require('./core/tasks/POSTtasks');
 const PUTtasksId = require('./core/tasks/PUTtasksId');
 const DELETEtasksId = require('./core/tasks/DELETEtasksId');
-const grouppost = require('./core/grouppost');
-const groupget = require('./core/groupget');
-const groupgroupidget = require('./core/groupgroupidget');
-const groupgroupiddelete = require('./core/groupgroupiddelete');
-const groupgroupidput = require('./core/groupgroupidput');
+const POSTgroup = require('./core/POSTgroup');
+const GETgroup = require('./core/GETgroup');
+const GETgroupId = require('./core/GETgroupId');
+const DELETEgroupId = require('./core/DELETEgroupId');
+const PUTgroupId = require('./core/PUTgroupId');
 
 const app = express();
 const url = 'https://se2-restpep-dev.herokuapp.com';
@@ -264,7 +264,7 @@ app.delete('/api/tasks/:id', (req, res) => {
 app.post('/api/groups', function(req, res) {
     let dati = req.body;
     let message;
-    let result = grouppost(dati.groupname, dati.userlist);
+    let result = POSTgroup(dati.groupname, dati.userlist);
     res.status(result.status);
     if (result.status == 400)
         message = { "message": "Error: " + result.status };
@@ -282,7 +282,7 @@ app.post('/api/groups', function(req, res) {
 
 app.get('/api/groups', function(req, res) {
     res.contentType('application/json');
-    let result = groupget();
+    let result = GETgroup();
     res.status(200);
     res.send(result);
 })
@@ -291,7 +291,7 @@ app.get('/api/groups/:groupId', function(req, res) {
     let message;
     let searchedId = req.params.groupId;
     res.contentType('application/json');
-    let result = groupgroupidget(Number.parseInt(searchedId));
+    let result = GETgroupId(Number.parseInt(searchedId));
     res.status(result.status);
     if (result.status != 200)
       message = { "message": "Error: " + result.status };
@@ -305,7 +305,7 @@ app.delete('/api/groups/:groupId', function(req, res) {
     let message;
     let searchedId = req.params.groupId;
     res.contentType('application/json');
-    let result = groupgroupiddelete(Number.parseInt(searchedId));
+    let result = DELETEgroupId(Number.parseInt(searchedId));
     res.status(result);
     console.log(result);
     if (result != 204)
@@ -321,7 +321,7 @@ app.put('/api/groups/:groupId', function(req, res) {
     let message;
     let searchedId = req.params.groupId;
     res.contentType('application/json');
-    let result = groupgroupidput(Number.parseInt(searchedId), groups.nomegruppo, groups.membri);
+    let result = PUTgroupId(Number.parseInt(searchedId), groups.nomegruppo, groups.membri);
     res.status(result);
     if (result != 200)
       message = { "message": "Error: " + result };

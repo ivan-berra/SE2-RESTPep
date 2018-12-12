@@ -286,7 +286,7 @@ test('DELETE tasks(id) test', () => {
 
 //test di groups
 
-test('grouppost test', () => {
+test('POSTgroup test', () => {
     expect.assertions(1);
     let status;
     return fetch(url + '/api/groups', {
@@ -304,7 +304,7 @@ test('grouppost test', () => {
 });
 
 
-test('groupget test', () => {
+test('GETgroup test', () => {
     expect.assertions(1);
     let status;
     return fetch(url + '/api/groups')
@@ -318,10 +318,10 @@ test('groupget test', () => {
 });
 
 
-test('groupgroupidget test', () => {
+test('GETgroupId test', () => {
     expect.assertions(1);
     let status;
-    console.log("test groupgroupidget");
+    console.log("test GETgroupId");
     return fetch(url + '/api/groups/0')
       .then((res) => {
         status = res.status;
@@ -336,7 +336,7 @@ test('groupgroupidget test', () => {
       });
 });
 
-test('groupgroupiddelete test', () => {
+test('DELETEgroupId test', () => {
     expect.assertions(1);
     let status;
     return fetch(url + '/api/groups/0', {
@@ -352,7 +352,7 @@ test('groupgroupiddelete test', () => {
 });
 
 
-test('groupgroupidput test', () => {
+test('PUTgroupId test', () => {
     expect.assertions(1);
     let status;
     return fetch(url + '/api/groups/0', {

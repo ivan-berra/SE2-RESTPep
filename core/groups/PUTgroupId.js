@@ -1,7 +1,7 @@
 var fs = require('fs');
 
 //nuovoNome o nuovalistaMembri possono essere null, ma non entrambi
-function groupgroupidput(idgruppo, nuovoNome, nuovalistaMembri){
+function PUTgroupId(idgruppo, nuovoNome, nuovalistaMembri){
 	if(arguments.length==3)
 	{
 		//if(typeof idgruppo==="number" && Number.isInteger(idgruppo) && idgruppo>=0 && typeof nuovoNome === "string" && typeof nuovalistaMembri === "object" && nuovalistaMembri !=null)
@@ -187,5 +187,5 @@ function esisteUser(idUser)
 	}
 }
 
-//groupgroupidput(0,[1,2,3]);
-module.exports = groupgroupidput;
+//PUTgroupId(0,[1,2,3]);
+module.exports = PUTgroupId;

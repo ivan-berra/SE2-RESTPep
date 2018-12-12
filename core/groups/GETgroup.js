@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-function groupget(){
+function GETgroup(){
 
   let imported = fs.readFileSync('db/groups.json', 'utf8', function (err, data) {
     if (err) throw err; // we'll not consider error handling for now
@@ -13,4 +13,4 @@ function groupget(){
 
 }
 
-module.exports = groupget;
+module.exports = GETgroup;

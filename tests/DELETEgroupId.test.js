@@ -1,4 +1,4 @@
-const groupgroupiddelete= require('../core/groupgroupiddelete');
+const DELETEgroupId= require('../core/DELETEgroupId');
 
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');
@@ -14,7 +14,7 @@ afterEach(() => {
     resetJSON(file, fileBackup);
 })
 
-//const grouppost = require('./grouppost'); //serve per inserire i gruppi da testare
+//const POSTgroup = require('./POSTgroup'); //serve per inserire i gruppi da testare
 
 //ATTENZIONE: SI SUPPONE CHE IN groups.json IL CAMPO nextId SIA 1, ALTRIMENTI NON FUNZIONA IL TEST
 //SI SUPPONE ANCHE SI FACCIA IL TEST SU QUESTO SINGOLO FILE
@@ -23,40 +23,40 @@ afterEach(() => {
 //il metodo per il test è pensato per restituire il valore di http status
 /* MESSO A COMMENTO PER GLI ERRORI ONLINE
 test('valid', () => {
-	expect(groupgroupiddelete(1)).toBe(204);
+	expect(DELETEgroupId(1)).toBe(204);
 });
 
 
 test("unvalid1: cancella gruppo che non esiste", () => {
-	expect(groupgroupiddelete(1)).toBe(404);
+	expect(DELETEgroupId(1)).toBe(404);
 });
 
 
 test("unvalid2: cancella gruppo che non esiste", () => {
-	expect(groupgroupiddelete(5000)).toBe(404);
+	expect(DELETEgroupId(5000)).toBe(404);
 });*/
 
 
 test("unvalid3: formato dati erroneo 1", () => {
-	expect(groupgroupiddelete('prova')).toBe(400);
+	expect(DELETEgroupId('prova')).toBe(400);
 });
 
 
 test("unvalid4: formato dati erroneo 2", () => {
-	expect(groupgroupiddelete(5.8)).toBe(400);
+	expect(DELETEgroupId(5.8)).toBe(400);
 });
 
 
 test("unvalid5: formato dati erroneo 3", () => {
-	expect(groupgroupiddelete(-15)).toBe(400);
+	expect(DELETEgroupId(-15)).toBe(400);
 });
 
 
 test("unvalid6: formato dati erroneo 4", () => {
-	expect(groupgroupiddelete([2,7])).toBe(400);
+	expect(DELETEgroupId([2,7])).toBe(400);
 });
 
 
 test("unvalid7: formato dati erroneo 5", () => {
-	expect(groupgroupiddelete(null)).toBe(400);
+	expect(DELETEgroupId(null)).toBe(400);
 });

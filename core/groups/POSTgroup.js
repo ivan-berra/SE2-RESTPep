@@ -1,7 +1,7 @@
 var fs = require('fs');
 
 
-function grouppost(nomeGruppo, listaMembri){
+function POSTgroup(nomeGruppo, listaMembri){
 	if(arguments.length==2)
 	{
 		if(typeof nomeGruppo === "string")
@@ -131,6 +131,6 @@ function esisteUser(idUser)
 	}
 }
 
-//grouppost("provaloop",[1,2,3])
+//POSTgroup("provaloop",[1,2,3])
 
-module.exports = grouppost;
+module.exports = POSTgroup;
