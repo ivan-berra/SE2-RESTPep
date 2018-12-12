@@ -39,7 +39,7 @@ test('Prova di connessione', () => {
 
 });
 
-test('GET test', () => {
+test('GET user test', () => {
 
     expect.assertions(1);
 
@@ -55,7 +55,7 @@ test('GET test', () => {
 
 });
 
-test('GET(id) test', () => {
+test('GET(id) user test', () => {
 
     expect.assertions(1);
 
@@ -76,7 +76,7 @@ test('GET(id) test', () => {
 });
 
 
-test('POST test', () => {
+test('POST user test', () => {
 
     expect.assertions(1);
 
@@ -103,7 +103,7 @@ test('POST test', () => {
 });
 
 
-test('PUT(id) test', () => {
+test('PUT(id) user test', () => {
 
     expect.assertions(1);
 
@@ -137,7 +137,7 @@ test('PUT(id) test', () => {
 
 });
 
-test('DELETE(id) test', () => {
+test('DELETE(id) user test', () => {
 
     expect.assertions(1);
 
