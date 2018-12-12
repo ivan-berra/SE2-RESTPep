@@ -1,5 +1,5 @@
-const retreiveBackup = require('../core/retreiveBackup');
-const resetJSON = require('../core/resetJSON');
+const retreiveBackup = require('./utils/retreiveBackup');
+const resetJSON = require('./utils/resetJSON');
 
 const file = 'db/users.json';
 

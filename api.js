@@ -89,10 +89,8 @@ app.delete('/api/users/:userId', function(req, res) {
 
     console.log(result.status);
 
-    if (result.status != 200)
+    if (result.status != 204)
         message = { "message": "Error: " + result.status };
-    else
-        message = { "message": "User deleted" };
 
     console.log(message);
 
@@ -114,8 +112,10 @@ app.put('/api/users/:userId', function(req, res) {
 
     res.status(result.status);
 
-    if (result.status != 204)
+    if (result.status != 200)
         message = { "message": "Error: " + result.status };
+    else
+        message = { "message": "User modified" };
 
     console.log(message);
 
