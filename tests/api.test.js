@@ -1,5 +1,5 @@
-const retreiveBackup = require('../core/retreiveBackup');
-const resetJSON = require('../core/resetJSON');
+const retreiveBackup = require('./utils/retreiveBackup');
+const resetJSON = require('./utils/resetJSON');
 const fetch = require('node-fetch');
 const fs = require('fs');
 const fileExams = 'db/exams.json';

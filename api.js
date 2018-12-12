@@ -1,10 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Exam = require('./core/exams/Exam');
-const ExamId = require('./core/exams/ExamId');
+const GETexams = require('./core/exams/GETexams');
+const GETexamsId = require('./core/exams/GETexamsId');
+const POSTexams = require('./core/exams/POSTexams');
+const PUTexamsId = require('./core/exams/PUTexamsId');
+const DELETEexamsId = require('./core/exams/DELETEexamsId');
 const fs = require('fs');
-
-const app = express()
+const app = express();
 const PORT = process.env.PORT || 3000
 
 app.use(bodyParser.json());
@@ -119,7 +121,7 @@ app.put('/api/users/:userId', function(req, res) {
 });
 
 app.get('/api/exams', (req, res) => {
-	let response = Exam.get();
+	let response = GETexams();
 	if(response.status != 500){
 		res.contentType('application/json');
 		res.status(response.status);
@@ -132,7 +134,7 @@ app.get('/api/exams', (req, res) => {
 })
 
 app.post('/api/exams', (req, res) => {
-	let response = Exam.write(req.body);
+	let response = POSTexams(req.body);
 	console.log("Response: ", response);
 	if(response.status == 201){
 		res.status(response.status);
@@ -146,7 +148,7 @@ app.post('/api/exams', (req, res) => {
 
 app.get('/api/exams/:examID', (req, res) => {
 	try{
-		let response = ExamId.idGet(req.params.examID);
+		let response = GETexamsId(req.params.examID);
 		if(response.status == 200){
 			res.contentType('application/json');
 			res.status(response.status);
@@ -165,7 +167,7 @@ app.get('/api/exams/:examID', (req, res) => {
 
 app.delete('/api/exams/:examID', (req, res) => {
 	try{
-		let check = ExamId.idDelete(req.params.examID);
+		let check = DELETEexamsId(req.params.examID);
 		if(check == 204){
 			res.status(200); //per qualche motivo mettendo 204 non manda la stringa "204 EXAM DELETED"
 			res.send("204 EXAM DELETED");
@@ -183,7 +185,7 @@ app.delete('/api/exams/:examID', (req, res) => {
 
 app.put('/api/exams/:examID', (req,res) => {
 	try{
-			let check = ExamId.idPut(req.body, req.params.examID);
+			let check = PUTexamsId(req.body, req.params.examID);
 			if(check == 202){
 				res.status(202);
 				res.send("202 EXAM MODIFIED");
