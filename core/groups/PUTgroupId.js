@@ -1,4 +1,5 @@
 var fs = require('fs');
+var esisteUser = require("../utils/esisteUser");
 
 //nuovoNome o nuovalistaMembri possono essere null, ma non entrambi
 function PUTgroupId(idgruppo, nuovoNome, nuovalistaMembri){
@@ -84,7 +85,7 @@ function PUTgroupId(idgruppo, nuovoNome, nuovalistaMembri){
 					{
 						if(!(typeof nuovalistaMembri[i] === "number" && Number.isInteger(nuovalistaMembri[i]) && nuovalistaMembri[i]>=0))
 							return 400;
-						else if(!esisteUser(nuovalistaMembri[i]))
+						else if(esisteUser(nuovalistaMembri[i])==-1)
 							return 400;
 						if(i==nuovalistaMembri.length-1)
 						{
@@ -118,74 +119,4 @@ function PUTgroupId(idgruppo, nuovoNome, nuovalistaMembri){
 	}
 }
 
-//si suppone siano in ordine nel file
-function esisteUser(idUser)
-{
-	//var imported = require('./users.json');
-	let imported = fs.readFileSync('db/users.json', 'utf8', function (err, data) {
-    if (err) throw err; // we'll not consider error handling for now
-    var obj = JSON.parse(data);
-	});
-	/*var re = /\0/g;
-	var utenti=JSON.parse(imported.toString().replace(re, ""));*/
-	let utenti = JSON.parse(imported);
-	var lookingAt=idUser;
-	let tmp=utenti.users[lookingAt];
-	if(utenti.nextId<=idUser)
-		return false;
-	else if (tmp!=null && tmp!=undefined && tmp.id==idUser)
-		return true;
-	else {
-		let beginSearch=0;
-		let endSearch=utenti.users.length-1;
-		lookingAt=Math.floor(((beginSearch+endSearch)/2));
-		do{
-			lookingAt=Math.floor(((beginSearch+endSearch)/2));
-			tmp=utenti.users[lookingAt];
-			if(tmp==null)
-			{
-				let indice=lookingAt-1;
-				while(indice>=beginSearch && utenti.users[indice]==null)
-					indice--;
-				if(indice<beginSearch)
-				{
-					indice=lookingAt+1;
-					while(indice<=endSearch && utenti.users[indice]==null)
-						indice++;
-					if(indice>endSearch)
-						return false;
-					else
-					{
-						tmp=utenti.users[indice];
-						if(tmp.id<idUser)
-							beginSearch=indice+1;
-						else if (tmp.id>idUser)
-							endSearch=indice-1;
-						else if(tmp.id==idUser)
-							return true;
-					}
-				}
-				else
-				{
-					tmp=utenti.users[indice];
-					if(tmp.id<idUser)
-						beginSearch=indice+1;
-					else if (tmp.id>idUser)
-						endSearch=indice-1;
-					else if(tmp.id==idUser)
-						return true;
-				}
-			}
-			else if(tmp.id<idUser)
-				beginSearch=lookingAt+1;
-			else if (tmp.id>idUser)
-				endSearch=lookingAt-1;
-			else if(tmp.id==idUser)
-				return true;
-		}while(beginSearch<=endSearch)
-		return false;
-	}
-}
-
-//PUTgroupId(0,[1,2,3]);
 module.exports = PUTgroupId;

@@ -1,5 +1,5 @@
 var fs = require('fs');
-
+var esisteUser = require("../utils/esisteUser");
 
 function POSTgroup(nomeGruppo, listaMembri){
 	if(arguments.length==2)
@@ -15,7 +15,7 @@ function POSTgroup(nomeGruppo, listaMembri){
 					if(!(typeof listaMembri[i] === "number" && Number.isInteger(listaMembri[i]) && listaMembri[i]>=0))
 						formatError=true;
 					if(!formatError)
-						if(!esisteUser(listaMembri[i]))
+						if(esisteUser(listaMembri[i])==-1)
 							formatError=true;
 					if(i==listaMembri.length-1)
 					{
@@ -62,75 +62,5 @@ function POSTgroup(nomeGruppo, listaMembri){
 	}
 }
 
-//si suppone siano in ordine nel file
-function esisteUser(idUser)
-{
-	//var imported = require('./users.json');
-	let imported = fs.readFileSync('db/users.json', 'utf8', function (err, data) {
-    if (err) throw err; // we'll not consider error handling for now
-    var obj = JSON.parse(data);
-	});
-	/*var re = /\0/g;
-	var utenti=JSON.parse(imported.toString().replace(re, ""));*/
-	let utenti = JSON.parse(imported);
-	var lookingAt=idUser;
-	let tmp=utenti.users[lookingAt];
-	if(utenti.nextId<=idUser)
-		return false;
-	else if (tmp!=null && tmp!=undefined && tmp.id==idUser)
-		return true;
-	else {
-		let beginSearch=0;
-		let endSearch=utenti.users.length-1;
-		lookingAt=Math.floor(((beginSearch+endSearch)/2));
-		do{
-			lookingAt=Math.floor(((beginSearch+endSearch)/2));
-			tmp=utenti.users[lookingAt];
-			if(tmp==null)
-			{
-				let indice=lookingAt-1;
-				while(indice>=beginSearch && utenti.users[indice]==null)
-					indice--;
-				if(indice<beginSearch)
-				{
-					indice=lookingAt+1;
-					while(indice<=endSearch && utenti.users[indice]==null)
-						indice++;
-					if(indice>endSearch)
-						return false;
-					else
-					{
-						tmp=utenti.users[indice];
-						if(tmp.id<idUser)
-							beginSearch=indice+1;
-						else if (tmp.id>idUser)
-							endSearch=indice-1;
-						else if(tmp.id==idUser)
-							return true;
-					}
-				}
-				else
-				{
-					tmp=utenti.users[indice];
-					if(tmp.id<idUser)
-						beginSearch=indice+1;
-					else if (tmp.id>idUser)
-						endSearch=indice-1;
-					else if(tmp.id==idUser)
-						return true;
-				}
-			}
-			else if(tmp.id<idUser)
-				beginSearch=lookingAt+1;
-			else if (tmp.id>idUser)
-				endSearch=lookingAt-1;
-			else if(tmp.id==idUser)
-				return true;
-		}while(beginSearch<=endSearch)
-		return false;
-	}
-}
-
-//POSTgroup("provaloop",[1,2,3])
 
 module.exports = POSTgroup;
