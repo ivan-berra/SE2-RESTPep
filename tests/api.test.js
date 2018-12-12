@@ -29,14 +29,14 @@ afterEach(() => {
     resetJSON(fileExams, fileBackupExams);
 })
 
-var errorRes = {"jsonData": null, "status": 400};
-var notfoundRes = {"jsonData": null, "status": 404};
+var errorRes = { "jsonData": null, "status": 400 };
+var notfoundRes = { "jsonData": null, "status": 404 };
 const testExam = {
-	destinatario:100,
-	deadline:"1010-10-10T10:10:10Z",
-	tasksarray:[1,10,11,100,101],
-	autore:101010,
-	condivisi:[110,111,101110]
+    destinatario: 100,
+    deadline: "1010-10-10T10:10:10Z",
+    tasksarray: [1, 10, 11, 100, 101],
+    autore: 101010,
+    condivisi: [110, 111, 101110]
 };
 
 var testData = { matricola: 200000, email: 'prova@prova.it', isTeacher: false };
@@ -56,124 +56,125 @@ test('Prova di connessione', () => {
         })
 
 });
-test('GET test', () => {
 
-            expect.assertions(1);
+test('GET user test', () => {
 
-            var status;
-            return fetch(url + '/api/users')
-                .then((res) => {
-                    status = res.status;
-                    return res.json();
-                })
-                .then(function() {
-                    expect(status).toEqual(200);
-                });
+    expect.assertions(1);
 
+    var status;
+    return fetch(url + '/api/users')
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then(function() {
+            expect(status).toEqual(200);
         });
 
-        test('GET(id) test', () => {
+});
 
-            expect.assertions(1);
+test('GET(id) user test', () => {
 
-            var status;
-            return fetch(url + '/api/users/0')
-                .then((res) => {
-                    status = res.status;
-                    return res.json();
-                })
-                .then((jsonData) => {
-                    console.log(jsonData);
-                    console.log(status);
-                })
-                .then(function() {
-                    expect(status).toEqual(200);
-                });
+    expect.assertions(1);
 
+    var status;
+    return fetch(url + '/api/users/0')
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then((jsonData) => {
+            console.log(jsonData);
+            console.log(status);
+        })
+        .then(function() {
+            expect(status).toEqual(200);
         });
 
-
-        test('POST test', () => {
-
-            expect.assertions(1);
-
-            let status;
-            let jsonData;
-
-            return fetch(url + '/api/users', {
-
-                    method: 'post',
-
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-
-                    body: JSON.stringify(testData)
-
-                })
-                .then((res) => {
-                    status = res.status;
-                    expect(status).toEqual(200)
-                })
-
-        });
+});
 
 
-        test('PUT(id) test', () => {
+test('POST user test', () => {
 
-            expect.assertions(1);
+    expect.assertions(1);
 
-            let status;
-            let jsonData;
+    let status;
+    let jsonData;
 
-            return fetch(url + '/api/users/0', {
+    return fetch(url + '/api/users', {
 
-                    method: 'put',
+            method: 'post',
 
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
 
-                    body: JSON.stringify(testData)
+            body: JSON.stringify(testData)
 
-                })
-                .then((res) => {
-                    status = res.status;
-                    return res.json();
-                })
-                .then((jsonData) => {
-                    console.log(jsonData);
-                    console.log(status);
-                    expect(status).toEqual(200);
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
+        })
+        .then((res) => {
+            status = res.status;
+            expect(status).toEqual(200)
+        })
 
-        });
+});
 
-        test('DELETE(id) test', () => {
 
-            expect.assertions(1);
+test('PUT(id) user test', () => {
 
-            let status;
+    expect.assertions(1);
 
-            return fetch(url + '/api/users/0', {
+    let status;
+    let jsonData;
 
-                    method: 'delete',
+    return fetch(url + '/api/users/0', {
 
-                })
-                .then((res) => {
-                    status = res.status;
-                    expect(status).toEqual(204);
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
+            method: 'put',
 
-        });
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify(testData)
+
+        })
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then((jsonData) => {
+            console.log(jsonData);
+            console.log(status);
+            expect(status).toEqual(200);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+});
+
+test('DELETE(id) user test', () => {
+
+    expect.assertions(1);
+
+    let status;
+
+    return fetch(url + '/api/users/0', {
+
+            method: 'delete',
+
+        })
+        .then((res) => {
+            status = res.status;
+            expect(status).toEqual(204);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+});
 
 //--------------- TASKS TEST --------------------
 
@@ -334,32 +335,32 @@ test('GETgroupId test', () => {
     let status;
     console.log("test GETgroupId");
     return fetch(url + '/api/groups/0')
-      .then((res) => {
-        status = res.status;
-        return res.json();
-      })
-      .then((jsonData) => {
-        console.log(jsonData);
-        console.log(status);
-      })
-      .then(function() {
-        expect(status).toEqual(200);
-      });
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then((jsonData) => {
+            console.log(jsonData);
+            console.log(status);
+        })
+        .then(function() {
+            expect(status).toEqual(200);
+        });
 });
 
 test('DELETEgroupId test', () => {
     expect.assertions(1);
     let status;
     return fetch(url + '/api/groups/0', {
-      method: 'delete',
-      })
-      .then((res) => {
-          status = res.status;
-          expect(status).toEqual(204);
-      })
-      .catch((err) => {
-          console.log(err);
-      })
+            method: 'delete',
+        })
+        .then((res) => {
+            status = res.status;
+            expect(status).toEqual(204);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
 });
 
 
@@ -416,7 +417,7 @@ test('POST EXAM test', () => {
             status = res.status;
             expect(status).toEqual(201)
         })
-				.catch((err) => {
+        .catch((err) => {
             console.log(err);
         })
 
@@ -434,7 +435,7 @@ test('GET(id) EXAM test', () => {
         .then(function() {
             expect(status).toEqual(200);
         })
-				.catch((err) => {
+        .catch((err) => {
             console.log(err);
         })
 
