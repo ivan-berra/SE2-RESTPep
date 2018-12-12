@@ -13,7 +13,7 @@ const ExamId = require('./core/ExamId');
 const GETtasks = require('./core/tasks/GETtasks');
 const GETtasksId = require('./core/tasks/GETtasksId');
 const POSTtasks = require('./core/tasks/POSTtasks');
-const PUTtasksId = require('./core/PUTtasksId');
+const PUTtasksId = require('./core/tasks/PUTtasksId');
 const DELETEtasksId = require('./core/tasks/DELETEtasksId');
 
 const app = express();
