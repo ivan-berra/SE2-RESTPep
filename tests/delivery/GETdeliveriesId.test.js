@@ -1,7 +1,7 @@
-const GETdeliveryId = require('../core/GETdeliveriesId');
+const GETdeliveryId = require('../../core/delivery/GETdeliveriesId');
 const fs = require('fs');
-const retreiveBackup = require('../core/retreiveBackup');
-const resetJSON = require('../core/resetJSON');
+const retreiveBackup = require('../../core/retreiveBackup');
+const resetJSON = require('../../core/resetJSON');
 const file = 'db/deliveries.json';
 let fileBackup = null
 

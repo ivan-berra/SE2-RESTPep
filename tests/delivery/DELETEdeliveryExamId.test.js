@@ -1,7 +1,7 @@
-const deleteDeliveryExamId = require('../core/deleteDeliveryExamId');
+const deleteDeliveryExamId = require('../../core/delivery/DELETEdeliveryExamId');
 
-const retreiveBackup = require('../core/retreiveBackup');
-const resetJSON = require('../core/resetJSON');
+const retreiveBackup = require('../../core/retreiveBackup');
+const resetJSON = require('../../core/resetJSON');
 
 const file = 'db/deliveries.json';
 

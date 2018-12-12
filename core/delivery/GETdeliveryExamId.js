@@ -1,7 +1,5 @@
 const fs = require('fs');
 const esisteDeliveryExamId = require('./esisteDeliveryExamId');
-const retreiveBackup = require('../core/retreiveBackup');
-const resetJSON = require('../core/resetJSON');
 
 const file = './db/deliveries.json';
 

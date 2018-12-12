@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const getDeliveryExamId = require('./core/getDeliveryExamId').getDeliveryExamId;
-const deleteDeliveryExamId = require('./core/deleteDeliveryExamId');
+const getDeliveryExamId = require('./core/delivery/GETdeliveryExamId').getDeliveryExamId;
+const deleteDeliveryExamId = require('./core/delivery/DELETEdeliveryExamId');
 const postgetDelivery = require('./core/delivery/POSTdelivery');
-const GETdeliveriesId = require('./core/GETdeliveriesId');
+const GETdeliveriesId = require('./core/delivery/GETdeliveriesId');
 const GETdelivery = require('./core/delivery/GETdelivery')
 const POSTdelivery = require('./core/delivery/POSTdelivery')
 
