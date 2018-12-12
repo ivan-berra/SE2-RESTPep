@@ -1,37 +1,33 @@
 const express = require('express')
-
+const app = express();
+const bodyParser = require('body-parser');
+const url = 'https://se2-restpep-dev.herokuapp.com';
+const fs = require('fs');
+const PORT = process.env.PORT || 3000;
+//USER DEPENDENCIES
 const GETuser = require('./core/users/GETuser');
 const GETuserId = require('./core/users/GETuserId');
 const DELETEuserId = require('./core/users/DELETEuserId');
 const PUTuserId = require('./core/users/PUTuserId');
 const POSTuser = require('./core/users/POSTuser');
-
-const bodyParser = require('body-parser');
-const Exam = require('./core/Exam');
-const ExamId = require('./core/ExamId');
+//TASK DEPENDENCIES
 const GETtasks = require('./core/tasks/GETtasks');
 const GETtasksId = require('./core/tasks/GETtasksId');
 const POSTtasks = require('./core/tasks/POSTtasks');
 const PUTtasksId = require('./core/tasks/PUTtasksId');
 const DELETEtasksId = require('./core/tasks/DELETEtasksId');
+//GROUP DEPENDENCIES
 const POSTgroup = require('./core/groups/POSTgroup');
 const GETgroup = require('./core/groups/GETgroup');
 const GETgroupId = require('./core/groups/GETgroupId');
 const DELETEgroupId = require('./core/groups/DELETEgroupId');
 const PUTgroupId = require('./core/groups/PUTgroupId');
-
-const app = express();
-const url = 'https://se2-restpep-dev.herokuapp.com';
-
-
-
+//EXAM DEPENDENCIES
 const GETexams = require('./core/exams/GETexams');
 const GETexamsId = require('./core/exams/GETexamsId');
 const POSTexams = require('./core/exams/POSTexams');
 const PUTexamsId = require('./core/exams/PUTexamsId');
 const DELETEexamsId = require('./core/exams/DELETEexamsId');
-const fs = require('fs');
-const PORT = process.env.PORT || 3000
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
