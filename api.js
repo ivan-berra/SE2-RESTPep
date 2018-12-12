@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const getDeliveryExamId = require('./core/getDeliveryExamId').getDeliveryExamId;
 const deleteDeliveryExamId = require('./core/deleteDeliveryExamId');
-const postgetDelivery = require('./core/GET&POSTdelivery');
+const postgetDelivery = require('./core/delivery/POSTdelivery');
 const GETdeliveriesId = require('./core/GETdeliveriesId');
 
 const url = 'https://se2-restpep-dev.herokuapp.com';

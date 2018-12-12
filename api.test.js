@@ -13,7 +13,7 @@ test('Tries to connect to  the server', () => {
 
 });
 
-const deli = require('./core/GET&POSTdelivery');
+const deli = require('./core/delivery/POSTdelivery');
 
 const file = 'db/deliveries.json'
 
