@@ -2,18 +2,18 @@ const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');
 const fetch = require('node-fetch');
 const fs = require('fs');
-const file = 'db/users.json';
-const url = 'https://exam-feature-api.herokuapp.com/';
-let fileBackup = null
+const fileExams = 'db/exams.json';
+const url = 'http://localhost:3000/api/';
+var fileBackupExams = null;
 
 beforeAll(() => {
-    fileBackup = retreiveBackup(file);
-})
+ fileBackupExams = retreiveBackup(fileExams);
+});
 
 afterEach(() => {
-    resetJSON(file, fileBackup);
-})
-//var testData = JSON.stringify({matricola: 200000,email: 'prova@prova.it',isTeacher: false});
+    resetJSON(fileExams, fileBackupExams);
+});
+
 let examJSON = fs.readFileSync('./db/exams.json', 'utf8');
 var exams = JSON.parse(examJSON);
 
@@ -27,27 +27,28 @@ const testData = {
 	condivisi:[110,111,101110]
 };
 
-
 test('GET test', () => {
-
+    expect.assertions(1);
     var status;
-    fetch(url + 'exams')
+    return fetch(url + 'exams')
         .then((res) => {
             status = res.status;
             return res.json();
         })
         .then(function() {
             expect(status).toEqual(200);
-        });
-
+        })
+        .catch((err) => {
+            console.log(err);
+        })
 });
-/*
-test('POST test', () => {
 
+test('POST test', () => {
+    expect.assertions(1);
     let status;
     let jsonData;
 
-    fetch(url + 'exams', {
+    return fetch(url + 'exams', {
             method: 'POST',
             body: JSON.stringify(testData),
             headers: {
@@ -66,9 +67,9 @@ test('POST test', () => {
 
 
 test('GET(id) test', () => {
-
+    expect.assertions(1);
     var status;
-    fetch(url + 'exams/1')
+    return fetch(url + 'exams/1')
         .then((res) => {
             status = res.status;
             return res.json();
@@ -87,11 +88,11 @@ test('GET(id) test', () => {
 });
 
 test('PUT(id) test', () => {
-
+    expect.assertions(1);
     let status;
     let jsonData;
 
-    fetch(url + 'exams/1', {
+    return fetch(url + 'exams/1', {
 
             method: 'put',
 
@@ -105,7 +106,7 @@ test('PUT(id) test', () => {
         })
         .then((res) => {
             status = res.status;
-            return res.json();
+            return res.status;
         })
         .then((jsonData) => {
             console.log(jsonData);
@@ -119,18 +120,18 @@ test('PUT(id) test', () => {
 });
 
 test('DELETE(id) test', () => {
-
+    expect.assertions(1);
     let status;
     let jsonData;
 
-    fetch(url + 'exams/1', {
+    return fetch(url + 'exams/1', {
 
             method: 'delete',
 
         })
         .then((res) => {
             status = res.status;
-            return res.json();
+            return res.status;
         })
         .then((jsonData) => {
             console.log(jsonData);
@@ -142,4 +143,3 @@ test('DELETE(id) test', () => {
         })
 
 });
-*/

@@ -1,7 +1,7 @@
-const idGet = require('../core/ExamId').idGet;
-const idFound = require('../core/ExamId').idFound;
-const idDelete = require('../core/ExamId').idDelete;
-const idPut = require('../core/ExamId').idPut;
+const idGet = require('../core/exams/ExamId').idGet;
+const idFound = require('../core/exams/ExamId').idFound;
+const idDelete = require('../core/exams/ExamId').idDelete;
+const idPut = require('../core/exams/ExamId').idPut;
 const fs = require('fs');
 
 let examJSON = fs.readFileSync('./db/exams.json', 'utf8');

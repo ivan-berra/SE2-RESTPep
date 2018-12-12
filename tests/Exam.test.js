@@ -1,6 +1,6 @@
-const valid = require ('../core/Exam').valid;
-const write = require ('../core/Exam').write;
-const get = require ('../core/Exam').get;
+const valid = require ('../core/exams/Exam').valid;
+const write = require ('../core/exams/Exam').write;
+const get = require ('../core/exams/Exam').get;
 const fs = require('fs');
 
 let examJSON = fs.readFileSync('./db/exams.json', 'utf8');

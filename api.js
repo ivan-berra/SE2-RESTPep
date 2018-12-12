@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Exam = require('./core/Exam');
-const ExamId = require('./core/ExamId');
+const Exam = require('./core/exams/Exam');
+const ExamId = require('./core/exams/ExamId');
 const fs = require('fs');
 
 const app = express()
@@ -110,7 +110,7 @@ app.delete('/api/users/:userId', function (req, res) {
 
 });
 */
-	app.get('/exams', (req, res) => {
+	app.get('/api/exams', (req, res) => {
 		let response = Exam.get();
 		if(response.status != 500){
 			res.contentType('application/json');
@@ -123,7 +123,7 @@ app.delete('/api/users/:userId', function (req, res) {
 		}
 	})
 
-	app.post('/exams', (req, res) => {
+	app.post('/api/exams', (req, res) => {
 		let response = Exam.write(req.body);
 		console.log("Response: ", response);
 		if(response.status == 201){
@@ -136,7 +136,7 @@ app.delete('/api/users/:userId', function (req, res) {
 		}
 	})
 
-	app.get('/exams/:examID', (req, res) => {
+	app.get('/api/exams/:examID', (req, res) => {
 		try{
 			let response = ExamId.idGet(req.params.examID);
 			if(response.status == 200){
@@ -155,7 +155,7 @@ app.delete('/api/users/:userId', function (req, res) {
 		}catch(error){console.log(error);}
 	})
 
-	app.delete('/exams/:examID', (req, res) => {
+	app.delete('/api/exams/:examID', (req, res) => {
 		try{
 			let check = ExamId.idDelete(req.params.examID);
 			if(check == 204){
@@ -173,7 +173,7 @@ app.delete('/api/users/:userId', function (req, res) {
 		}catch(error){console.log(error);}
 	})
 
-	app.put('/exams/:examID', (req,res) => {
+	app.put('/api/exams/:examID', (req,res) => {
 		try{
 				let check = ExamId.idPut(req.body, req.params.examID);
 				if(check == 202){
