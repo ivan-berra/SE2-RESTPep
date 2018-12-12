@@ -1,15 +1,23 @@
-const express = require('express');
-const app = express();
 const getDeliveryExamId = require('./core/getDeliveryExamId').getDeliveryExamId;
 const deleteDeliveryExamId = require('./core/deleteDeliveryExamId');
 const postgetDelivery = require('./core/GET&POSTdelivery');
 const GETdeliveriesId = require('./core/GETdeliveriesId');
 
-const PORT = process.env.PORT || 3000;
+const url = 'https://se2-restpep-dev.herokuapp.com';
 
-app.get('/', (req, res) => res.send('Hello World!'))
+const app = express();
 
+const PORT = process.env.PORT || 3000
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.listen(PORT, () => console.log('Example app listening on port ' + PORT))
+
+
+app.get('/', (req, res) => {
+    res.status(200);
+    res.send('Hello World!');
+})
 
 app.get('/api/deliveries/:id', (req, res) => {
 	let toSend = GETdeliveriesId(parseInt(req.params.id));
