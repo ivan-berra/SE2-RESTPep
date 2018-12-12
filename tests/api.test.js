@@ -1,6 +1,6 @@
 const url = 'http://localhost:3000';
 var fetch = require('node-fetch');
-const https = require('http');
+
 
 const retreiveBackup = require('./utils/retreiveBackup');
 const resetJSON = require('./utils/resetJSON');
@@ -9,17 +9,20 @@ const fileUser = 'db/users.json';
 const fileTasks = 'db/tasks.json';
 const fileGroups = 'db/groups.json';
 const fileExams = 'db/exams.json';
+const fileDeliveries = 'db/deliveries.json';
 
 let fileBackupUser = null;
 let fileBackupTasks = null;
 let fileBackupGroups = null;
 let fileBackupExams = null;
+let fileBackupDeliveries = null;
 
 beforeAll(() => {
     fileBackupUser = retreiveBackup(fileUser);
     fileBackupTasks = retreiveBackup(fileTasks);
     fileBackupGroups = retreiveBackup(fileGroups);
     fileBackupExams = retreiveBackup(fileExams);
+    fileBackupDeliveries = retreiveBackup(fileDeliveries);
 })
 
 afterEach(() => {
@@ -27,7 +30,31 @@ afterEach(() => {
     resetJSON(fileTasks, fileBackupTasks);
     resetJSON(fileGroups, fileBackupGroups);
     resetJSON(fileExams, fileBackupExams);
+    resetJSON(fileDeliveries, fileBackupDeliveries);
 })
+
+
+let ex = {
+    "examId": 3,
+    "testedId": 1,
+    "reviewedId": 2,
+    "examples": [{
+            "id": 1,
+            "soluzione": "false",
+            "punteggio": 1
+        },
+        {
+            "id": 2,
+            "soluzione": "false",
+            "punteggio": 0
+        },
+        {
+            "id": 3,
+            "soluzione": "true",
+            "punteggio": 0
+        }
+    ]
+}
 
 var errorRes = { "jsonData": null, "status": 400 };
 var notfoundRes = { "jsonData": null, "status": 404 };
@@ -493,3 +520,122 @@ test('DELETE(id) EXAM test', () => {
         })
 
 });
+
+
+test('GET deliveries test', () => {
+
+    expect.assertions(1);
+
+    let status;
+    return fetch(url + 'api/deliveries')
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then(function() {
+            expect(status).toEqual(200);
+        });
+
+});
+
+test('POST test', () => {
+
+    expect.assertions(1);
+    let status;
+
+    return fetch(url + 'api/deliveries', {
+
+            method: 'post',
+
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify(ex)
+
+        })
+        .then((res) => {
+            status = res.status;
+            expect(status).toEqual(200)
+        })
+
+});
+//test delete by Ivan Berra
+test('DELETE deliveries(examId) test', () => {
+
+    expect.assertions(1);
+
+    let status;
+
+    return fetch(url + 'api/deliveries/1', {
+
+            method: 'delete',
+
+        })
+        .then((res) => {
+            status = res.status;
+            expect(status).toEqual(204);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+});
+
+test('GET deliveries(id) test', () => {
+
+    expect.assertions(1);
+
+    var status;
+    return fetch(url + 'api/deliveries/1')
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then(function() {
+            expect(status).toEqual(200);
+        });
+
+});
+
+/*
+test('GET deliveries test', () => {
+
+    var status;
+    fetch(url + '/deliveries')
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then(function() {
+            expect(status).toEqual(200);
+        });
+
+});
+
+var examples = {
+	"id":1,
+    "soluzione":"false",
+    "punteggio":1
+}
+
+test('POST deliveries test', () => {
+
+    var status;
+    fetch(url + '/deliveries',{
+		method: 'post',
+
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+
+		body: JSON.stringify(examples)
+	})
+        .then((res) => {
+            status = res.status;
+            expect(status).toEqual(200);
+        })
+});
+*/
