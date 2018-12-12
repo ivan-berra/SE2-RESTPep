@@ -27,7 +27,7 @@ test('GET test', () => {
     expect.assertions(1);
 
     var status;
-    return fetch(url + 'api/taskgroup')
+    return fetch(url + 'api/taskgroups')
         .then((res) => {
             status = res.status;
             return res.json();

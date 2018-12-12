@@ -67,9 +67,5 @@ function GETtaskgroup(){
 	  }; 
 }
 
-module.exports = {
-	//Tgrouppost,
-	GETtaskgroup
-	//isJson
-	//Tgroupgetid
-};
+module.exports = 
+	GETtaskgroup;

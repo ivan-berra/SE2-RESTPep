@@ -11,7 +11,7 @@ app.get('/', (req, res) => res.send('Hello World!'))
 
 app.listen(PORT, () => console.log('Example app listening on port ' + PORT))
 
-app.get('/api/taskgroup', function(req, res) {
+app.get('/api/taskgroups', function(req, res) {
 
     res.contentType('application/json');
     var result = GETtaskgroup();

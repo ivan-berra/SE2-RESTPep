@@ -1,7 +1,7 @@
 const GETtaskgroup = require('../core/GETtaskgroup');
 //il metodo per il test è pensato per restituire il valore di http status
 
-var ex = {
+/*var ex = {
   "id": 0,
   "aperta": "false",
   "consegna": "domanda a crocette | opzione 1 | opzione 2",
