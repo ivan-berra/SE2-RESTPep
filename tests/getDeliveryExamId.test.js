@@ -15,7 +15,7 @@ afterAll(() => {
 
 //DELIVERIES/{EXAMSID} -> getDeliveryExamId (TEST FORMATO ID PASSANO PER ESISTEDELIVERYEXAMID)
 test('valid', () => {
-	expect(getDeliveryExamId(0)).toEqual({"status": 200, "jsonData":[{"id":0,"examId":0,"tested-id":1,"reviewed-id":3,"examples":[7,"false",44]},{"id":1,"examId":0,"tested-id":3,"reviewed-id":5,"examples":[6,"false",32]}]});
+	expect(getDeliveryExamId(1)).toEqual({"status": 200, "jsonData":[{"id":2,"examId":1,"testedId":1,"reviewedId":3,"examples":[{"id":1,"soluzione":"true","punteggio":1},{"id":2,"soluzione":"false","punteggio":0},{"id":3,"soluzione":"true","punteggio":69}]}]});
 });
 
 test('unvalid1: formato ID erroneo', () => {
