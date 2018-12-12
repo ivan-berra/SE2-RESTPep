@@ -36,17 +36,7 @@ function isJson(str) {
 	return true;
 }
 
-function getdelivery(){
-
-  let imported = fs.readFileSync('db/deliveries.json', 'utf8');
-
-  return {"status": 200, "Deliveries":['deliveries']};
-
-}
-
 module.exports = {
 	postdelivery,
-  //getdeliveryid,
-	getdelivery,
 	isJson
 };
