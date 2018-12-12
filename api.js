@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 })
 
-/*app.get('/api/deliveries/:id', (req, res) => {
+app.get('/api/deliveries/:id', (req, res) => {
 	let toSend = GETdeliveriesId(parseInt(req.params.id));
  	res.setHeader('Content-Type', 'application/json');
 	res.status(toSend.status);
@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
     	}else{
 	res.send();
 	}
-}) */
+})
 
 //GET di una richiesta a delivery
 app.get('/api/deliveries', function(req, res) {

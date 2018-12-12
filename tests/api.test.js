@@ -117,12 +117,12 @@ test('DELETE deliveries(examId) test', () => {
 
 });
 
-/*test('GET deliveries(id) test', () => {
+test('GET deliveries(id) test', () => {
 
     expect.assertions(1);
 
     var status;
-    return fetch(url + '/api/deliveries/0')
+    return fetch(url + 'api/deliveries/1')
         .then((res) => {
             status = res.status;
             return res.json();
