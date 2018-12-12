@@ -1,4 +1,4 @@
-const GETtaskgroup = require('../core/GETtaskgroup');
+const GETtaskgroup = require('../../core/taskgroup/GETtaskgroup');
 //il metodo per il test è pensato per restituire il valore di http status
 
 /*var ex = {
