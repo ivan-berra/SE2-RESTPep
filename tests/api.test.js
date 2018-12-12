@@ -317,6 +317,25 @@ test('groupget test', () => {
         });
 });
 
+
+test('groupgroupidget test', () => {
+    expect.assertions(1);
+    let status;
+    console.log("test groupgroupidget");
+    return fetch(url + '/api/groups/0')
+      .then((res) => {
+        status = res.status;
+        return res.json();
+      })
+      .then((jsonData) => {
+        console.log(jsonData);
+        console.log(status);
+      })
+      .then(function() {
+        expect(status).toEqual(200);
+      });
+});
+
 /*
 test('Tries to get exams', () => {
   let options = {

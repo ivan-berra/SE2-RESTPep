@@ -16,7 +16,7 @@ function groupgroupidget(id){
       let tmp=gruppiJson.groups[lookingAt];
       if(gruppiJson.nextId<=id)
       {
-    		return {"status": 400, "jsonData": null};
+    		return {"status": 404, "jsonData": null};
       }
     	else if (tmp!=null && tmp!=undefined && tmp.groupId==id)
       {
@@ -42,7 +42,7 @@ function groupgroupidget(id){
     						indice++;
     					if(indice>endSearch)
               {
-                return {"status": 400, "jsonData": null};
+                return {"status": 404, "jsonData": null};
               }
     					else
     					{
@@ -79,7 +79,7 @@ function groupgroupidget(id){
             return {"status": 200, "jsonData": tmp};
           }
     		}while(beginSearch<=endSearch)
-    		return {"status": 400, "jsonData": null};
+    		return {"status": 404, "jsonData": null};
       }
     }
     else

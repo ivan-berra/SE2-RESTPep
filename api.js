@@ -14,6 +14,7 @@ const DELETEtasksId = require('./core/DELETEtasksId');
 const PUTtasksId = require('./core/PUTtasksId');
 const grouppost = require('./core/grouppost');
 const groupget = require('./core/groupget');
+const groupgroupidget = require('./core/groupgroupidget');
 
 const url = 'https://se2-restpep-dev.herokuapp.com';
 
@@ -287,3 +288,17 @@ app.get('/api/groups', function(req, res) {
     res.status(200);
     res.send(result);
 })
+
+app.get('/api/groups/:groupId', function(req, res) {
+    let message;
+    let searchedId = req.params.groupId;
+    res.contentType('application/json');
+    let result = groupgroupidget(Number.parseInt(searchedId));
+    res.status(result.status);
+    if (result.status != 200)
+      message = { "message": "Error: " + result.status };
+    else
+      message = result.jsonData;
+    console.log(message);
+    res.send(message);
+});
