@@ -1,4 +1,4 @@
-const PUTtasksId = require('../core/PUTtasksId');
+const PUTtasksId = require('../core/tasks/PUTtasksId');
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');
 

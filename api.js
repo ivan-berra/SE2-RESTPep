@@ -1,17 +1,21 @@
 const express = require('express')
+
 const GETuser = require('./core/users/GETuser');
 const GETuserId = require('./core/users/GETuserId');
 const DELETEuserId = require('./core/users/DELETEuserId');
 const PUTuserId = require('./core/users/PUTuserId');
 const POSTuser = require('./core/users/POSTuser');
+
 const bodyParser = require('body-parser');
 const Exam = require('./core/Exam');
 const ExamId = require('./core/ExamId');
-const GETtasks = require('./core/GETtasks');
-const POSTtasks = require('./core/POSTtasks');
-const GETtasksId = require('./core/GETtasksId');
-const DELETEtasksId = require('./core/DELETEtasksId');
+
+const GETtasks = require('./core/tasks/GETtasks');
+const GETtasksId = require('./core/tasks/GETtasksId');
+const POSTtasks = require('./core/tasks/POSTtasks');
 const PUTtasksId = require('./core/PUTtasksId');
+const DELETEtasksId = require('./core/tasks/DELETEtasksId');
+
 const app = express();
 const url = 'https://se2-restpep-dev.herokuapp.com';
 

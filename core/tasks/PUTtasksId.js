@@ -1,5 +1,5 @@
-const checktaskfields = require('./checktaskfields');
-const checktaskid = require('./checktaskid');
+const checktaskfields = require('../utils/checktaskfields');
+const checktaskid = require('../utils/checktaskid');
 const fs = require('fs');
  
 function PUTtasksId (newtask, inputId){

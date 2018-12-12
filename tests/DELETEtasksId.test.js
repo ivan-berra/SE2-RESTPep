@@ -1,4 +1,4 @@
-const DELETEtasksId = require('../core/DELETEtasksId');
+const DELETEtasksId = require('../core/tasks/DELETEtasksId');
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');
 
