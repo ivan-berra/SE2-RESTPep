@@ -1,8 +1,8 @@
-var esisteUser = require("./esisteUser");
+var esisteUser = require("../utils/esisteUser");
 
 var fs = require('fs');
 
-function userdeleteid(searchedId) {
+function DELETEuserId(searchedId) {
 
     if (searchedId >= 0 && typeof searchedId === "number") {
         var searchedUser = esisteUser(searchedId);
@@ -28,4 +28,4 @@ function userdeleteid(searchedId) {
 
 }
 
-module.exports = userdeleteid;
+module.exports = DELETEuserId;

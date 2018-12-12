@@ -1,8 +1,8 @@
 var fs = require("fs");
 
-var esisteUser = require("./esisteUser")
+var esisteUser = require("../utils/esisteUser");
 
-function usergetid(searchedId) {
+function GETuserId(searchedId) {
 
     if (searchedId >= 0 && typeof searchedId === "number") {
         var searchedUser = esisteUser(searchedId);
@@ -24,4 +24,4 @@ function usergetid(searchedId) {
 
 }
 
-module.exports = usergetid;
+module.exports = GETuserId;

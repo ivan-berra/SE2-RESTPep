@@ -1,4 +1,4 @@
-const checktaskfields = require('./checktaskfields');
+const checktaskfields = require('../utils/checktaskfields');
 const fs = require('fs');
 
 function POSTtasks (newtask){

@@ -1,26 +1,29 @@
 const express = require('express')
-const userGet = require('./core/userget');
-const userGetId = require('./core/usergetid');
-const userDeleteId = require('./core/userdeleteid');
-const userPutId = require('./core/userputid');
-const userPost = require('./core/userpost');
+
+const GETuser = require('./core/users/GETuser');
+const GETuserId = require('./core/users/GETuserId');
+const DELETEuserId = require('./core/users/DELETEuserId');
+const PUTuserId = require('./core/users/PUTuserId');
+const POSTuser = require('./core/users/POSTuser');
+
 const bodyParser = require('body-parser');
 const Exam = require('./core/Exam');
 const ExamId = require('./core/ExamId');
-const GETtasks = require('./core/GETtasks');
-const POSTtasks = require('./core/POSTtasks');
-const GETtasksId = require('./core/GETtasksId');
-const DELETEtasksId = require('./core/DELETEtasksId');
-const PUTtasksId = require('./core/PUTtasksId');
+const GETtasks = require('./core/tasks/GETtasks');
+const GETtasksId = require('./core/tasks/GETtasksId');
+const POSTtasks = require('./core/tasks/POSTtasks');
+const PUTtasksId = require('./core/tasks/PUTtasksId');
+const DELETEtasksId = require('./core/tasks/DELETEtasksId');
 const grouppost = require('./core/grouppost');
 const groupget = require('./core/groupget');
 const groupgroupidget = require('./core/groupgroupidget');
 const groupgroupiddelete = require('./core/groupgroupiddelete');
 const groupgroupidput = require('./core/groupgroupidput');
 
+const app = express();
 const url = 'https://se2-restpep-dev.herokuapp.com';
 
-const app = express();
+
 
 const PORT = process.env.PORT || 3000
 
@@ -41,7 +44,7 @@ app.post('/api/users', function(req, res) {
 
     var message;
 
-    var result = userPost(user.matricola, user.email, user.isTeacher);
+    var result = POSTuser(user.matricola, user.email, user.isTeacher);
 
     res.status(result.status);
 
@@ -49,8 +52,6 @@ app.post('/api/users', function(req, res) {
         message = { "message": "Error: " + result.status };
     else
         message = { 'url': url + "api/users/" + result.jsonData.id };
-
-    console.log(message);
 
     process.on('uncaughtException', function(err) {
         console.error((new Date).toUTCString() + 'UncaughtException:', err.message);
@@ -65,7 +66,7 @@ app.post('/api/users', function(req, res) {
 app.get('/api/users', function(req, res) {
 
     res.contentType('application/json');
-    var result = userGet();
+    var result = GETuser();
     res.status(200);
 
     res.send(result.jsonData);
@@ -79,7 +80,7 @@ app.get('/api/users/:userId', function(req, res) {
 
     res.contentType('application/json');
 
-    var result = userGetId(Number.parseInt(searchedId));
+    var result = GETuserId(Number.parseInt(searchedId));
 
     res.status(result.status);
 
@@ -87,8 +88,6 @@ app.get('/api/users/:userId', function(req, res) {
         message = { "message": "Error: " + result.status };
     else
         message = result.jsonData;
-
-    console.log(message);
 
     res.send(message);
 
@@ -102,17 +101,15 @@ app.delete('/api/users/:userId', function(req, res) {
 
     res.contentType('application/json');
 
-    var result = userDeleteId(Number.parseInt(searchedId));
+    var result = DELETEuserId(Number.parseInt(searchedId));
 
     res.status(result.status);
-
-    console.log(result.status);
 
     if (result.status != 204)
         message = { "message": "Error: " + result.status };
 
-    console.log(message); //il messaggio è undefined se l'eliminazione è andata a buon fine
-			  //204 indica No Content e non accetta nessun corpo
+    //il messaggio è undefined se l'eliminazione è andata a buon fine
+    //204 indica No Content e non accetta nessun corpo
 
     res.send(message);
 
@@ -128,16 +125,15 @@ app.put('/api/users/:userId', function(req, res) {
 
     res.contentType('application/json');
 
-    var result = userPutId(Number.parseInt(searchedId), user.matricola, user.email, user.isTeacher);
+    var result = PUTuserId(Number.parseInt(searchedId), user.matricola, user.email, user.isTeacher);
 
     res.status(result.status);
 
     if (result.status != 200)
         message = { "message": "Error: " + result.status };
     else
-	message = { "message": "Utente modificato"};
+        message = { "message": "Utente modificato" };
 
-    console.log(message);
 
     res.send(message);
 
@@ -158,7 +154,7 @@ app.get('/exams', (req, res) => {
 
 app.post('/exams', (req, res) => {
     let response = Exam.write(req.body);
-    console.log("Response: ", response);
+
     if (response.status == 201) {
         res.status(response.status);
         res.send("201 EXAM CREATED WITH ID: ", response.examId.toString());

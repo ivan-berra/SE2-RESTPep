@@ -1,4 +1,4 @@
-const GETtasks = require('../core/GETtasks.js');
+const GETtasks = require('../core/tasks/GETtasks.js');
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');
 const file = 'db/tasks.json';

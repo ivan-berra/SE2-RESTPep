@@ -1,9 +1,9 @@
 var fs = require('fs');
-var validateEmail = require('./validateEmail');
-var esisteUser = require("./esisteUser");
+var validateEmail = require('../utils/validateEmail');
+var esisteUser = require("../utils/esisteUser");
 
 
-function userput(searchedId, matricola, email, isTeacher) {
+function PUTuserId(searchedId, matricola, email, isTeacher) {
 
     if (searchedId >= 0 && typeof searchedId === "number") {
         var searchedUser = esisteUser(searchedId);
@@ -60,4 +60,4 @@ function userput(searchedId, matricola, email, isTeacher) {
 
 }
 
-module.exports = userput;
+module.exports = PUTuserId;

@@ -1,4 +1,4 @@
-const POSTtasks = require('../core/POSTtasks');
+const POSTtasks = require('../core/tasks/POSTtasks');
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');
 

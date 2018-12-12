@@ -1,4 +1,4 @@
-const userput = require('../core/userputid');
+const userput = require('../core/users/PUTuserId');
 
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');
