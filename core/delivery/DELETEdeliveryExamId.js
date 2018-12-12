@@ -1,4 +1,4 @@
-var esisteDeliveryExamId = require("./esisteDeliveryExamId");
+var esisteDeliveryExamId = require("../utils/esisteDeliveryExamId");
 
 var fs = require('fs');
 
@@ -7,6 +7,7 @@ function deleteDeliveryExamId(searchedExamId) {
     if (searchedExamId >= 0 && typeof searchedExamId === "number") {
         
         let searchedDelivery = esisteDeliveryExamId(searchedExamId);
+
         if (searchedDelivery == -1)
 
             return { "status": 404, "jsonData": null };

@@ -1,5 +1,5 @@
 const fs = require('fs');
-const esisteDeliveryExamId = require('./esisteDeliveryExamId');
+const esisteDeliveryExamId = require('../utils/esisteDeliveryExamId');
 
 const file = './db/deliveries.json';
 

@@ -1,4 +1,4 @@
-const delivery = require('./DeliveryId');
+const delivery = require('../utils/DeliveryId');
 
 const fs = require('fs');
 

@@ -1,4 +1,4 @@
-const delivery = require('../../core/delivery/DeliveryId');
+const delivery = require('../../core/utils/DeliveryId');
 const fs = require("fs");
 let deliveryJSONbackup = fs.readFileSync('./db/deliveries.json', 'utf8');
 
