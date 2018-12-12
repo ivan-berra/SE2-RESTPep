@@ -1,15 +1,14 @@
 const url = 'http://localhost:3000';
 var fetch = require('node-fetch');
-const https = require('http');
 
-const deli = require('./core/GET&POSTdelivery');
+const deli = require('../core/GET&POSTdelivery');
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');
 
 const fileDeliveries = 'db/deliveries.json';
 
 
-let fileBackupDelivery = null;
+let fileBackupDeliveries = null;
 let fileBackupTasks = null;
 
 beforeAll(() => {
@@ -17,7 +16,7 @@ beforeAll(() => {
 })
 
 afterEach(() => {
-    resetJSON(fileDeliveries, fileBackupDelivery);
+    resetJSON(fileDeliveries, fileBackupDeliveries);
 })
 
 
@@ -48,9 +47,10 @@ test('GET deliveries(id) test', () => {
         .then(function() {
             expect(status).toEqual(200);
         });
+
 });
 
-
+/*
 test('GET deliveries test', () => {
 
     var status;
@@ -89,3 +89,4 @@ test('POST deliveries test', () => {
             expect(status).toEqual(200);
         })
 });
+*/

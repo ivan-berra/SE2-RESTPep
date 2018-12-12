@@ -1,4 +1,4 @@
-const GETdeliveryId = require('../core/GETdeliveryId');
+const GETdeliveryId = require('../core/GETdeliveriesId');
 const fs = require('fs');
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');

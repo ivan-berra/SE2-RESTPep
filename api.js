@@ -13,13 +13,15 @@ app.listen(PORT, () => console.log('Example app listening on port ' + PORT))
 
 app.get('/api/deliveries/:id', (req, res) => {
 	let toSend = GETdeliveriesId(parseInt(req.params.id));
+ 	res.setHeader('Content-Type', 'application/json');
 	res.status(toSend.status);
 	if (toSend.status == 200) {
 		res.send(toSend.jsonData);
-    	}
+    	}else{
 	res.send();
+	}
 }) 
-
+/*
 app.get('/deliveries/e/:examID', (req, res) => {
 	try{
 		let deliveryJson = getDeliveryExamId(req.params.examID);
@@ -84,5 +86,5 @@ app.delete('/deliveries/e/:examID', (req, res) => {
 		}
 	}catch(error){console.log(error);}
 })
-
+*/
 
