@@ -4,6 +4,7 @@ const getDeliveryExamId = require('./core/getDeliveryExamId').getDeliveryExamId;
 const deleteDeliveryExamId = require('./core/deleteDeliveryExamId');
 const postgetDelivery = require('./core/delivery/POSTdelivery');
 const GETdeliveriesId = require('./core/GETdeliveriesId');
+const GETdelivery = require('./core/delivery/GETdelivery')
 
 const url = 'https://se2-restpep-dev.herokuapp.com';
 
@@ -21,7 +22,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 })
 
-app.get('/api/deliveries/:id', (req, res) => {
+/*app.get('/api/deliveries/:id', (req, res) => {
 	let toSend = GETdeliveriesId(parseInt(req.params.id));
  	res.setHeader('Content-Type', 'application/json');
 	res.status(toSend.status);
@@ -30,7 +31,35 @@ app.get('/api/deliveries/:id', (req, res) => {
     	}else{
 	res.send();
 	}
-}) 
+}) */
+
+//GET di una richiesta a delivery
+app.get('/api/deliveries', function(req, res) {
+
+    res.contentType('application/json');
+    var result = GETdelivery();
+    res.status(200);
+    res.send(result.jsonData);
+});
+
+//POST di una deliveries nuova
+app.post('/api/deliveries', function(req, res) {
+
+    var body = req.body;
+    var result = POSTtaskgroup.POSTtaskgroup(body.tasks);
+
+    res.status(result.status);
+
+    if (result.status != 200)
+        message = { "message": "Error: " + result.status };
+    else
+        message = { 'url': url + "api/taskgroups/" + result.jsonData.id };
+
+    console.log(message);
+
+    res.send(message);
+
+});
 /*
 app.get('/deliveries/e/:examID', (req, res) => {
 	try{

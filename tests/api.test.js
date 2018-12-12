@@ -1,15 +1,12 @@
-const url = 'http://localhost:3000';
+const url = 'http://localhost:3000/';
 var fetch = require('node-fetch');
 
-const deli = require('../core/GET&POSTdelivery');
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');
-
 const fileDeliveries = 'db/deliveries.json';
 
 
 let fileBackupDeliveries = null;
-let fileBackupTasks = null;
 
 beforeAll(() => {
     fileBackupDeliveries = retreiveBackup(fileDeliveries);
@@ -19,6 +16,31 @@ afterEach(() => {
     resetJSON(fileDeliveries, fileBackupDeliveries);
 })
 
+var example = {
+    "exam-id":3,
+    "tested-id":1,
+    "reviewed-id":2,
+    "examples":
+    [ 
+        {
+            "id":1,
+            "soluzione":"false",
+            "punteggio":1
+        },
+        {
+            "id":2,
+            "soluzione":"false",
+            "punteggio":0
+        },
+        {
+            "id":3,
+            "soluzione":"true",
+            "punteggio":0
+        }
+    ]
+}
+
+
 
 test('Prova di connessione', () => {
 
@@ -26,7 +48,7 @@ test('Prova di connessione', () => {
 
     var status;
 
-    return fetch(url + '/')
+    return fetch(url)
         .then((res) => {
             status = res.status;
             expect(status).toEqual(200);
@@ -34,7 +56,48 @@ test('Prova di connessione', () => {
 
 });
 
-test('GET deliveries(id) test', () => {
+test('GET deliveries test', () => {
+
+    expect.assertions(1);
+    
+        let status;
+        return fetch(url + 'api/deliveries')
+            .then((res) => {
+                status = res.status;
+                return res.json();
+            })
+            .then(function() {
+                expect(status).toEqual(200);
+            });
+    
+});
+
+test('POST test', () => {
+
+    expect.assertions(1);
+	console.log(ex);
+    let status;
+
+    return fetch(url + 'api/taskgroups', {
+
+            method: 'post',
+
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify(ex)
+
+        })
+        .then((res) => {
+            status = res.status;
+			expect(status).toEqual(200)
+        })
+
+});
+
+/*test('GET deliveries(id) test', () => {
 
     expect.assertions(1);
 

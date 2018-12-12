@@ -1,4 +1,4 @@
-const delivery = require('../core/POSTdelivery');
+const delivery = require('../../core/delivery/POSTdelivery');
 var examples = {
 	"id":1,
     "soluzione":"false",
@@ -6,8 +6,8 @@ var examples = {
 }
 let examples_String=JSON.stringify(examples);
 
-const retreiveBackup = require('../core/retreiveBackup');
-const resetJSON = require('../core/resetJSON');
+const retreiveBackup = require('../../core/retreiveBackup');
+const resetJSON = require('../../core/resetJSON');
 
 const file = 'db/deliveries.json';
 
