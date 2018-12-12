@@ -16,18 +16,21 @@ function GETtasksId(id) {
 			res.jsonData = obj.tasks[index];
 			return res;
 		}
-		else if(index == "400 BAD FORMAT"){
+		else if(index == '400 BAD FORMAT'){
 			res.status = 400;
+			res.jsonData = '400 BAD FORMAT';
 			return res;
 		}
 		else{  
 			res.status = 404;
+			res.jsonData = '404 NOT FOUND';
 			return res;
 		}
 
 	}catch(error){
 		//console.log(error);
 		res.status = 500;
+		res.jsonData = '500 INTERNAL ERROR';
 		return res;
 	}
 }

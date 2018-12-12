@@ -25,12 +25,14 @@ function POSTtasks (newtask){
 		}
 		else{
 			res.status = 400;
+			res.id = '400 BAD FORMAT'
 		}
 
 		return res;
 	}catch(error){
 		//console.log(error);
 		res.status = 500;
+		res.id = '500 INTERNAL ERROR';
 		return res;
 	}
 }

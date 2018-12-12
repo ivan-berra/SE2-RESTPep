@@ -245,9 +245,7 @@ app.get('/api/tasks/:id', (req, res) => {
 
     let toSend = GETtasksId(parseInt(req.params.id));
     res.status(toSend.status);
-    if (toSend.status == 200) {
-        res.send(toSend.jsonData);
-    }
+    res.send(toSend.jsonData);
 
 })
 
@@ -255,9 +253,7 @@ app.post('/api/tasks', (req, res) => {
 
     let toSend = POSTtasks(req.body);
     res.status(toSend.status);
-    if (toSend.status == 201) {
-        res.send(toSend.id.toString());
-    }
+    res.send(toSend.id.toString());
 
 })
 
@@ -266,13 +262,15 @@ app.put('/api/tasks/:id', (req, res) => {
     let toSend = PUTtasksId(req.body, req.params.id);
     res.status(toSend);
     res.send(toSend.toString());
+
 })
 
 app.delete('/api/tasks/:id', (req, res) => {
 
     let toSend = DELETEtasksId(req.params.id);
     res.status(toSend);
-    res.send();
+    res.send(toSend.toString());
+
 })
 
 

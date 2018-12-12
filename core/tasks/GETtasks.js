@@ -12,7 +12,9 @@ function GETtasks ()  {
 		return res;
 	}catch(error){
 		//console.log('ERROR during GETtasks");
+		
 		res.status = 500;
+		res.jsonData = "500 INTERNAL ERROR";
 		return res;
 	}
 
