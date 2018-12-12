@@ -47,7 +47,6 @@ app.get('/api/deliveries', function(req, res) {
 app.post('/api/deliveries', function(req, res) {
 
 	var body = req.body;
-	console.log(body.examId);
     var result = POSTdelivery.postdelivery(body.examId,body.testedId,body.reviewedId,body.examples);
     res.status(result.status);
 

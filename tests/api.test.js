@@ -102,7 +102,7 @@ test('DELETE deliveries(examId) test', () => {
 
     let status;
 
-    return fetch(url + '/api/deliveries/0', {
+    return fetch(url + 'api/deliveries/1', {
 
             method: 'delete',
 

@@ -17,7 +17,7 @@ afterEach(() => {
 
 
 test('Test valido', () => {
-    expect(deliverydeliveryiddelete(2)).toBe(204);
+    expect(deliverydeliveryiddelete(1)).toBe(204);
 });
 
 test('Test invalido', () => {
