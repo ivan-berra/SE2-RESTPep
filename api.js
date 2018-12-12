@@ -16,6 +16,7 @@ const grouppost = require('./core/grouppost');
 const groupget = require('./core/groupget');
 const groupgroupidget = require('./core/groupgroupidget');
 const groupgroupiddelete = require('./core/groupgroupiddelete');
+const groupgroupidput = require('./core/groupgroupidput');
 
 const url = 'https://se2-restpep-dev.herokuapp.com';
 
@@ -312,9 +313,24 @@ app.delete('/api/groups/:groupId', function(req, res) {
     res.status(result);
     console.log(result);
     if (result != 204)
-        message = { "message": "Error: " + result };
+      message = { "message": "Error: " + result };
     console.log(message); //il messaggio è undefined se l'eliminazione è andata a buon fine
-			  //204 indica No Content e non accetta nessun corpo
+		  //204 indica No Content e non accetta nessun corpo
     res.send(message);
+});
 
+
+app.put('/api/groups/:groupId', function(req, res) {
+    let groups = req.body;
+    let message;
+    let searchedId = req.params.groupId;
+    res.contentType('application/json');
+    let result = groupgroupidput(Number.parseInt(searchedId), groups.nomegruppo, groups.membri);
+    res.status(result);
+    if (result != 200)
+      message = { "message": "Error: " + result };
+    else
+	   message = { "message": "Gruppo modificato"};
+    console.log(message);
+    res.send(message);
 });

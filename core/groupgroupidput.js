@@ -73,7 +73,6 @@ function groupgroupidput(idgruppo, nuovoNome, nuovalistaMembri){
 
 			if(gruppodamodificare==null)
 			{
-				esci:
 				return 400;
 			}
 			else

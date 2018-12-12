@@ -351,6 +351,28 @@ test('groupgroupiddelete test', () => {
       })
 });
 
+
+test('groupgroupidput test', () => {
+    expect.assertions(1);
+    let status;
+    return fetch(url + '/api/groups/0', {
+            method: 'put',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ nomegruppo: 'nomegruppoprova', membri: [1, 2] })
+        })
+        .then((res) => {
+            status = res.status;
+            expect(status).toEqual(200);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+});
+
+
 /*
 test('Tries to get exams', () => {
   let options = {
