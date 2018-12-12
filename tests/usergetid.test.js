@@ -1,4 +1,4 @@
-const usergetid = require('../core/usergetid');
+const usergetid = require('../core/users/GETuserId');
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');
 

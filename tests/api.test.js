@@ -23,7 +23,7 @@ afterEach(() => {
 
 
 var testData = { matricola: 200000, email: 'prova@prova.it', isTeacher: false };
-var validTask = { aperta: true, consegna: "test post", risoluzione: "risposta...", punteggiomax: 10};
+var validTask = { aperta: true, consegna: "test post", risoluzione: "risposta...", punteggiomax: 10 };
 
 
 
@@ -189,8 +189,8 @@ test('GET tasks(id) test', () => {
             return res.json();
         })
         .then((jsonData) => {
-           // console.log(jsonData);
-           // console.log(status);
+            // console.log(jsonData);
+            // console.log(status);
         })
         .then(function() {
             expect(status).toEqual(200);
@@ -268,7 +268,7 @@ test('DELETE tasks(id) test', () => {
 
         })
         .then((res) => {
-	    status = res.status;
+            status = res.status;
             expect(status).toEqual(204);
         })
         .catch((err) => {
@@ -316,7 +316,6 @@ test('Tries to post a tasks', () => {
 		//console.log(body);
 		expect(body).toEqual({aperta:false,consegna:"Di che colore è il mare? | rosso | blu | verde | giallo",risoluzione:"2",punteggiomax:10, id:1});
 
-	});
 });
 
 test('Tries to get an exam by id 1', () => {

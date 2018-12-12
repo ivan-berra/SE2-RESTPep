@@ -1,4 +1,4 @@
-const userpost = require('../core/userpost');
+const userpost = require('../core/users/POSTuser');
 
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');
