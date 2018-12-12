@@ -27,7 +27,7 @@ test('valid3', () => {
 });
 
 test("unvalid1: formato dati erroneo 1", () => {
-	expect(groupgroupidget(5000).status).toBe(400);
+	expect(groupgroupidget(5000).status).toBe(404);
 });
 
 test("unvalid1: formato dati erroneo 1", () => {
