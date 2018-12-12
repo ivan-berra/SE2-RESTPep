@@ -95,6 +95,27 @@ test('POST test', () => {
         })
 
 });
+//test delete by Ivan Berra
+test('DELETE deliveries(examId) test', () => {
+
+    expect.assertions(1);
+
+    let status;
+
+    return fetch(url + '/api/deliveries/0', {
+
+            method: 'delete',
+
+        })
+        .then((res) => {
+            status = res.status;
+            expect(status).toEqual(204);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+});
 
 /*test('GET deliveries(id) test', () => {
 

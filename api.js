@@ -61,6 +61,31 @@ app.post('/api/deliveries', function(req, res) {
     res.send(message);
 
 });
+//delete by Ivan Berra
+app.delete('/api/deliveries/:examId', function(req, res) {
+
+    var message;
+
+    var searchedId = req.params.examId;
+
+    res.contentType('application/json');
+
+    var result = deleteDeliveryExamId(Number.parseInt(searchedId));
+
+    res.status(result.status);
+
+    console.log(result.status);
+
+    if (result.status != 204)
+        message = { "message": "Error: " + result.status };
+
+    console.log(message);
+
+    res.send(message);
+
+});
+
+
 /*
 app.get('/deliveries/e/:examID', (req, res) => {
 	try{

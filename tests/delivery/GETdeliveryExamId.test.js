@@ -1,4 +1,4 @@
-const getDeliveryExamId = require('../core/getDeliveryExamId').getDeliveryExamId;
+const getDeliveryExamId = require('../../core/delivery/GETdeliveryExamId').getDeliveryExamId;
 const fs = require('fs');
 
 let deliveryJSON = fs.readFileSync('./db/deliveries.json', 'utf8');
