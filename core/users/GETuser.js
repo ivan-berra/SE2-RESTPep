@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-function userget() {
+function GETuser() {
 
     let imported = fs.readFileSync('db/users.json', 'utf8');
 
@@ -10,4 +10,4 @@ function userget() {
 
 }
 
-module.exports = userget;
+module.exports = GETuser;

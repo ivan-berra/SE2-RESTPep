@@ -1,12 +1,12 @@
 const express = require('express')
-const userGet = require('./core/userget');
-const userGetId = require('./core/usergetid');
-const userDeleteId = require('./core/userdeleteid');
-const userPutId = require('./core/userputid');
-const userPost = require('./core/userpost');
+const GETuser = require('./core/users/GETuser');
+const GETuserId = require('./core/users/GETuserId');
+const DELETEuserId = require('./core/users/DELETEuserId');
+const PUTuserId = require('./core/users/PUTuserId');
+const POSTuser = require('./core/users/POSTuser');
 const bodyParser = require('body-parser');
 
-const url = 'http://localhost:3000/';
+const url = 'https://se2-restpep-dev.herokuapp.com';
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,14 +28,14 @@ app.post('/api/users', function(req, res) {
 
     var message;
 
-    var result = userPost(user.matricola, user.email, user.isTeacher);
+    var result = POSTuser(user.matricola, user.email, user.isTeacher);
 
     res.status(result.status);
 
     if (result.status != 200)
         message = { "message": "Error: " + result.status };
     else
-        message = { 'url': url + "api/users/" + result.jsonData.id };
+        message = result.jsonData;
 
     console.log(message);
 
@@ -46,7 +46,7 @@ app.post('/api/users', function(req, res) {
 app.get('/api/users', function(req, res) {
 
     res.contentType('application/json');
-    var result = userGet();
+    var result = GETuser();
     res.status(200);
 
     res.send(result.jsonData);
@@ -60,7 +60,7 @@ app.get('/api/users/:userId', function(req, res) {
 
     res.contentType('application/json');
 
-    var result = userGetId(Number.parseInt(searchedId));
+    var result = GETuserId(Number.parseInt(searchedId));
 
     res.status(result.status);
 
@@ -83,7 +83,7 @@ app.delete('/api/users/:userId', function(req, res) {
 
     res.contentType('application/json');
 
-    var result = userDeleteId(Number.parseInt(searchedId));
+    var result = DELETEuserId(Number.parseInt(searchedId));
 
     res.status(result.status);
 
@@ -110,7 +110,7 @@ app.put('/api/users/:userId', function(req, res) {
 
     res.contentType('application/json');
 
-    var result = userPutId(Number.parseInt(searchedId), user.matricola, user.email, user.isTeacher);
+    var result = PUTuserId(Number.parseInt(searchedId), user.matricola, user.email, user.isTeacher);
 
     res.status(result.status);
 
