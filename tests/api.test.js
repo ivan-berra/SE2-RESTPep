@@ -27,7 +27,7 @@ const testData = {
 	condivisi:[110,111,101110]
 };
 
-test('GET test', () => {
+test('GET EXAM test', () => {
     expect.assertions(1);
     var status;
     return fetch(url + 'exams')
@@ -43,7 +43,7 @@ test('GET test', () => {
         })
 });
 
-test('POST test', () => {
+test('POST EXAM test', () => {
     expect.assertions(1);
     let status;
     let jsonData;
@@ -66,17 +66,13 @@ test('POST test', () => {
 });
 
 
-test('GET(id) test', () => {
+test('GET(id) EXAM test', () => {
     expect.assertions(1);
     var status;
     return fetch(url + 'exams/1')
         .then((res) => {
             status = res.status;
             return res.json();
-        })
-        .then((jsonData) => {
-            console.log(jsonData);
-            console.log(status);
         })
         .then(function() {
             expect(status).toEqual(200);
@@ -87,7 +83,7 @@ test('GET(id) test', () => {
 
 });
 
-test('PUT(id) test', () => {
+test('PUT(id) EXAM test', () => {
     expect.assertions(1);
     let status;
     let jsonData;
@@ -109,8 +105,6 @@ test('PUT(id) test', () => {
             return res.status;
         })
         .then((jsonData) => {
-            console.log(jsonData);
-            console.log(status);
             expect(status).toEqual(202);
         })
         .catch((err) => {
@@ -119,7 +113,7 @@ test('PUT(id) test', () => {
 
 });
 
-test('DELETE(id) test', () => {
+test('DELETE(id) EXAM test', () => {
     expect.assertions(1);
     let status;
     let jsonData;
@@ -134,8 +128,6 @@ test('DELETE(id) test', () => {
             return res.status;
         })
         .then((jsonData) => {
-            console.log(jsonData);
-            console.log(status);
             expect(status).toEqual(200);
         })
         .catch((err) => {
