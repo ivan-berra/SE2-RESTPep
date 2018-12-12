@@ -16,10 +16,10 @@ afterEach(() => {
     resetJSON(fileDeliveries, fileBackupDeliveries);
 })
 
-var example = {
-    "exam-id":3,
-    "tested-id":1,
-    "reviewed-id":2,
+let ex = {
+    "examId":3,
+    "testedId":1,
+    "reviewedId":2,
     "examples":
     [ 
         {
@@ -75,10 +75,9 @@ test('GET deliveries test', () => {
 test('POST test', () => {
 
     expect.assertions(1);
-	console.log(ex);
     let status;
 
-    return fetch(url + 'api/taskgroups', {
+    return fetch(url + 'api/deliveries', {
 
             method: 'post',
 
