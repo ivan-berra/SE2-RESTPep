@@ -28,10 +28,9 @@ const GETexamsId = require('./core/exams/GETexamsId');
 const POSTexams = require('./core/exams/POSTexams');
 const PUTexamsId = require('./core/exams/PUTexamsId');
 const DELETEexamsId = require('./core/exams/DELETEexamsId');
-
-const getDeliveryExamId = require('./core/delivery/GETdeliveryExamId').getDeliveryExamId;
-const deleteDeliveryExamId = require('./core/delivery/DELETEdeliveryExamId');
-const postgetDelivery = require('./core/delivery/POSTdelivery');
+//DELIVERY DEPENDENCIES
+const getDeliveryExamId = require('./core/delivery/GETdeliveryExamId');
+const DELETEdeliveryExamId = require('./core/delivery/DELETEdeliveryExamId');
 const GETdeliveriesId = require('./core/delivery/GETdeliveriesId');
 const GETdelivery = require('./core/delivery/GETdelivery')
 const POSTdelivery = require('./core/delivery/POSTdelivery')
@@ -398,7 +397,7 @@ app.delete('/api/deliveries/:examId', function(req, res) {
 
     res.contentType('application/json');
 
-    var result = deleteDeliveryExamId(Number.parseInt(searchedId));
+    var result = DELETEdeliveryExamId(Number.parseInt(searchedId));
 
     res.status(result.status);
 
@@ -462,7 +461,7 @@ app.get('/api/deliveries', (req, res) => {
 
 app.delete('/deliveries/e/:examID', (req, res) => {
 	try{
-		let response = deleteDeliveryExamId(req.params.examID);
+		let response = DELETEdeliveryExamId(req.params.examID);
 		if(response.status == 204){
 			res.status(200); //per qualche motivo mettendo 204 non manda la stringa "204 DELIVERY DELETED"
 			res.send("204 DELIVERY DELETED");

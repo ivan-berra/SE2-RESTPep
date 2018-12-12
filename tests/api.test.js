@@ -1,7 +1,6 @@
 const url = 'http://localhost:3000';
 var fetch = require('node-fetch');
 
-
 const retreiveBackup = require('./utils/retreiveBackup');
 const resetJSON = require('./utils/resetJSON');
 
@@ -18,19 +17,19 @@ let fileBackupExams = null;
 let fileBackupDeliveries = null;
 
 beforeAll(() => {
+    fileBackupDeliveries = retreiveBackup(fileDeliveries);
     fileBackupUser = retreiveBackup(fileUser);
     fileBackupTasks = retreiveBackup(fileTasks);
     fileBackupGroups = retreiveBackup(fileGroups);
     fileBackupExams = retreiveBackup(fileExams);
-    fileBackupDeliveries = retreiveBackup(fileDeliveries);
 })
 
 afterEach(() => {
+    resetJSON(fileDeliveries, fileBackupDeliveries);
     resetJSON(fileUser, fileBackupUser);
     resetJSON(fileTasks, fileBackupTasks);
     resetJSON(fileGroups, fileBackupGroups);
     resetJSON(fileExams, fileBackupExams);
-    resetJSON(fileDeliveries, fileBackupDeliveries);
 })
 
 
@@ -176,9 +175,6 @@ test('PUT(id) user test', () => {
             console.log(status);
             expect(status).toEqual(200);
         })
-        .catch((err) => {
-            console.log(err);
-        })
 
 });
 
@@ -196,9 +192,6 @@ test('DELETE(id) user test', () => {
         .then((res) => {
             status = res.status;
             expect(status).toEqual(204);
-        })
-        .catch((err) => {
-            console.log(err);
         })
 
 });
@@ -293,9 +286,6 @@ test('PUT tasks(id) test', () => {
             //console.log(status);
             expect(status).toEqual(200);
         })
-        .catch((err) => {
-            console.log(err);
-        })
 
 });
 
@@ -313,9 +303,6 @@ test('DELETE tasks(id) test', () => {
         .then((res) => {
             status = res.status;
             expect(status).toEqual(204);
-        })
-        .catch((err) => {
-            console.log(err);
         })
 
 });
@@ -385,9 +372,6 @@ test('DELETEgroupId test', () => {
             status = res.status;
             expect(status).toEqual(204);
         })
-        .catch((err) => {
-            console.log(err);
-        })
 });
 
 
@@ -406,9 +390,6 @@ test('PUTgroupId test', () => {
             status = res.status;
             expect(status).toEqual(200);
         })
-        .catch((err) => {
-            console.log(err);
-        })
 
 });
 
@@ -422,9 +403,6 @@ test('GET EXAM test', () => {
         })
         .then(function() {
             expect(status).toEqual(200);
-        })
-        .catch((err) => {
-            console.log(err);
         })
 });
 
@@ -444,9 +422,6 @@ test('POST EXAM test', () => {
             status = res.status;
             expect(status).toEqual(201)
         })
-        .catch((err) => {
-            console.log(err);
-        })
 
 });
 
@@ -461,9 +436,6 @@ test('GET(id) EXAM test', () => {
         })
         .then(function() {
             expect(status).toEqual(200);
-        })
-        .catch((err) => {
-            console.log(err);
         })
 
 });
@@ -492,9 +464,6 @@ test('PUT(id) EXAM test', () => {
         .then((jsonData) => {
             expect(status).toEqual(202);
         })
-        .catch((err) => {
-            console.log(err);
-        })
 
 });
 
@@ -514,9 +483,6 @@ test('DELETE(id) EXAM test', () => {
         })
         .then((jsonData) => {
             expect(status).toEqual(200);
-        })
-        .catch((err) => {
-            console.log(err);
         })
 
 });
@@ -577,9 +543,7 @@ test('DELETE deliveries(examId) test', () => {
             status = res.status;
             expect(status).toEqual(204);
         })
-        .catch((err) => {
-            console.log(err);
-        })
+
 
 });
 
