@@ -1,14 +1,37 @@
 const express = require('express');
-const app = express();
+const bodyParser = require('body-parser');
 const getDeliveryExamId = require('./core/getDeliveryExamId').getDeliveryExamId;
 const deleteDeliveryExamId = require('./core/deleteDeliveryExamId');
-const postgetDelivery = require('./core/GET&POSTdelivery')
-const PORT = process.env.PORT || 3000;
+const postgetDelivery = require('./core/GET&POSTdelivery');
+const GETdeliveriesId = require('./core/GETdeliveriesId');
 
-app.get('/', (req, res) => res.send('Hello World!'))
+const url = 'https://se2-restpep-dev.herokuapp.com';
 
+const app = express();
+
+const PORT = process.env.PORT || 3000
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.listen(PORT, () => console.log('Example app listening on port ' + PORT))
 
+
+app.get('/', (req, res) => {
+    res.status(200);
+    res.send('Hello World!');
+})
+
+app.get('/api/deliveries/:id', (req, res) => {
+	let toSend = GETdeliveriesId(parseInt(req.params.id));
+ 	res.setHeader('Content-Type', 'application/json');
+	res.status(toSend.status);
+	if (toSend.status == 200) {
+		res.send(toSend.jsonData);
+    	}else{
+	res.send();
+	}
+}) 
+/*
 app.get('/deliveries/e/:examID', (req, res) => {
 	try{
 		let deliveryJson = getDeliveryExamId(req.params.examID);
@@ -71,4 +94,5 @@ app.delete('/deliveries/e/:examID', (req, res) => {
 		}
 	}catch(error){console.log(error);}
 })
-// supertest
+*/
+
