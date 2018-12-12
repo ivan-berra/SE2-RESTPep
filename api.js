@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const getDeliveryExamId = require('./core/getDeliveryExamId').getDeliveryExamId;
 const deleteDeliveryExamId = require('./core/deleteDeliveryExamId');
 const postgetDelivery = require('./core/GET&POSTdelivery');
