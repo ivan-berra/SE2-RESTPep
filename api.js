@@ -3,7 +3,7 @@ const app = express()
 const PORT = process.env.PORT || 3000
 
 //moduli
-const GETtaskgroup = require('./core/GETtaskgroup');
+const GETtaskgroup = require('./core/taskgroup/GETtaskgroup');
 
 
 
