@@ -2,27 +2,31 @@ const url = 'http://localhost:3000';
 var fetch = require('node-fetch');
 const https = require('http');
 
-const retreiveBackup = require('../core/retreiveBackup');
-const resetJSON = require('../core/resetJSON');
+const retreiveBackup = require('./utils/retreiveBackup');
+const resetJSON = require('./utils/resetJSON');
 
 const fileUser = 'db/users.json';
 const fileTasks = 'db/tasks.json';
 const fileGroups = 'db/groups.json';
+const fileExams = 'db/exams.json';
 
 let fileBackupUser = null;
 let fileBackupTasks = null;
 let fileBackupGroups = null;
+let fileBackupExams = null;
 
 beforeAll(() => {
     fileBackupUser = retreiveBackup(fileUser);
     fileBackupTasks = retreiveBackup(fileTasks);
     fileBackupGroups = retreiveBackup(fileGroups);
+    fileBackupExams = retreiveBackup(fileExams);
 })
 
 afterEach(() => {
     resetJSON(fileUser, fileBackupUser);
     resetJSON(fileTasks, fileBackupTasks);
     resetJSON(fileGroups, fileBackupGroups);
+    resetJSON(fileExams, fileBackupExams);
 })
 
 
@@ -43,6 +47,8 @@ test('Prova di connessione', () => {
             expect(status).toEqual(200);
         })
 
+beforeAll(() => {
+ fileBackupExams = retreiveBackup(fileExams);
 });
 
 test('GET test', () => {
@@ -108,6 +114,18 @@ test('POST test', () => {
 
 });
 
+let examJSON = fs.readFileSync('./db/exams.json', 'utf8');
+var exams = JSON.parse(examJSON);
+
+var errorRes = {"jsonData": null, "status": 400};
+var notfoundRes = {"jsonData": null, "status": 404};
+const testData = {
+	destinatario:100,
+	deadline:"1010-10-10T10:10:10Z",
+	tasksarray:[1,10,11,100,101],
+	autore:101010,
+	condivisi:[110,111,101110]
+};
 
 test('PUT(id) test', () => {
 
@@ -370,116 +388,117 @@ test('PUTgroupId test', () => {
         .catch((err) => {
             console.log(err);
         })
-});
-
-
-/*
-test('Tries to get exams', () => {
-  let options = {
-    uri: 'http://localhost:3000/exams',
-    method: 'GET'
-  };
-
-  let examJson = fs.readFileSync('./exams.json', 'utf8', function(err, data){
-  	if (err) throw err;
-  	let parsedJson = JSON.parse(data);
-  });
-  let exams = JSON.parse(examJson);
-
-  request.get(options, (error, response, body) => {
-    expect(body).toEqual(JSON.stringify(exams));
-  })
-});
-
-test('Tries to post an exam', () => {
-	let options = {
-		uri: 'http://localhost:3000/exams',
-		method: 'POST',
- 		json: {"destinatario": 133,
-          "deadline": "2008-12-25T09:00:00Z",
-          "tasksarray":[11,22,31],
-          "autore": 12137,
-          "condivisi": [12171, 28117]}
-
-test('Tries to post a tasks', () => {
-	var options = {
-		uri: 'http://localhost:3000/tasks',
-		method: 'POST',
- 		json: {aperta:false,consegna:"Di che colore è il mare? | rosso | blu | verde | giallo",risoluzione:"2",punteggiomax:10}
-	};
-
-	request.post(options, (error, response, body) => {
-		//console.log(body);
-		expect(body).toEqual({aperta:false,consegna:"Di che colore è il mare? | rosso | blu | verde | giallo",risoluzione:"2",punteggiomax:10, id:1});
 
 });
 
-test('Tries to get an exam by id 1', () => {
-  let options = {
-    uri: 'http://localhost:3000/exams/1',
-    method: 'GET'
-  };
 
-  let examJson = fs.readFileSync('./exams.json', 'utf8', function(err, data){
-  	if (err) throw err;
-  	let parsedJson = JSON.parse(data);
-  });
-  let exams = JSON.parse(examJson);
-
-  request.get(options, (error, response, body) => {
-    expect(body).toEqual(JSON.stringify(exams.exams[0]));
-  })
+test('GET EXAM test', () => {
+    expect.assertions(1);
+    var status;
+    return fetch(url + 'exams')
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then(function() {
+            expect(status).toEqual(200);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
 });
 
-test('Tries to get an exam by unexisting id', () => {
-  let options = {
-    uri: 'http://localhost:3000/exams/19999',
-    method: 'GET'
-  };
 
-  request.get(options, (error, response, body) => {
-    expect(body).toBe("404 ID NOT FOUND");
-  })
+test('POST EXAM test', () => {
+    expect.assertions(1);
+    let status;
+    let jsonData;
+
+    return fetch(url + 'exams', {
+            method: 'POST',
+            body: JSON.stringify(testData),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then((res) => {
+            status = res.status;
+            expect(status).toEqual(201)
+        })
+				.catch((err) => {
+            console.log(err);
+        })
+
 });
 
-test('Tries to get an exam by unvalid id', () => {
-  let options = {
-    uri: 'http://localhost:3000/exams/testtest',
-    method: 'GET'
-  };
+test('GET(id) EXAM test', () => {
+    expect.assertions(1);
+    var status;
+    return fetch(url + 'exams/1')
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then(function() {
+            expect(status).toEqual(200);
+        })
+				.catch((err) => {
+            console.log(err);
+        })
 
-  request.get(options, (error, response, body) => {
-    expect(body).toBe("400 BAD REQUEST");
-  })
 });
 
- test('Tries to delete an exam by id 2', () => {
-   let options = {
-     uri: 'http://localhost:3000/exams/2',
-     method: 'DELETE'
-   };
-   request.delete(options, (error, response, body) => {
-     expect(body).toBe("204 EXAM DELETED");
-   })
- });
+test('PUT(id) EXAM test', () => {
+    expect.assertions(1);
+    let status;
+    let jsonData;
 
- test('Tries to delete an exam by unexisting id 9090', () => {
-   let options = {
-     uri: 'http://localhost:3000/exams/9090',
-     method: 'DELETE'
-   };
-   request.delete(options, (error, response, body) => {
-     expect(body).toBe("404 EXAM NOT FOUND");
-   })
- });
+    return fetch(url + 'exams/1', {
 
- test('Tries to delete an exam by unvalid id', () => {
-	 let options = {
-		 uri: 'http://localhost:3000/exams/testest',
-		 method: 'DELETE'
-	 };
-	 request.delete(options, (error, response, body) => {
-		 expect(body).toBe("400 BAD REQUEST");
-	 })
- });
-*/
+            method: 'put',
+
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify(validTask)
+
+        })
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then(() => {
+            //console.log(jsonData);
+            //console.log(status);
+            expect(status).toEqual(200);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+});
+
+test('DELETE(id) EXAM test', () => {
+    expect.assertions(1);
+    let status;
+    let jsonData;
+
+    return fetch(url + 'exams/1', {
+
+            method: 'delete',
+
+        })
+        .then((res) => {
+            status = res.status;
+            return res.status;
+        })
+        .then((jsonData) => {
+            expect(status).toEqual(200);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+});
