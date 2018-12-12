@@ -527,7 +527,7 @@ test('GET deliveries test', () => {
     expect.assertions(1);
 
     let status;
-    return fetch(url + 'api/deliveries')
+    return fetch(url + '/api/deliveries')
         .then((res) => {
             status = res.status;
             return res.json();
@@ -543,7 +543,7 @@ test('POST test', () => {
     expect.assertions(1);
     let status;
 
-    return fetch(url + 'api/deliveries', {
+    return fetch(url + '/api/deliveries', {
 
             method: 'post',
 
@@ -568,7 +568,7 @@ test('DELETE deliveries(examId) test', () => {
 
     let status;
 
-    return fetch(url + 'api/deliveries/1', {
+    return fetch(url + '/api/deliveries/1', {
 
             method: 'delete',
 
@@ -588,7 +588,7 @@ test('GET deliveries(id) test', () => {
     expect.assertions(1);
 
     var status;
-    return fetch(url + 'api/deliveries/1')
+    return fetch(url + '/api/deliveries/1')
         .then((res) => {
             status = res.status;
             return res.json();
