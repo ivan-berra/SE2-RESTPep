@@ -304,7 +304,18 @@ test('grouppost test', () => {
 });
 
 
-
+test('groupget test', () => {
+    expect.assertions(1);
+    let status;
+    return fetch(url + '/api/groups')
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then(function() {
+            expect(status).toEqual(200);
+        });
+});
 
 /*
 test('Tries to get exams', () => {

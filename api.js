@@ -13,6 +13,7 @@ const GETtasksId = require('./core/GETtasksId');
 const DELETEtasksId = require('./core/DELETEtasksId');
 const PUTtasksId = require('./core/PUTtasksId');
 const grouppost = require('./core/grouppost');
+const groupget = require('./core/groupget');
 
 const url = 'https://se2-restpep-dev.herokuapp.com';
 
@@ -278,5 +279,11 @@ app.post('/api/groups', function(req, res) {
         process.exit(1);
     })
     res.send(message);
-
 });
+
+app.get('/api/groups', function(req, res) {
+    res.contentType('application/json');
+    let result = groupget();
+    res.status(200);
+    res.send(result);
+})
