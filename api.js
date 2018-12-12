@@ -2,12 +2,23 @@ const express = require('express');
 const app = express();
 const getDeliveryExamId = require('./core/getDeliveryExamId').getDeliveryExamId;
 const deleteDeliveryExamId = require('./core/deleteDeliveryExamId');
-const postgetDelivery = require('./core/GET&POSTdelivery')
+const postgetDelivery = require('./core/GET&POSTdelivery');
+const GETdeliveriesId = require('./core/GETdeliveriesId');
+
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
 app.listen(PORT, () => console.log('Example app listening on port ' + PORT))
+
+app.get('/api/deliveries/:id', (req, res) => {
+	let toSend = GETdeliveriesId(parseInt(req.params.id));
+	res.status(toSend.status);
+	if (toSend.status == 200) {
+		res.send(toSend.jsonData);
+    	}
+	res.send();
+}) 
 
 app.get('/deliveries/e/:examID', (req, res) => {
 	try{
@@ -73,4 +84,5 @@ app.delete('/deliveries/e/:examID', (req, res) => {
 		}
 	}catch(error){console.log(error);}
 })
-// supertest
+
+

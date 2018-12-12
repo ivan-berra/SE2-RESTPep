@@ -1,4 +1,18 @@
 const GETdeliveryId = require('../core/GETdeliveryId');
+const fs = require('fs');
+const retreiveBackup = require('../core/retreiveBackup');
+const resetJSON = require('../core/resetJSON');
+const file = 'db/deliveries.json';
+let fileBackup = null
+
+beforeAll(() => {
+    fileBackup = retreiveBackup(file);
+})
+
+afterEach(() => {
+    resetJSON(file, fileBackup);
+})
+
 
 test('valid test: id found', () => {
 	let res = GETdeliveryId(1);
@@ -33,4 +47,10 @@ test('invalid test: id undefined', () => {
 
 	let res = GETdeliveryId(undefined);
 	expect(res.status).toBe(400);
+})
+
+test('invalid test: error during reading db/deliveries.json', () => {
+	fs.writeFileSync(file, "not json");
+	let res = GETdeliveryId(1);
+	expect(res.status).toBe(500);
 })

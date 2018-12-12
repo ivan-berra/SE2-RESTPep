@@ -1,27 +1,55 @@
-test('Tries to connect to  the server', () => {
-	var https = require("https");
-	var testRes;
+const url = 'http://localhost:3000';
+var fetch = require('node-fetch');
+const https = require('http');
 
-	https = require("https");
+const deli = require('./core/GET&POSTdelivery');
+const retreiveBackup = require('../core/retreiveBackup');
+const resetJSON = require('../core/resetJSON');
 
-	https.get('https://se2-restpep-dev.herokuapp.com/', (res) => {
-		
-		res.on('data', (d) => {		
-			expect(String(d)).toBe('Hello World!');
-		});
-	});
+const fileDeliveries = 'db/deliveries.json';
+
+
+let fileBackupDelivery = null;
+let fileBackupTasks = null;
+
+beforeAll(() => {
+    fileBackupDeliveries = retreiveBackup(fileDeliveries);
+})
+
+afterEach(() => {
+    resetJSON(fileDeliveries, fileBackupDelivery);
+})
+
+
+test('Prova di connessione', () => {
+
+    expect.assertions(1);
+
+    var status;
+
+    return fetch(url + '/')
+        .then((res) => {
+            status = res.status;
+            expect(status).toEqual(200);
+        })
 
 });
 
-const deli = require('./core/GET&POSTdelivery');
+test('GET deliveries(id) test', () => {
 
-const file = 'db/deliveries.json'
+    expect.assertions(1);
 
-var fetch = require('node-fetch');
+    var status;
+    return fetch(url + '/api/deliveries/0')
+        .then((res) => {
+            status = res.status;
+            return res.json();
+        })
+        .then(function() {
+            expect(status).toEqual(200);
+        });
+});
 
-const url = 'https://se2-restpep-dev.herokuapp.com';
-
-//const url = 'http://localhost:3000/';
 
 test('GET deliveries test', () => {
 
