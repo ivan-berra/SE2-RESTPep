@@ -29,10 +29,18 @@ afterEach(() => {
     resetJSON(fileExams, fileBackupExams);
 })
 
+var errorRes = {"jsonData": null, "status": 400};
+var notfoundRes = {"jsonData": null, "status": 404};
+const testExam = {
+	destinatario:100,
+	deadline:"1010-10-10T10:10:10Z",
+	tasksarray:[1,10,11,100,101],
+	autore:101010,
+	condivisi:[110,111,101110]
+};
 
 var testData = { matricola: 200000, email: 'prova@prova.it', isTeacher: false };
 var validTask = { aperta: true, consegna: "test post", risoluzione: "risposta...", punteggiomax: 10 };
-
 
 
 test('Prova di connessione', () => {
@@ -47,140 +55,125 @@ test('Prova di connessione', () => {
             expect(status).toEqual(200);
         })
 
-beforeAll(() => {
- fileBackupExams = retreiveBackup(fileExams);
 });
-
 test('GET test', () => {
 
-    expect.assertions(1);
+            expect.assertions(1);
 
-    var status;
-    return fetch(url + '/api/users')
-        .then((res) => {
-            status = res.status;
-            return res.json();
-        })
-        .then(function() {
-            expect(status).toEqual(200);
+            var status;
+            return fetch(url + '/api/users')
+                .then((res) => {
+                    status = res.status;
+                    return res.json();
+                })
+                .then(function() {
+                    expect(status).toEqual(200);
+                });
+
         });
 
-});
+        test('GET(id) test', () => {
 
-test('GET(id) test', () => {
+            expect.assertions(1);
 
-    expect.assertions(1);
+            var status;
+            return fetch(url + '/api/users/0')
+                .then((res) => {
+                    status = res.status;
+                    return res.json();
+                })
+                .then((jsonData) => {
+                    console.log(jsonData);
+                    console.log(status);
+                })
+                .then(function() {
+                    expect(status).toEqual(200);
+                });
 
-    var status;
-    return fetch(url + '/api/users/0')
-        .then((res) => {
-            status = res.status;
-            return res.json();
-        })
-        .then((jsonData) => {
-            console.log(jsonData);
-            console.log(status);
-        })
-        .then(function() {
-            expect(status).toEqual(200);
         });
 
-});
+
+        test('POST test', () => {
+
+            expect.assertions(1);
+
+            let status;
+            let jsonData;
+
+            return fetch(url + '/api/users', {
+
+                    method: 'post',
+
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+
+                    body: JSON.stringify(testData)
+
+                })
+                .then((res) => {
+                    status = res.status;
+                    expect(status).toEqual(200)
+                })
+
+        });
 
 
-test('POST test', () => {
+        test('PUT(id) test', () => {
 
-    expect.assertions(1);
+            expect.assertions(1);
 
-    let status;
-    let jsonData;
+            let status;
+            let jsonData;
 
-    return fetch(url + '/api/users', {
+            return fetch(url + '/api/users/0', {
 
-            method: 'post',
+                    method: 'put',
 
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
 
-            body: JSON.stringify(testData)
+                    body: JSON.stringify(testData)
 
-        })
-        .then((res) => {
-            status = res.status;
-            expect(status).toEqual(200)
-        })
+                })
+                .then((res) => {
+                    status = res.status;
+                    return res.json();
+                })
+                .then((jsonData) => {
+                    console.log(jsonData);
+                    console.log(status);
+                    expect(status).toEqual(200);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
 
-});
+        });
 
-let examJSON = fs.readFileSync('./db/exams.json', 'utf8');
-var exams = JSON.parse(examJSON);
+        test('DELETE(id) test', () => {
 
-var errorRes = {"jsonData": null, "status": 400};
-var notfoundRes = {"jsonData": null, "status": 404};
-const testData = {
-	destinatario:100,
-	deadline:"1010-10-10T10:10:10Z",
-	tasksarray:[1,10,11,100,101],
-	autore:101010,
-	condivisi:[110,111,101110]
-};
+            expect.assertions(1);
 
-test('PUT(id) test', () => {
+            let status;
 
-    expect.assertions(1);
+            return fetch(url + '/api/users/0', {
 
-    let status;
-    let jsonData;
+                    method: 'delete',
 
-    return fetch(url + '/api/users/0', {
+                })
+                .then((res) => {
+                    status = res.status;
+                    expect(status).toEqual(204);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
 
-            method: 'put',
-
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-
-            body: JSON.stringify(testData)
-
-        })
-        .then((res) => {
-            status = res.status;
-            return res.json();
-        })
-        .then((jsonData) => {
-            console.log(jsonData);
-            console.log(status);
-            expect(status).toEqual(200);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-
-});
-
-test('DELETE(id) test', () => {
-
-    expect.assertions(1);
-
-    let status;
-
-    return fetch(url + '/api/users/0', {
-
-            method: 'delete',
-
-        })
-        .then((res) => {
-            status = res.status;
-            expect(status).toEqual(204);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-
-});
+        });
 
 //--------------- TASKS TEST --------------------
 
@@ -391,11 +384,10 @@ test('PUTgroupId test', () => {
 
 });
 
-
 test('GET EXAM test', () => {
     expect.assertions(1);
     var status;
-    return fetch(url + 'exams')
+    return fetch(url + '/api/exams')
         .then((res) => {
             status = res.status;
             return res.json();
@@ -408,15 +400,14 @@ test('GET EXAM test', () => {
         })
 });
 
-
 test('POST EXAM test', () => {
     expect.assertions(1);
     let status;
     let jsonData;
 
-    return fetch(url + 'exams', {
+    return fetch(url + '/api/exams', {
             method: 'POST',
-            body: JSON.stringify(testData),
+            body: JSON.stringify(testExam),
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -431,10 +422,11 @@ test('POST EXAM test', () => {
 
 });
 
+
 test('GET(id) EXAM test', () => {
     expect.assertions(1);
     var status;
-    return fetch(url + 'exams/1')
+    return fetch(url + '/api/exams/1')
         .then((res) => {
             status = res.status;
             return res.json();
@@ -453,7 +445,7 @@ test('PUT(id) EXAM test', () => {
     let status;
     let jsonData;
 
-    return fetch(url + 'exams/1', {
+    return fetch(url + '/api/exams/1', {
 
             method: 'put',
 
@@ -462,17 +454,15 @@ test('PUT(id) EXAM test', () => {
                 'Content-Type': 'application/json'
             },
 
-            body: JSON.stringify(validTask)
+            body: JSON.stringify(testExam)
 
         })
         .then((res) => {
             status = res.status;
-            return res.json();
+            return res.status;
         })
-        .then(() => {
-            //console.log(jsonData);
-            //console.log(status);
-            expect(status).toEqual(200);
+        .then((jsonData) => {
+            expect(status).toEqual(202);
         })
         .catch((err) => {
             console.log(err);
@@ -485,7 +475,7 @@ test('DELETE(id) EXAM test', () => {
     let status;
     let jsonData;
 
-    return fetch(url + 'exams/1', {
+    return fetch(url + '/api/exams/1', {
 
             method: 'delete',
 
