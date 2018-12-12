@@ -12,6 +12,7 @@ const POSTtasks = require('./core/POSTtasks');
 const GETtasksId = require('./core/GETtasksId');
 const DELETEtasksId = require('./core/DELETEtasksId');
 const PUTtasksId = require('./core/PUTtasksId');
+const grouppost = require('./core/grouppost');
 
 const url = 'https://se2-restpep-dev.herokuapp.com';
 
@@ -256,3 +257,26 @@ app.delete('/api/tasks/:id', (req, res) => {
     res.status(toSend);
     res.send();
 })
+
+
+
+//Groups
+app.post('/api/groups', function(req, res) {
+    let dati = req.body;
+    let message;
+    let result = grouppost(dati.groupname, dati.userlist);
+    res.status(result.status);
+    if (result.status == 400)
+        message = { "message": "Error: " + result.status };
+    else if (result.status == 200)
+        message = { 'url': url + "api/groups/" + result.id };
+    console.log(message);
+    process.on('uncaughtException', function(err) {
+        console.error((new Date).toUTCString() + 'UncaughtException:', err.message);
+        console.error(err.stack);
+        res.status(500).send({ "message": "Error: " + 500 });
+        process.exit(1);
+    })
+    res.send(message);
+
+});

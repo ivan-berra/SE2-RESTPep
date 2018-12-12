@@ -7,18 +7,22 @@ const resetJSON = require('../core/resetJSON');
 
 const fileUser = 'db/users.json';
 const fileTasks = 'db/tasks.json';
+const fileGroups = 'db/groups.json';
 
 let fileBackupUser = null;
 let fileBackupTasks = null;
+let fileBackupGroups = null;
 
 beforeAll(() => {
     fileBackupUser = retreiveBackup(fileUser);
     fileBackupTasks = retreiveBackup(fileTasks);
+    fileBackupGroups = retreiveBackup(fileGroups);
 })
 
 afterEach(() => {
     resetJSON(fileUser, fileBackupUser);
     resetJSON(fileTasks, fileBackupTasks);
+    resetJSON(fileGroups, fileBackupGroups);
 })
 
 
@@ -276,6 +280,31 @@ test('DELETE tasks(id) test', () => {
         })
 
 });
+
+
+
+
+//test di groups
+
+test('grouppost test', () => {
+    expect.assertions(1);
+    let status;
+    return fetch(url + '/api/groups', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ groupname: 'nomegruppoprova', userlist: [1, 2, 3] })
+        })
+        .then((res) => {
+            status = res.status;
+            expect(status).toEqual(200)
+        })
+});
+
+
+
 
 /*
 test('Tries to get exams', () => {

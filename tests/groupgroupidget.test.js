@@ -1,5 +1,18 @@
 const groupgroupidget = require('../core/groupgroupidget');
 
+const retreiveBackup = require('../core/retreiveBackup');
+const resetJSON = require('../core/resetJSON');
+const file = 'db/groups.json';
+
+let fileBackup = null
+
+beforeAll(() => {
+    fileBackup = retreiveBackup(file);
+})
+
+afterEach(() => {
+    resetJSON(file, fileBackup);
+})
 
 test('valid1', () => {
 	expect(groupgroupidget(0).status).toBe(200);

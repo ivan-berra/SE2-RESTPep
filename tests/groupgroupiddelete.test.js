@@ -1,5 +1,19 @@
 const groupgroupiddelete= require('../core/groupgroupiddelete');
 
+const retreiveBackup = require('../core/retreiveBackup');
+const resetJSON = require('../core/resetJSON');
+const file = 'db/groups.json';
+
+let fileBackup = null
+
+beforeAll(() => {
+    fileBackup = retreiveBackup(file);
+})
+
+afterEach(() => {
+    resetJSON(file, fileBackup);
+})
+
 //const grouppost = require('./grouppost'); //serve per inserire i gruppi da testare
 
 //ATTENZIONE: SI SUPPONE CHE IN groups.json IL CAMPO nextId SIA 1, ALTRIMENTI NON FUNZIONA IL TEST

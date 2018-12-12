@@ -1,5 +1,19 @@
 const grouppost = require('../core/grouppost');
 
+const retreiveBackup = require('../core/retreiveBackup');
+const resetJSON = require('../core/resetJSON');
+const file = 'db/groups.json';
+
+let fileBackup = null
+
+beforeAll(() => {
+    fileBackup = retreiveBackup(file);
+})
+
+afterEach(() => {
+    resetJSON(file, fileBackup);
+})
+
 //il metodo per il test è pensato per restituire il valore di http status
 
 test('valid', () => {
