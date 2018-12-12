@@ -1,4 +1,4 @@
-const GETgroupId = require('../core/GETgroupId');
+const GETgroupId = require('../core/groups/GETgroupId');
 
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');

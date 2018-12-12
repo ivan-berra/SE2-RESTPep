@@ -14,11 +14,11 @@ const GETtasksId = require('./core/tasks/GETtasksId');
 const POSTtasks = require('./core/tasks/POSTtasks');
 const PUTtasksId = require('./core/tasks/PUTtasksId');
 const DELETEtasksId = require('./core/tasks/DELETEtasksId');
-const POSTgroup = require('./core/POSTgroup');
-const GETgroup = require('./core/GETgroup');
-const GETgroupId = require('./core/GETgroupId');
-const DELETEgroupId = require('./core/DELETEgroupId');
-const PUTgroupId = require('./core/PUTgroupId');
+const POSTgroup = require('./core/groups/POSTgroup');
+const GETgroup = require('./core/groups/GETgroup');
+const GETgroupId = require('./core/groups/GETgroupId');
+const DELETEgroupId = require('./core/groups/DELETEgroupId');
+const PUTgroupId = require('./core/groups/PUTgroupId');
 
 const app = express();
 const url = 'https://se2-restpep-dev.herokuapp.com';

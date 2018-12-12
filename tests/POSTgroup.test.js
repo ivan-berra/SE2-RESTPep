@@ -1,4 +1,4 @@
-const POSTgroup = require('../core/POSTgroup');
+const POSTgroup = require('../core/groups/POSTgroup');
 
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');

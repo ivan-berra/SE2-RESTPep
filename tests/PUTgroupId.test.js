@@ -1,4 +1,4 @@
-const PUTgroupId = require('../core/PUTgroupId');
+const PUTgroupId = require('../core/groups/PUTgroupId');
 
 const retreiveBackup = require('../core/retreiveBackup');
 const resetJSON = require('../core/resetJSON');
